@@ -1,0 +1,1 @@
+UPDATE `game_event` SET `start_time` = '2020-05-01 10:00:00' , `end_time` = '2021-05-08 10:00:00' WHERE `eventEntry` = '10'; 

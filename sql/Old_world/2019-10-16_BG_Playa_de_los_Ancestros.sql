@@ -1,0 +1,1 @@
+UPDATE `battleground_template` SET `Weight` = 3 WHERE `id` = 9;

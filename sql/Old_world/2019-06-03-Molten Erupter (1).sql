@@ -1,0 +1,10 @@
+DELETE FROM `creature_loot_template` WHERE `entry`=53617 AND `Item`=55639;
+INSERT INTO `creature_loot_template` (`entry`, `Item`, `ChanceOrQuestChance`, `lootmode`, `groupid`, `mincountOrRef`, `maxcount`) VALUES (53617, 55639, 16.6667, 1, 0, 1, 1);
+DELETE FROM `creature_loot_template` WHERE `entry`=53617 AND `Item`=55648;
+INSERT INTO `creature_loot_template` (`entry`, `Item`, `ChanceOrQuestChance`, `lootmode`, `groupid`, `mincountOrRef`, `maxcount`) VALUES (53617, 55648, 16.6667, 1, 0, 1, 1);
+DELETE FROM `creature_loot_template` WHERE `entry`=53617 AND `Item`=62117;
+INSERT INTO `creature_loot_template` (`entry`, `Item`, `ChanceOrQuestChance`, `lootmode`, `groupid`, `mincountOrRef`, `maxcount`) VALUES (53617, 62117, 16.6667, 1, 0, 1, 1);
+DELETE FROM `creature_loot_template` WHERE `entry`=53617 AND `Item`=69966;
+INSERT INTO `creature_loot_template` (`entry`, `Item`, `ChanceOrQuestChance`, `lootmode`, `groupid`, `mincountOrRef`, `maxcount`) VALUES (53617, 69966, 16.6667, 1, 0, 1, 1);
+DELETE FROM `creature_loot_template` WHERE `entry`=53617 AND `Item`=71365;
+INSERT INTO `creature_loot_template` (`entry`, `Item`, `ChanceOrQuestChance`, `lootmode`, `groupid`, `mincountOrRef`, `maxcount`) VALUES (53617, 71365, 50, 1, 0, 1, 1);

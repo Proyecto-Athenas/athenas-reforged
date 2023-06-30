@@ -1,0 +1,2 @@
+-- se aumento el drop del item https://es.wowhead.com/item=23639/dise%C3%B1o-resguardo-de-escudo-superior reporte trello
+UPDATE `creature_loot_template` SET  `ChanceOrQuestChance`='1.68' WHERE item IN (23639);

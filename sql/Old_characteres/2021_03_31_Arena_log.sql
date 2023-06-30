@@ -1,0 +1,3 @@
+-- agregar los campos de GUID en el registro de arenas
+ALTER TABLE `arena_log` ADD COLUMN `winguid1` INT(10) NULL AFTER `winpl5`, ADD COLUMN `winguid2` INT(10) NULL AFTER `winguid1`, ADD COLUMN `winguid3` INT(10) NULL AFTER `winguid2`, ADD COLUMN `winguid4` INT(10) NULL AFTER `winguid3`, ADD COLUMN `winguid5` INT(10) NULL AFTER `winguid4`, ADD COLUMN `looseguid1` INT(10) NULL AFTER `loosepl5`, ADD COLUMN `looseguid2` INT(10) NULL AFTER `looseguid1`, ADD COLUMN `looseguid3` INT(10) NULL AFTER `looseguid2`, ADD COLUMN `looseguid4` INT(10) NULL AFTER `looseguid3`, ADD COLUMN `looseguid5` INT(10) NULL AFTER `looseguid4`;
+ 

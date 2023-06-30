@@ -1,0 +1,1 @@
+UPDATE `item_loot_template` SET `ChanceOrQuestChance` = '3' WHERE `entry` = '44751' AND `item` = '43962'; 

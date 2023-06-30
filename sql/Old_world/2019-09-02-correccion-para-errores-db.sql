@@ -1,0 +1,14 @@
+-- correccion para errores db 
+DELETE FROM `trinity_string` WHERE `entry`=820;
+INSERT INTO `trinity_string` (`entry`, `content_default`, `content_loc1`, `content_loc2`, `content_loc3`, `content_loc4`, `content_loc5`, `content_loc6`, `content_loc7`, `content_loc8`) VALUES (820, '* has gossip (%u)', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+DELETE FROM `smart_scripts` WHERE `entryorguid`=35456;
+INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`, `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`, `action_type`, `action_param1`, `action_param2`, `action_param3`, `action_param4`, `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`, `target_param3`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`) VALUES (35456, 0, 0, 1, 2, 0, 100, 1, 0, 30, 0, 0, 11, 8599, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 'Cast Enrage at 30% HP');
+INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`, `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`, `action_type`, `action_param1`, `action_param2`, `action_param3`, `action_param4`, `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`, `target_param3`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`) VALUES (35456, 0, 1, 0, 61, 0, 100, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 'Say Text at 30% HP');
+
+DELETE FROM `creature_text` WHERE `entry`=35369;
+INSERT INTO `creature_text` (`entry`, `groupid`, `id`, `text`, `type`, `language`, `probability`, `emote`, `duration`, `sound`, `BroadcastTextId`, `comment`) VALUES (35369, 0, 0, 'Make it stop!', 14, 0, 100, 0, 0, 0, 38740, 'Josiah Avery - Random Phrases');
+INSERT INTO `creature_text` (`entry`, `groupid`, `id`, `text`, `type`, `language`, `probability`, `emote`, `duration`, `sound`, `BroadcastTextId`, `comment`) VALUES (35369, 1, 0, 'My face! What\'s wrong with my face!', 14, 0, 100, 0, 0, 0, 0, 'Josiah Avery - Random Phrases');
+INSERT INTO `creature_text` (`entry`, `groupid`, `id`, `text`, `type`, `language`, `probability`, `emote`, `duration`, `sound`, `BroadcastTextId`, `comment`) VALUES (35369, 2, 0, 'I can\'t fight it!', 14, 0, 100, 0, 0, 0, 38741, 'Josiah Avery - Random Phrases');
+INSERT INTO `creature_text` (`entry`, `groupid`, `id`, `text`, `type`, `language`, `probability`, `emote`, `duration`, `sound`, `BroadcastTextId`, `comment`) VALUES (35369, 3, 0, 'My hands... Don\'t look at my hands!', 14, 0, 100, 0, 0, 0, 0, 'Josiah Avery - Random Phrases');
+INSERT INTO `creature_text` (`entry`, `groupid`, `id`, `text`, `type`, `language`, `probability`, `emote`, `duration`, `sound`, `BroadcastTextId`, `comment`) VALUES (35369, 4, 0, 'The pain is unbearable!', 14, 0, 100, 0, 0, 0, 9681, 'Josiah Avery - Random Phrases');

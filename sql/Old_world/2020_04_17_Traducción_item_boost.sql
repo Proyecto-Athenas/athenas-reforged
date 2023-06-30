@@ -1,0 +1,1 @@
+UPDATE `locales_item` SET `name_loc1` = 'LEVEL Up!' , `name_loc2` = 'LEVEL Up!' , `name_loc6` = '¡Subir a nivel 85!' , `name_loc7` = '¡Subir a nivel 85!' , `description_loc1` = 'USE twice!' , `description_loc6` = '¡Usar 2 veces!' , `description_loc7` = '¡Usar 2 veces!' WHERE `entry` = '100600'; 

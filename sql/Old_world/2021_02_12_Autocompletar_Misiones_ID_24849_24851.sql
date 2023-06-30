@@ -1,0 +1,2 @@
+-- Autocompletar las misiones ID 24849,24851
+UPDATE `quest_template` SET  `RequiredNpcOrGo1`='0',`RequiredNpcOrGo2`='0',`RequiredNpcOrGo3`='0',`RequiredNpcOrGoCount1`='0',`RequiredNpcOrGoCount2`='0',`RequiredNpcOrGoCount3`='0'  WHERE id IN (24849,24851);
