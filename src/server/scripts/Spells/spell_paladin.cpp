@@ -695,10 +695,18 @@ public:
 };
 
 // Guardian of ancient kings
-uint32 SPELL_PALADIN_GUARDIAN_ANCIENT_KINGS = 86150;
-uint32 SPELL_PALADIN_RETRI_GUARDIAN = 86698;
-uint32 SPELL_PALADIN_HOLY_GUARDIAN = 86669;
-uint32 SPELL_PALADIN_PROT_GUARDIAN = 86659;
+enum GuardianSpells
+{
+    SPELL_PALADIN_GUARDIAN_ANCIENT_KINGS = 86150,
+
+    SPELL_PALADIN_RETRI_GUARDIAN = 86698,
+    SPELL_PALADIN_HOLY_GUARDIAN = 86669,
+    SPELL_PALADIN_PROT_GUARDIAN = 86659,
+
+    NPC_RETRY = 46506,
+    NPC_HOLY = 46499,
+    NPC_PROTEC = 46490,
+};
 
 class spell_pal_guardian : public SpellScriptLoader
 {
@@ -726,14 +734,18 @@ public:
             switch (caster->ToPlayer()->GetPrimaryTalentTree(caster->ToPlayer()->GetActiveSpec()))
             {
             case TALENT_TREE_PALADIN_HOLY:
+                caster->RemoveAllMinionsByEntry(NPC_HOLY);
                 caster->CastSpell(caster, SPELL_PALADIN_HOLY_GUARDIAN, false);
                 break;
-            case TALENT_TREE_PALADIN_PROTECTION:
-                caster->CastSpell(caster, SPELL_PALADIN_PROT_GUARDIAN, false);
-                break;
             case TALENT_TREE_PALADIN_RETRIBUTION:
+                caster->RemoveAllMinionsByEntry(NPC_RETRY);
                 caster->CastSpell(caster, SPELL_PALADIN_RETRI_GUARDIAN, false);
                 break;
+            case TALENT_TREE_PALADIN_PROTECTION:
+                caster->RemoveAllMinionsByEntry(NPC_PROTEC);
+                caster->CastSpell(caster, SPELL_PALADIN_PROT_GUARDIAN, false);
+                break;
+
             default:
                 return;
             }
@@ -1823,7 +1835,6 @@ void AddSC_paladin_spell_scripts()
     new spell_pal_sacred_shield();
     new spell_pal_consecration();
     new spell_pal_guardian();
-    // new spell_pal_guardian_triggered();
     new spell_pal_divine_purpose();
     new spell_pal_cleanse();
     new spell_pal_exorcism();
