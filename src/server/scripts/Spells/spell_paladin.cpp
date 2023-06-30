@@ -732,12 +732,8 @@ public:
                 caster->CastSpell(caster, SPELL_PALADIN_PROT_GUARDIAN, false);
                 break;
             case TALENT_TREE_PALADIN_RETRIBUTION:
-            {
-                caster->CastSpell(caster, SPELL_PALADIN_RETRI_GUARDIAN, true);
-                Unit *pet = caster->GetGuardianPet();
-                pet->Attack(caster->getAttackerForHelper(), true);
+                caster->CastSpell(caster, SPELL_PALADIN_RETRI_GUARDIAN, false);
                 break;
-            }
             default:
                 return;
             }
