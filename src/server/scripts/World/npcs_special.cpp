@@ -2309,31 +2309,51 @@ public:
 struct GuardianOfAncientKings
 {
     uint32 ANCIENT_CRUZADER = 86703;
+
     uint32 COPY_WEAPON = 41054;
+    uint32 ANCIENT_HEALER = 86674;
+
+    uint32 NPC_RETRI = 46506;
+    uint32 NPC_HOLY = 46499;
+    uint32 NPC_PROTEC = 46490;
 };
 
 GuardianOfAncientKings GOAK;
 
-class npc_melee_guardian : public CreatureScript
+class npc_guardian_of_ancient_kings : public CreatureScript
 {
 public:
-    npc_melee_guardian() : CreatureScript("npc_melee_guardian") {}
+    npc_guardian_of_ancient_kings() : CreatureScript("npc_guardian_of_ancient_kings") {}
 
-    struct npc_melee_guardianAI : CombatAI
+    struct npc_guardian_of_ancient_kingsAI : CombatAI
     {
-        npc_melee_guardianAI(Creature *creature) : CombatAI(creature) {}
+        npc_guardian_of_ancient_kingsAI(Creature *creature) : CombatAI(creature) {}
 
         void IsSummonedBy(Unit *owner)
         {
-            me->CastSpell(me, GOAK.ANCIENT_CRUZADER, true);
-            owner->CastSpell(me, GOAK.COPY_WEAPON, true);
-
-            me->SetReactState(ReactStates(REACT_ASSIST));
-
-            me->m_modMeleeHitChance += owner->ToPlayer()->GetRatingBonusValue(CR_HIT_MELEE);
-            me->m_modMeleeHitChance += owner->GetTotalAuraModifier(SPELL_AURA_MOD_HIT_CHANCE);
-
+            guardianEntry = me->GetEntry();
             Owner = me->GetCharmerOrOwner();
+
+            // Setup Configuration only for Retribution Guardian
+            if (guardianEntry == GOAK.NPC_RETRI)
+            {
+
+                me->CastSpell(me, GOAK.ANCIENT_CRUZADER, true);
+                Owner->CastSpell(me, GOAK.COPY_WEAPON, true);
+
+                me->SetReactState(ReactStates(REACT_ASSIST));
+
+                me->m_modMeleeHitChance += Owner->ToPlayer()->GetRatingBonusValue(CR_HIT_MELEE);
+                me->m_modMeleeHitChance += Owner->GetTotalAuraModifier(SPELL_AURA_MOD_HIT_CHANCE);
+            }
+            else if (guardianEntry == GOAK.NPC_HOLY)
+            {
+                Owner->CastSpell(Owner, GOAK.ANCIENT_HEALER, true);
+            }
+            else if (guardianEntry == GOAK.NPC_PROTEC)
+            {
+                me->SetReactState(ReactStates(REACT_PASSIVE));
+            }
 
             me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
             me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
@@ -2342,7 +2362,7 @@ public:
         void UpdateAI(const uint32 diff)
         {
             // All operations available only for Retribution Guardian
-            if (Owner)
+            if (Owner && guardianEntry == GOAK.NPC_RETRI)
             {
                 if (!me->GetAura(GOAK.ANCIENT_CRUZADER))
                 {
@@ -2390,7 +2410,7 @@ public:
 
     CreatureAI *GetAI(Creature *creature) const
     {
-        return new npc_melee_guardianAI(creature);
+        return new npc_guardian_of_ancient_kingsAI(creature);
     }
 };
 
@@ -5315,7 +5335,7 @@ void AddSC_npcs_special()
     new npc_fungal_growth_one();
     new npc_fungal_growth_two();
     new npc_consecration();
-    new npc_melee_guardian();
+    new npc_guardian_of_ancient_kings();
     new npc_druid_treant();
     new npc_army_dead_ghoul();
     new npc_tower_defense();
