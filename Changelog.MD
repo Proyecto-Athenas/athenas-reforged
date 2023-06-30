@@ -1,0 +1,8 @@
+## Lista de Reparaciones
+
+### ==== 30/06/2023 ====
+
+- Ahora Las pets desaparece y aparecen de manera correcta cuando se utiliza una montura, En caso de Estar en BG, no desaparecen y acompañan a su dueño.
+- Reparado **Guardian de los Antiguos Reyes** (Paladin). Ahora ataca correctamente de acuerdo a la especialización de talentos del paladín y toma en cuenta la distancia correcta para atacar.
+
+- TECNICO: Se Actuliza Driver del core a Mysql 8.x
