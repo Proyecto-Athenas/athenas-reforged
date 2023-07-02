@@ -6,3 +6,7 @@
 - Reparado **Guardian de los Antiguos Reyes** (Paladin). Ahora ataca correctamente de acuerdo a la especialización de talentos del paladín y toma en cuenta la distancia correcta para atacar.
 
 - TECNICO: Se Actuliza Driver del core a Mysql 8.x
+
+### === 01/07/2023 ===
+
+- Fix: Ahora funciona correctamente la spell pasiva del picaro en su rama de asesinato: Resolución del Asesinato
