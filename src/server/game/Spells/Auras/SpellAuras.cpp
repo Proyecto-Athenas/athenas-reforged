@@ -1595,9 +1595,31 @@ void Aura::HandleAuraSpecificMods(AuraApplication const *aurApp, Unit *caster, b
         // Assassin's Resolve
         if (target->HasSpell(1329)) // Validate if Assassination Spec
         {
-            if (!target->HasAura(84601) && apply)
+            Item *mainHand = target->ToPlayer()->GetWeaponForAttack(BASE_ATTACK);
+            Item *offHand = target->ToPlayer()->GetWeaponForAttack(OFF_ATTACK);
+
+            if ((apply || onReapply) && !target->HasAura(84601) && mainHand && offHand &&
+                mainHand->GetTemplate()->SubClass == offHand->GetTemplate()->SubClass &&
+                mainHand->GetTemplate()->SubClass == ITEM_SUBCLASS_WEAPON_DAGGER)
             {
                 target->AddAura(84601, target);
+            }
+            else if (mainHand && offHand &&
+                     mainHand->GetTemplate()->SubClass != offHand->GetTemplate()->SubClass)
+            {
+                if (target->HasAura(84601))
+                {
+
+                    target->RemoveAurasDueToSpell(84601);
+                }
+            }
+            else if (!mainHand || !offHand)
+            {
+                if (target->HasAura(84601))
+                {
+
+                    target->RemoveAurasDueToSpell(84601);
+                }
             }
         }
         // Stealth
