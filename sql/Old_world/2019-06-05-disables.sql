@@ -1,1 +1,0 @@
-INSERT INTO `disables`(`sourceType`, `entry`, `flags`, `params_0`, `params_1`, `comment`) VALUES (2, 967, 15, '', '', 'Disabled Map Dragon Soul');

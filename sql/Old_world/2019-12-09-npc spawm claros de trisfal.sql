@@ -1,2 +1,0 @@
--- eliminado duplicados de npcs en claros de trisfal zepelin
-DELETE FROM creature WHERE guid IN(46619, 46245, 46062, 46454, 46050, 44971, 44910, 65061, 46360, 19618, 19620, 46258, 46126, 45126, 45841, 46172);

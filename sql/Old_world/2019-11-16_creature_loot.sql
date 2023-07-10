@@ -1,1 +1,0 @@
-UPDATE `creature_loot_template` SET `ChanceOrQuestChance` = '2' WHERE `entry` = '7524' AND `item` = '16223'; 
