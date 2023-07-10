@@ -11,11 +11,11 @@ class Custom_Arena_Reward : public PlayerScript
 public:
     Custom_Arena_Reward() : PlayerScript("Custom_Arena_Reward") {}
 
-    void OnPVPKill(Player *player, Creature *killer)
+    void OnPVPKill(Player *killer, Player *killed)
     {
-        if (player->InArena() && killer->ToPlayer())
+        if (killer->InArena())
         {
-            player->AddItem(BLOODY_BADGE, 1);
+            killer->AddItem(BLOODY_BADGE, 1);
         }
     }
 };
