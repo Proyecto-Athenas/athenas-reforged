@@ -10,3 +10,7 @@
 ### === 01/07/2023 ===
 
 - Fix: Ahora funciona correctamente la spell pasiva del picaro en su rama de asesinato: Resolución del Asesinato
+
+### === 10/07/2023 ===
+
+- Fix: Se Arregla Mecanica de Barco de Batalla, Ahora aparece correctamente luego de la muerte de Ultraxion, permitiendo avanzar con la mecanica de los siguientes Bosses de la Banda.
