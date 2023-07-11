@@ -59,6 +59,11 @@ endif()
 
 include(CheckPlatform)
 
+# Check Git
+if(NOT WITHOUT_GIT)
+  find_package(Git 1.7)
+endif()
+
 # basic packagesearching and setup (further support will be needed, this is a preliminary release!)
 find_package(PCHSupport)
 find_package(ACE REQUIRED)
@@ -66,6 +71,7 @@ find_package(OpenSSL REQUIRED)
 if( NOT USE_MYSQL_SOURCES )
   find_package(MySQL REQUIRED)
 endif()
+
 
 if( UNIX )
   find_package(Readline)
