@@ -1277,6 +1277,11 @@ void ScriptMgr::OnUpdate(Player* player, uint32 diff)
     FOREACH_SCRIPT(PlayerScript)->OnUpdate(player, diff);
 }
 
+void ScriptMgr::OnAddItem(Player * player, Item *item)
+{
+    FOREACH_SCRIPT(PlayerScript)->OnAddItem(player, item);
+}
+
 void ScriptMgr::OnPlayerUpdateZone(Player* player, uint32 newZone, uint32 newArea)
 {
     FOREACH_SCRIPT(PlayerScript)->OnUpdateZone(player, newZone, newArea);
