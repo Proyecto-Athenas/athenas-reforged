@@ -720,6 +720,10 @@ public:
 
     virtual void OnUpdate(Player * /*player*/, uint32 /*diff*/) {}
 
+    /*
+        Custom Hook, It works when the player recieve an Item via Player::AddItem(), to use it, override the function inside any
+        PlayerScript or any SCript inherited from it, and do anything with the Item information.
+    */
     virtual void OnAddItem(Player * /*player*/, Item * /*item*/) {}
 };
 
