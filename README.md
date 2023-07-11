@@ -56,4 +56,4 @@ GCC ≥ 4.3 (Linux only)
 MS Visual Studio ≥ 9 (2008) (Windows only)
 
 
-Se agrego el sistema automático de publicación de reparaciones ubicado en el canal de discord de la comunidad 
+Are you finding the SQL Scripts? Checkout [THIS REPO](https://github.com/Proyecto-Athenas/athenas-reforged-db)
