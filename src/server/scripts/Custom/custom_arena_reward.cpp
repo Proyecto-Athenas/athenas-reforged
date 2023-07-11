@@ -29,19 +29,7 @@ public:
         // Check if the player is in arena and if is available to receive a reward
         if (killer->InArena() && itemsRewarded < MAX_REWARD)
         {
-            // Share with all the arena team the reward.
-            if (Group *group = killer->GetGroup())
-            {
-                for (GroupReference *groupRef = group->GetFirstMember(); groupRef != NULL; groupRef->next())
-                {
-                    if (Player *teamMember = groupRef->getSource())
-                    {
-                        // Send The reward to the team if the team member is on the Arena.
-                        if (teamMember->InArena())
-                            teamMember->AddItem(ITEM_BLOODY_BADGE, 1);
-                    }
-                }
-            }
+            killer->AddItem(ITEM_BLOODY_BADGE, 1);
         }
     }
 
@@ -53,7 +41,7 @@ public:
             // Setup the Battleground Pointer
             currentBattleground = player->GetBattleground();
             // Setup Limits for the rewards
-            MAX_REWARD = currentBattleground->GetArenaType();
+            MAX_REWARD = currentBattleground->GetArenaType() + 1;
             itemsRewarded = 0;
         }
     }
