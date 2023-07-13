@@ -905,22 +905,42 @@ void WorldSession::HandleRequestRatedBgInfo(WorldPacket &recvData)
     if (!info.RbgPlayed)
         sInfoMgr->UpdateCharRBGstats(info.Guid, 0, 0, 0);
 
-    uint8 unk;
-    recvData >> unk; // BG type ?
+    uint8 mode;
+    recvData >> mode; // BG type ?
 
-    TC_LOG_DEBUG("bg.battleground", "WorldSession::HandleRequestRatedBgInfo: unk = %u", unk);
+    TC_LOG_DEBUG("bg.battleground", "WorldSession::HandleRequestRatedBgInfo: mode = %u", mode);
+
+    uint32 baseReward = 0;
+    uint32 remainingConquest = _player->GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_POINTS, true) - _player->GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_POINTS, true);
+
+    if (mode == 3)
+    {
+        baseReward = sWorld->getIntConfig(CONFIG_RATED_BATTLEGROUND_REWARD) / CURRENCY_PRECISION;
+        int32 remainingConquestRBG = _player->GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_META_RBG, true) - _player->GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_META_RBG, true);
+        baseReward = std::min<int32>(baseReward, remainingConquestRBG);
+    }
+    else
+    {
+        baseReward = sWorld->getIntConfig(CONFIG_CURRENCY_CONQUEST_POINTS_ARENA_REWARD) / CURRENCY_PRECISION;
+        int32 remainingConquestArena = _player->GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_META_ARENA, true) - _player->GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_META_ARENA, true);
+        baseReward = std::min<int32>(baseReward, remainingConquestArena);
+    }
 
     WorldPacket data(SMSG_BATTLEFIELD_RATED_INFO, 29);
-    data << uint32(400);            // Reward
-    data << uint8(unk);             // BG type (10vs10 - 15vs15) ?
-    data << uint32(info.RBGRating); // Rating
-    data << uint32(0);              // unk
-    data << _player->GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_META_RBG, true);
-    data << uint32(0); // unk
-    data << uint32(0); // unk
-    data << _player->GetCurrency(CURRENCY_TYPE_CONQUEST_POINTS, true);
+    data << std::min<uint32>(baseReward, remainingConquest);                           // Reward
+    data << uint8(mode);                                                               // BG type (10vs10 - 15vs15) ?
+    data << uint32(info.RBGRating);                                                    // Rating
+    data << uint32(_player->GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_POINTS, true));   // RewardPointsThisWeek
+    data << uint32(_player->GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_POINTS, true));  // MaxRewardPointsThisWeek
+    data << uint32(_player->GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_META_RBG, true)); // RatedRewardPointsThisWeek
+    data << uint32(0);                                                                 // Is Not Used But Appears in the Sniff
+    data << uint32(_player->GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_META_RBG, true));
 
     SendPacket(&data);
+
+    // Update the Battleground States
+    uint8 ratedBattlegroundActive = sWorld->getBoolConfig(CONFIG_RATED_BATTLEGROUND_ENABLED);
+    _player->SendUpdateWorldState(WS_RATED_BATTLEGROUND_STATE_ACTIVE, ratedBattlegroundActive);
 }
 
 void WorldSession::HandleRequestPvpOptions(WorldPacket & /*recvData*/)

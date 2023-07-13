@@ -7943,7 +7943,7 @@ void Player::SendPvpRewards() const
     packet << GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_META_ARENA, true);
     packet << GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_POINTS, true);
     packet << GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_POINTS, true);
-    packet << GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_META_RGB, true);
+    packet << GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_META_RBG, true);
     packet << GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_META_RBG, true);
     GetSession()->SendPacket(&packet);
 }
