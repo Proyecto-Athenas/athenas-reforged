@@ -7939,12 +7939,12 @@ void Player::SendCurrencies() const
 void Player::SendPvpRewards() const
 {
     WorldPacket packet(SMSG_REQUEST_PVP_REWARDS_RESPONSE, 24);
-    packet << GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_POINTS, true);
-    packet << GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_POINTS, true);
     packet << GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_META_ARENA, true);
-    packet << GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_META_RBG, true);
     packet << GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_META_ARENA, true);
     packet << GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_POINTS, true);
+    packet << GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_POINTS, true);
+    packet << GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_META_RGB, true);
+    packet << GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_META_RBG, true);
     GetSession()->SendPacket(&packet);
 }
 
@@ -28030,7 +28030,7 @@ bool Player::AddItem(uint32 itemId, uint32 count)
     if (item)
     {
         SendNewItem(item, count, true, false);
-        sScriptMgr->OnAddItem(this, item); 
+        sScriptMgr->OnAddItem(this, item);
     }
     else
     {
