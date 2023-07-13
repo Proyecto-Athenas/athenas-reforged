@@ -22,6 +22,7 @@
 #    AUTO BROADCAST
 #    BATTLEGROUND CONFIG
 #    BATTLEFIELD CONFIG
+#    RATED BATTLEGROUND CONFIG
 #    ARENA CONFIG
 #    CLASS TOKEN
 #    NETWORK CONFIG
@@ -2379,6 +2380,23 @@ TolBarad.CrashRestartTimer = 40
 
 #
 ###################################################################################################
+
+###################################################################################################
+# RATED BATTLEGROUND CONFIG
+#
+#    RatedBattleground.Enable
+#        Description: Enable or disable the rated battleground system.
+#        Default:     true - Enabled
+#                     false - Disabled
+
+RatedBattleground.Enable = true
+
+#
+#    RatedBattleground.Reward
+#        Description: The conquest points reward after winning a rated battleground.
+#        Default:     40000
+
+RatedBattleground.Reward = 40000
 
 ###################################################################################################
 # ARENA CONFIG
