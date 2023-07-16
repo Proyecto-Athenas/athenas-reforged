@@ -1292,6 +1292,10 @@ void World::LoadConfigSettings(bool reload)
     m_bool_configs[CONFIG_BONUS_TIME_REWARD] = sConfigMgr->GetBoolDefault("PlayedTimeReward.Enabled", false);
     m_int_configs[CONFIG_PLAYED_TIME_REWARD] = sConfigMgr->GetIntDefault("PlayedTimeReward.Interval", 1200);
 
+    // Custom Arena Reward System
+    m_bool_configs[CONFIG_ARENA_CUSTOM_REWARD] = sConfigMgr->GetBoolDefault("Arena.CustomReward.Enabled", true);
+    m_int_configs[CONFIG_ARENA_CUSTOM_REWARD_ITEMID] = sConfigMgr->GetIntDefault("Arena.CustomReward.ItemId", 920019);
+
     // AutoBroadcast
     m_bool_configs[CONFIG_AUTOBROADCAST] = sConfigMgr->GetBoolDefault("AutoBroadcast.On", false);
     m_int_configs[CONFIG_AUTOBROADCAST_CENTER] = sConfigMgr->GetIntDefault("AutoBroadcast.Center", 0);

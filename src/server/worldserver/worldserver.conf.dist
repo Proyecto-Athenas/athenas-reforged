@@ -2852,6 +2852,21 @@ PlayedTimeReward.Enabled = 0
 PlayedTimeReward.Interval = 1200
 PlayedTimeReward.vp = 1
 
+#    Arena.CustomReward.Enabled
+#        Description: Enable / Disable Custom Arena Reward System
+#        Default:    1 - Enabled
+#                    0 - Disabled
+#
+
+Arena.CustomReward.Enabled = 1
+
+#    Arena.CustomReward.ItemId
+#        Description: Arena Custom reward Item Id
+#        Default:     920019
+#
+
+Arena.CustomReward.ItemId = 920019
+
 #
 ###################################################################################################
 

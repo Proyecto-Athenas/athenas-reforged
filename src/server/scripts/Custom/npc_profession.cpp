@@ -6,7 +6,7 @@
 
 class npc_profession : public CreatureScript
 {
-    public:
+public:
     npc_profession() : CreatureScript("npc_profession") {}
 
     void CreatureWhisperBasedOnBool(const char *text, Creature *_creature, Player *pPlayer, bool value)
@@ -20,18 +20,17 @@ class npc_profession : public CreatureScript
         return sWorld->getIntConfig(CONFIG_MAX_PLAYER_LEVEL);
     }
 
-
-	bool HaveMarks(const Player* player) const
-	{
-		return player->HasItemCount(MARK_ITEM, 1, true);
-	}
+    bool HaveMarks(const Player *player) const
+    {
+        return player->HasItemCount(MARK_ITEM, 1, true);
+    }
 
     bool PlayerHasItemOrSpell(const Player *plr, uint32 itemId, uint32 spellId) const
     {
         return plr->HasItemCount(itemId, 1, true) || plr->HasSpell(spellId);
     }
 
-    bool OnGossipHello(Player *pPlayer, Creature* _creature)
+    bool OnGossipHello(Player *pPlayer, Creature *_creature)
     {
         pPlayer->ADD_GOSSIP_ITEM_DB(51001, 0, GOSSIP_SENDER_MAIN, 196);
         pPlayer->ADD_GOSSIP_ITEM_DB(51001, 1, GOSSIP_SENDER_MAIN, 220);
@@ -39,53 +38,16 @@ class npc_profession : public CreatureScript
         return true;
     }
 
-    bool PlayerAlreadyHasTwoProfessions(const Player *pPlayer) const
-    {
-        uint32 skillCount = 0;
-
-        if (pPlayer->HasSkill(SKILL_MINING))
-            skillCount++;
-        if (pPlayer->HasSkill(SKILL_SKINNING))
-            skillCount++;
-        if (pPlayer->HasSkill(SKILL_HERBALISM))
-            skillCount++;
-
-        if (skillCount >= 2)
-            return true;
-
-        for (uint32 i = 1; i < sSkillLineStore.GetNumRows(); ++i)
-        {
-            SkillLineEntry const *SkillInfo = sSkillLineStore.LookupEntry(i);
-            if (!SkillInfo)
-                continue;
-
-            if (SkillInfo->categoryId == SKILL_CATEGORY_SECONDARY)
-                continue;
-
-            if ((SkillInfo->categoryId != SKILL_CATEGORY_PROFESSION) || !SkillInfo->canLink)
-                continue;
-
-            const uint32 skillID = SkillInfo->id;
-            if (pPlayer->HasSkill(skillID))
-                skillCount++;
-
-            if (skillCount >= 2)
-                return true;
-        }
-
-        return false;
-    }
-
-    bool LearnProfessionGreatUp(Player* player, SkillType skill)
+    bool LearnProfessionGreatUp(Player *player, SkillType skill)
     {
         ChatHandler handler(player->GetSession());
-        char* skill_name;
+        char *skill_name;
 
         SkillLineEntry const *SkillInfo = sSkillLineStore.LookupEntry(skill);
         skill_name = SkillInfo->name;
 
-		if (!HaveMarks(player))
-			return false;
+        if (!HaveMarks(player))
+            return false;
 
         if (player->getLevel() < 80)
         {
@@ -95,7 +57,6 @@ class npc_profession : public CreatureScript
 
         if (!SkillInfo)
         {
-            //sLog->outError("Profession NPC: received non-valid skill ID (LearnAllRecipesInProfession)");
             return false;
         }
 
@@ -112,14 +73,13 @@ class npc_profession : public CreatureScript
         return LearnProfessionGreatUp(player, skill);
 
         ChatHandler handler(player->GetSession());
-        char* skill_name;
+        char *skill_name;
 
         SkillLineEntry const *SkillInfo = sSkillLineStore.LookupEntry(skill);
         skill_name = SkillInfo->name;
 
         if (!SkillInfo)
         {
-            //sLog->outError("Profession NPC: received non-valid skill ID (LearnAllRecipesInProfession)");
             return false;
         }
 
@@ -157,31 +117,31 @@ class npc_profession : public CreatureScript
             if (skillLine->classmask && (skillLine->classmask & classmask) == 0)
                 continue;
 
-            SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(skillLine->spellId);
+            SpellInfo const *spellInfo = sSpellMgr->GetSpellInfo(skillLine->spellId);
             if (!spellInfo || !SpellMgr::IsSpellValid(spellInfo, player, false))
                 continue;
 
             switch (spellInfo->Id)
             {
-                case 28677:
-                case 28675:
-                case 28672:
-                case 26801:
-                case 26798:
-                case 26797:
-                case 20222:
-                case 20219:
-                case 17041:
-                case 17040:
-                case 17039:
-                case 10656:
-                case 10658:
-                case 10660:
-                case 9787:
-                case 8788:
-                    continue;
-                default:
-                    break;
+            case 28677:
+            case 28675:
+            case 28672:
+            case 26801:
+            case 26798:
+            case 26797:
+            case 20222:
+            case 20219:
+            case 17041:
+            case 17040:
+            case 17039:
+            case 10656:
+            case 10658:
+            case 10660:
+            case 9787:
+            case 8788:
+                continue;
+            default:
+                break;
             }
 
             if (!spellInfo->HasEffect(SPELL_EFFECT_SKILL))
@@ -201,16 +161,11 @@ class npc_profession : public CreatureScript
         if (IsSecondarySkill(skill))
             return;
 
-        if (PlayerAlreadyHasTwoProfessions(pPlayer))
-            pCreature->MonsterWhisper("You already have 2 professions", pPlayer->GetGUIDLow());
-        else
-        {
-            if (!LearnAllRecipesInProfession(pPlayer, skill))
-                pCreature->MonsterWhisper("Inner error", pPlayer->GetGUIDLow());
-        }
+        if (!LearnAllRecipesInProfession(pPlayer, skill))
+            pCreature->MonsterWhisper("Inner error", pPlayer->GetGUIDLow());
     }
 
-    bool OnGossipSelect(Player* pPlayer, Creature* _creature, uint32 /*uiSender*/, uint32 uiAction)
+    bool OnGossipSelect(Player *pPlayer, Creature *_creature, uint32 /*uiSender*/, uint32 uiAction)
     {
         if (!pPlayer->HasItemCount(MARK_ITEM, 1))
         {
@@ -222,161 +177,161 @@ class npc_profession : public CreatureScript
 
         switch (uiAction)
         {
-            case 200:
-                pPlayer->ADD_GOSSIP_ITEM_DB(51001, 0, GOSSIP_SENDER_MAIN, 196);
-                pPlayer->ADD_GOSSIP_ITEM_DB(51001, 1, GOSSIP_SENDER_MAIN, 220);
-                pPlayer->PlayerTalkClass->SendGossipMenu(20011, _creature->GetGUID());
-                break;
-            case 220:
+        case 200:
+            pPlayer->ADD_GOSSIP_ITEM_DB(51001, 0, GOSSIP_SENDER_MAIN, 196);
+            pPlayer->ADD_GOSSIP_ITEM_DB(51001, 1, GOSSIP_SENDER_MAIN, 220);
+            pPlayer->PlayerTalkClass->SendGossipMenu(20011, _creature->GetGUID());
+            break;
+        case 220:
+            pPlayer->PlayerTalkClass->SendCloseGossip();
+            break;
+        case 196:
+            pPlayer->ADD_GOSSIP_ITEM_DB(51002, 0, GOSSIP_SENDER_MAIN, 1);
+            pPlayer->ADD_GOSSIP_ITEM_DB(51002, 1, GOSSIP_SENDER_MAIN, 2);
+            pPlayer->ADD_GOSSIP_ITEM_DB(51002, 2, GOSSIP_SENDER_MAIN, 3);
+            pPlayer->ADD_GOSSIP_ITEM_DB(51002, 3, GOSSIP_SENDER_MAIN, 4);
+            pPlayer->ADD_GOSSIP_ITEM_DB(51002, 4, GOSSIP_SENDER_MAIN, 5);
+            pPlayer->ADD_GOSSIP_ITEM_DB(51002, 5, GOSSIP_SENDER_MAIN, 6);
+            pPlayer->ADD_GOSSIP_ITEM_DB(51002, 6, GOSSIP_SENDER_MAIN, 7);
+            pPlayer->ADD_GOSSIP_ITEM_DB(51002, 7, GOSSIP_SENDER_MAIN, 8);
+            pPlayer->ADD_GOSSIP_ITEM_DB(51002, 8, GOSSIP_SENDER_MAIN, 9);
+            pPlayer->ADD_GOSSIP_ITEM_DB(51002, 9, GOSSIP_SENDER_MAIN, 10);
+            pPlayer->ADD_GOSSIP_ITEM_DB(51002, 10, GOSSIP_SENDER_MAIN, 11);
+            pPlayer->ADD_GOSSIP_ITEM_DB(51002, 11, GOSSIP_SENDER_MAIN, 12);
+            pPlayer->ADD_GOSSIP_ITEM_DB(51002, 12, GOSSIP_SENDER_MAIN, 13);
+            pPlayer->ADD_GOSSIP_ITEM_DB(51002, 13, GOSSIP_SENDER_MAIN, 200);
+            pPlayer->PlayerTalkClass->SendGossipMenu(20011, _creature->GetGUID());
+            break;
+        case 1:
+            if (pPlayer->HasSkill(SKILL_ALCHEMY))
+            {
+                _creature->MonsterWhisper("You already have this profession!", pPlayer->GetGUIDLow());
                 pPlayer->PlayerTalkClass->SendCloseGossip();
                 break;
-            case 196:
-                pPlayer->ADD_GOSSIP_ITEM_DB(51002, 0, GOSSIP_SENDER_MAIN, 1);
-                pPlayer->ADD_GOSSIP_ITEM_DB(51002, 1, GOSSIP_SENDER_MAIN, 2);
-                pPlayer->ADD_GOSSIP_ITEM_DB(51002, 2, GOSSIP_SENDER_MAIN, 3);
-                pPlayer->ADD_GOSSIP_ITEM_DB(51002, 3, GOSSIP_SENDER_MAIN, 4);
-                pPlayer->ADD_GOSSIP_ITEM_DB(51002, 4, GOSSIP_SENDER_MAIN, 5);
-                pPlayer->ADD_GOSSIP_ITEM_DB(51002, 5, GOSSIP_SENDER_MAIN, 6);
-                pPlayer->ADD_GOSSIP_ITEM_DB(51002, 6, GOSSIP_SENDER_MAIN, 7);
-                pPlayer->ADD_GOSSIP_ITEM_DB(51002, 7, GOSSIP_SENDER_MAIN, 8);
-                pPlayer->ADD_GOSSIP_ITEM_DB(51002, 8, GOSSIP_SENDER_MAIN, 9);
-                pPlayer->ADD_GOSSIP_ITEM_DB(51002, 9, GOSSIP_SENDER_MAIN, 10);
-                pPlayer->ADD_GOSSIP_ITEM_DB(51002, 10, GOSSIP_SENDER_MAIN, 11);
-                pPlayer->ADD_GOSSIP_ITEM_DB(51002, 11, GOSSIP_SENDER_MAIN, 12);
-                pPlayer->ADD_GOSSIP_ITEM_DB(51002, 12, GOSSIP_SENDER_MAIN, 13);
-                pPlayer->ADD_GOSSIP_ITEM_DB(51002, 13, GOSSIP_SENDER_MAIN, 200);
-                pPlayer->PlayerTalkClass->SendGossipMenu(20011, _creature->GetGUID());
-                break;
-            case 1:
-                if (pPlayer->HasSkill(SKILL_ALCHEMY))
-                {
-                    _creature->MonsterWhisper("You already have this profession!", pPlayer->GetGUIDLow());
-                    pPlayer->PlayerTalkClass->SendCloseGossip();
-                    break;
-                }
-                CompleteLearnProfession(pPlayer, _creature, SKILL_ALCHEMY);
+            }
+            CompleteLearnProfession(pPlayer, _creature, SKILL_ALCHEMY);
+            pPlayer->PlayerTalkClass->SendCloseGossip();
+            break;
+        case 2:
+            if (pPlayer->HasSkill(SKILL_BLACKSMITHING))
+            {
+                _creature->MonsterWhisper("You already have this profession!", pPlayer->GetGUIDLow());
                 pPlayer->PlayerTalkClass->SendCloseGossip();
                 break;
-            case 2:
-                if (pPlayer->HasSkill(SKILL_BLACKSMITHING))
-                {
-                    _creature->MonsterWhisper("You already have this profession!", pPlayer->GetGUIDLow());
-                    pPlayer->PlayerTalkClass->SendCloseGossip();
-                    break;
-                }
-                CompleteLearnProfession(pPlayer, _creature, SKILL_BLACKSMITHING);
+            }
+            CompleteLearnProfession(pPlayer, _creature, SKILL_BLACKSMITHING);
+            pPlayer->PlayerTalkClass->SendCloseGossip();
+            break;
+        case 3:
+            if (pPlayer->HasSkill(SKILL_LEATHERWORKING))
+            {
+                _creature->MonsterWhisper("You already have this profession!", pPlayer->GetGUIDLow());
                 pPlayer->PlayerTalkClass->SendCloseGossip();
                 break;
-            case 3:
-                if (pPlayer->HasSkill(SKILL_LEATHERWORKING))
-                {
-                    _creature->MonsterWhisper("You already have this profession!", pPlayer->GetGUIDLow());
-                    pPlayer->PlayerTalkClass->SendCloseGossip();
-                    break;
-                }
-                CompleteLearnProfession(pPlayer, _creature, SKILL_LEATHERWORKING);
+            }
+            CompleteLearnProfession(pPlayer, _creature, SKILL_LEATHERWORKING);
+            pPlayer->PlayerTalkClass->SendCloseGossip();
+            break;
+        case 4:
+            if (pPlayer->HasSkill(SKILL_TAILORING))
+            {
+                _creature->MonsterWhisper("You already have this profession!", pPlayer->GetGUIDLow());
                 pPlayer->PlayerTalkClass->SendCloseGossip();
                 break;
-            case 4:
-                if (pPlayer->HasSkill(SKILL_TAILORING))
-                {
-                    _creature->MonsterWhisper("You already have this profession!", pPlayer->GetGUIDLow());
-                    pPlayer->PlayerTalkClass->SendCloseGossip();
-                    break;
-                }
-                CompleteLearnProfession(pPlayer, _creature, SKILL_TAILORING);
+            }
+            CompleteLearnProfession(pPlayer, _creature, SKILL_TAILORING);
+            pPlayer->PlayerTalkClass->SendCloseGossip();
+            break;
+        case 5:
+            if (pPlayer->HasSkill(SKILL_ENGINEERING))
+            {
+                _creature->MonsterWhisper("You already have this profession!", pPlayer->GetGUIDLow());
                 pPlayer->PlayerTalkClass->SendCloseGossip();
                 break;
-            case 5:
-                if (pPlayer->HasSkill(SKILL_ENGINEERING))
-                {
-                    _creature->MonsterWhisper("You already have this profession!", pPlayer->GetGUIDLow());
-                    pPlayer->PlayerTalkClass->SendCloseGossip();
-                    break;
-                }
-                CompleteLearnProfession(pPlayer, _creature, SKILL_ENGINEERING);
+            }
+            CompleteLearnProfession(pPlayer, _creature, SKILL_ENGINEERING);
+            pPlayer->PlayerTalkClass->SendCloseGossip();
+            break;
+        case 6:
+            if (pPlayer->HasSkill(SKILL_ENCHANTING))
+            {
+                _creature->MonsterWhisper("You already have this profession!", pPlayer->GetGUIDLow());
                 pPlayer->PlayerTalkClass->SendCloseGossip();
                 break;
-            case 6:
-                if (pPlayer->HasSkill(SKILL_ENCHANTING))
-                {
-                    _creature->MonsterWhisper("You already have this profession!", pPlayer->GetGUIDLow());
-                    pPlayer->PlayerTalkClass->SendCloseGossip();
-                    break;
-                }
-                CompleteLearnProfession(pPlayer, _creature, SKILL_ENCHANTING);
+            }
+            CompleteLearnProfession(pPlayer, _creature, SKILL_ENCHANTING);
+            pPlayer->PlayerTalkClass->SendCloseGossip();
+            break;
+        case 7:
+            if (pPlayer->HasSkill(SKILL_JEWELCRAFTING))
+            {
+                _creature->MonsterWhisper("You already have this profession!", pPlayer->GetGUIDLow());
                 pPlayer->PlayerTalkClass->SendCloseGossip();
                 break;
-            case 7:
-                if (pPlayer->HasSkill(SKILL_JEWELCRAFTING))
-                {
-                    _creature->MonsterWhisper("You already have this profession!", pPlayer->GetGUIDLow());
-                    pPlayer->PlayerTalkClass->SendCloseGossip();
-                    break;
-                }
-                CompleteLearnProfession(pPlayer, _creature, SKILL_JEWELCRAFTING);
+            }
+            CompleteLearnProfession(pPlayer, _creature, SKILL_JEWELCRAFTING);
+            pPlayer->PlayerTalkClass->SendCloseGossip();
+            break;
+        case 8:
+            if (pPlayer->HasSkill(SKILL_INSCRIPTION))
+            {
+                _creature->MonsterWhisper("You already have this profession!", pPlayer->GetGUIDLow());
                 pPlayer->PlayerTalkClass->SendCloseGossip();
                 break;
-            case 8:
-                if (pPlayer->HasSkill(SKILL_INSCRIPTION))
-                {
-                    _creature->MonsterWhisper("You already have this profession!", pPlayer->GetGUIDLow());
-                    pPlayer->PlayerTalkClass->SendCloseGossip();
-                    break;
-                }
-                CompleteLearnProfession(pPlayer, _creature, SKILL_INSCRIPTION);
+            }
+            CompleteLearnProfession(pPlayer, _creature, SKILL_INSCRIPTION);
+            pPlayer->PlayerTalkClass->SendCloseGossip();
+            break;
+        case 9:
+            if (pPlayer->HasSkill(SKILL_COOKING))
+            {
+                _creature->MonsterWhisper("You already have this profession!", pPlayer->GetGUIDLow());
                 pPlayer->PlayerTalkClass->SendCloseGossip();
                 break;
-            case 9:
-                if (pPlayer->HasSkill(SKILL_COOKING))
-                {
-                    _creature->MonsterWhisper("You already have this profession!", pPlayer->GetGUIDLow());
-                    pPlayer->PlayerTalkClass->SendCloseGossip();
-                    break;
-                }
-                CompleteLearnProfession(pPlayer, _creature, SKILL_COOKING);
+            }
+            CompleteLearnProfession(pPlayer, _creature, SKILL_COOKING);
+            pPlayer->PlayerTalkClass->SendCloseGossip();
+            break;
+        case 10:
+            if (pPlayer->HasSkill(SKILL_FIRST_AID))
+            {
+                _creature->MonsterWhisper("You already have this profession!", pPlayer->GetGUIDLow());
                 pPlayer->PlayerTalkClass->SendCloseGossip();
                 break;
-            case 10:
-                if (pPlayer->HasSkill(SKILL_FIRST_AID))
-                {
-                    _creature->MonsterWhisper("You already have this profession!", pPlayer->GetGUIDLow());
-                    pPlayer->PlayerTalkClass->SendCloseGossip();
-                    break;
-                }
-                CompleteLearnProfession(pPlayer, _creature, SKILL_FIRST_AID);
+            }
+            CompleteLearnProfession(pPlayer, _creature, SKILL_FIRST_AID);
+            pPlayer->PlayerTalkClass->SendCloseGossip();
+            break;
+        case 11:
+            if (pPlayer->HasSkill(SKILL_HERBALISM))
+            {
+                _creature->MonsterWhisper("You already have this profession!", pPlayer->GetGUIDLow());
                 pPlayer->PlayerTalkClass->SendCloseGossip();
                 break;
-            case 11:
-                if (pPlayer->HasSkill(SKILL_HERBALISM))
-                {
-                    _creature->MonsterWhisper("You already have this profession!", pPlayer->GetGUIDLow());
-                    pPlayer->PlayerTalkClass->SendCloseGossip();
-                    break;
-                }
-                CompleteLearnProfession(pPlayer, _creature, SKILL_HERBALISM);
+            }
+            CompleteLearnProfession(pPlayer, _creature, SKILL_HERBALISM);
+            pPlayer->PlayerTalkClass->SendCloseGossip();
+            break;
+        case 12:
+            if (pPlayer->HasSkill(SKILL_SKINNING))
+            {
+                _creature->MonsterWhisper("You already have this profession!", pPlayer->GetGUIDLow());
                 pPlayer->PlayerTalkClass->SendCloseGossip();
                 break;
-            case 12:
-                if (pPlayer->HasSkill(SKILL_SKINNING))
-                {
-                    _creature->MonsterWhisper("You already have this profession!", pPlayer->GetGUIDLow());
-                    pPlayer->PlayerTalkClass->SendCloseGossip();
-                    break;
-                }
-                CompleteLearnProfession(pPlayer, _creature, SKILL_SKINNING);
+            }
+            CompleteLearnProfession(pPlayer, _creature, SKILL_SKINNING);
+            pPlayer->PlayerTalkClass->SendCloseGossip();
+            break;
+        case 13:
+            if (pPlayer->HasSkill(SKILL_MINING))
+            {
+                _creature->MonsterWhisper("You already have this profession!", pPlayer->GetGUIDLow());
                 pPlayer->PlayerTalkClass->SendCloseGossip();
                 break;
-            case 13:
-                if (pPlayer->HasSkill(SKILL_MINING))
-                {
-                    _creature->MonsterWhisper("You already have this profession!", pPlayer->GetGUIDLow());
-                    pPlayer->PlayerTalkClass->SendCloseGossip();
-                    break;
-                }
-                CompleteLearnProfession(pPlayer, _creature, SKILL_MINING);
-                pPlayer->PlayerTalkClass->SendCloseGossip();
-                break;
+            }
+            CompleteLearnProfession(pPlayer, _creature, SKILL_MINING);
+            pPlayer->PlayerTalkClass->SendCloseGossip();
+            break;
         }
 
         return true;
