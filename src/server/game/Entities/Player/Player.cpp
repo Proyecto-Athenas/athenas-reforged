@@ -7800,7 +7800,7 @@ void Player::_LoadCurrency(PreparedQueryResult result)
         cur.totalCount = fields[2].GetUInt32();
         cur.week_cap = fields[3].GetUInt32();
         cur.seasonal_cap = fields[5].GetUInt32();
-        // cur.new_cap = GetCurrencyWeekCap(currency);
+        cur.new_cap = GetCurrencyWeekCap(currency);
 
         _currencyStorage.insert(PlayerCurrenciesMap::value_type(currencyID, cur));
 
@@ -8246,6 +8246,9 @@ void Player::UpdateConquestCurrencyCap(uint32 currency)
             break;
         case CURRENCY_TYPE_CONQUEST_META_RBG:
             cap = Trinity::Currency::BgConquestRatingCalculator(GetRbgOrSoloQueueRatingForCapCalculation()) * CURRENCY_PRECISION;
+            break;
+        default:
+            cap = currencyEntry->TotalCap;
             break;
         }
 
