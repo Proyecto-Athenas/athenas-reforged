@@ -967,7 +967,7 @@ enum BattlegroundConquestRewards
 {
     MIN_RBG_CURRENCY_REWARD = 1650,  // Minimum amount of conquest points for RBG Reward
     MIN_ARENA_CURRENCY_REWARD = 1350 // Minimum amount of conquest points for Arena Reward
-}
+};
 
 // Player summoning auto-decline time (in secs)
 #define MAX_PLAYER_SUMMON_DELAY (2 * MINUTE)
