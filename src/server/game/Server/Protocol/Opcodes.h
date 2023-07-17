@@ -1212,7 +1212,7 @@ enum Opcodes
     SMSG_REMOVED_SPELL                                = 0x4804,
     SMSG_REPORT_PVP_AFK_RESULT                        = 0x2D06,
     SMSG_REQUEST_CEMETERY_LIST_RESPONSE               = 0x30A7,
-    SMSG_REQUEST_PVP_REWARDS_RESPONSE                 = 0x5DA4,
+    SMSG_PVP_REWARDS_RESPONSE                 = 0x5DA4,
     SMSG_RESEARCH_COMPLETE                            = 0x35A6,
     SMSG_RESEARCH_SETUP_HISTORY                       = 0x10B6,
     SMSG_RESET_COMPRESSION_CONTEXT                    = 0x0142,

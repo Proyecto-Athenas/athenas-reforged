@@ -488,10 +488,10 @@ void ArenaTeamMember::ModifyPersonalRating(Player *player, int32 mod, uint32 typ
         if (PersonalRating > player->GetMaxPersonalArenaRate())
         {
             player->SetMaxPersonalArenaRate(PersonalRating);
-            PlayerCurrenciesMap::iterator itr = player->GetCurrenciesMap().find(CURRENCY_TYPE_CONQUEST_META_ARENA);
+            PlayerCurrenciesMap::iterator itr = player->GetCurrenciesMap().find(CURRENCY_TYPE_CONQUEST_ARENA);
             if (itr != player->GetCurrenciesMap().end())
             {
-                itr->second.new_cap = player->GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_META_ARENA, false, true);
+                itr->second.new_cap = player->GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_ARENA, false, true);
                 // Cap can change even when the curreny itself isn't modified
                 itr->second.state = PLAYERCURRENCY_CHANGED;
             }
