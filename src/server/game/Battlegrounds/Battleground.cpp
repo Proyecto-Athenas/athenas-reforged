@@ -1176,7 +1176,7 @@ void Battleground::EndBattleground(uint32 winner)
                 uint32 rating = player->GetArenaPersonalRating(winnerArenaTeam->GetSlot());
                 player->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_WIN_RATED_ARENA, rating ? rating : 1);
                 player->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_WIN_ARENA, GetMapId());
-                player->ModifyCurrency(CURRENCY_TYPE_CONQUEST_META_ARENA, sWorld->getIntConfig(CONFIG_CURRENCY_CONQUEST_POINTS_ARENA_REWARD));
+                player->ModifyCurrency(CURRENCY_TYPE_CONQUEST_ARENA, sWorld->getIntConfig(CONFIG_CURRENCY_CONQUEST_POINTS_ARENA_REWARD));
                 
                 // credit quest PVP
                 if ((player->GetQuestStatus(30576) == QUEST_STATUS_INCOMPLETE) || (player->GetQuestStatus(30577) == QUEST_STATUS_INCOMPLETE))
@@ -1247,21 +1247,21 @@ void Battleground::EndBattleground(uint32 winner)
         {
             if (IsRandom() && !isRatedBattleground() || BattlegroundMgr::IsBGWeekend(GetTypeID()) && !isRatedBattleground())
             {
-                uint32 rbgCap = player->GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_META_RBG, true);
-                uint32 arenaCap = player->GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_META_ARENA, true);
+                uint32 rbgCap = player->GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_RBG, true);
+                uint32 arenaCap = player->GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_ARENA, true);
                 bool useArenaCap = arenaCap <= rbgCap;
                 UpdatePlayerScore(player, SCORE_BONUS_HONOR, winner_honor);
                 if (!player->IsRandomDailyBgRewarded())
                 {
                     // 100cp awarded for the first random battleground won each day
-                    player->ModifyCurrency(useArenaCap ? CURRENCY_TYPE_CONQUEST_META_ARENA : CURRENCY_TYPE_CONQUEST_META_RBG, BG_REWARD_WINNER_CONQUEST_FIRST);
+                    player->ModifyCurrency(useArenaCap ? CURRENCY_TYPE_CONQUEST_ARENA : CURRENCY_TYPE_CONQUEST_RBG, BG_REWARD_WINNER_CONQUEST_FIRST);
                     player->SetRandomDailyBgRewarded(true);
                 }
                 else if (player->IsRandomDailyBgRewarded())
-                    player->ModifyCurrency(useArenaCap ? CURRENCY_TYPE_CONQUEST_META_ARENA : CURRENCY_TYPE_CONQUEST_META_RBG, BG_REWARD_WINNER_CONQUEST_LAST);
+                    player->ModifyCurrency(useArenaCap ? CURRENCY_TYPE_CONQUEST_ARENA : CURRENCY_TYPE_CONQUEST_RBG, BG_REWARD_WINNER_CONQUEST_LAST);
             }
             else if (isRatedBattleground())
-                player->ModifyCurrency(CURRENCY_TYPE_CONQUEST_META_RBG, BG_REWARD_WINNER_RBG_CONQUEST);
+                player->ModifyCurrency(CURRENCY_TYPE_CONQUEST_RBG, BG_REWARD_WINNER_RBG_CONQUEST);
 
             if (!isRatedBattleground())
                 player->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_WIN_BG, 1);
@@ -1492,7 +1492,7 @@ void Battleground::EndSoloBattleground(uint32 winner)
             uint32 rating = player->GetArenaPersonalRating(ArenaTeam::GetSlotByType(ARENA_TEAM_5v5));
             player->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_WIN_RATED_ARENA, rating ? rating : 1);
             player->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_WIN_ARENA, GetMapId());
-            player->ModifyCurrency(CURRENCY_TYPE_CONQUEST_META_RBG, sWorld->getIntConfig(CONFIG_CURRENCY_CONQUEST_POINTS_SOLO_ARENA_REWARD));
+            player->ModifyCurrency(CURRENCY_TYPE_CONQUEST_RBG, sWorld->getIntConfig(CONFIG_CURRENCY_CONQUEST_POINTS_SOLO_ARENA_REWARD));
             if (GetArenaType() == ARENA_TYPE_1v1_SOLO)
                 player->AddItem(100606, 2);
             if (ArenaTeam* winTeam = sArenaTeamMgr->GetArenaTeamById(player->GetArenaTeamId(ArenaTeam::GetSlotByType(ARENA_TEAM_5v5))))

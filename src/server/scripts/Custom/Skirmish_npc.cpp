@@ -98,7 +98,7 @@ public:
             stmt->setUInt64(1, player->GetGUIDLow());
             CharacterDatabase.Execute(stmt);
 
-            if (player->GetCurrency(CURRENCY_TYPE_CONQUEST_META_ARENA, true))
+            if (player->GetCurrency(CURRENCY_TYPE_CONQUEST_ARENA, true))
             {
                 stmt = CharacterDatabase.GetPreparedStatement(CHAR_UPD_PLAYER_CURRENCY_NEW_CAP_ARENA);
                 stmt->setUInt32(0, capArena);
@@ -106,7 +106,7 @@ public:
                 CharacterDatabase.Execute(stmt);
             }
 
-            if (player->GetCurrency(CURRENCY_TYPE_CONQUEST_META_RBG, true))
+            if (player->GetCurrency(CURRENCY_TYPE_CONQUEST_RBG, true))
             {
                 stmt = CharacterDatabase.GetPreparedStatement(CHAR_UPD_PLAYER_CURRENCY_NEW_CAP_RBG);
                 stmt->setUInt32(0, capRBG);
@@ -730,7 +730,7 @@ public:
             if (player->AddItem(tabardEntry[action - (GOSSIP_ACTION_INFO_DEF + 1)], 1))
                 player->ModifyCurrency(currency, -50000);
             else
-                creature->MonsterWhisper("You don´t have enough space in your bags!", player->GetGUID());
+                creature->MonsterWhisper("You donï¿½t have enough space in your bags!", player->GetGUID());
         }
         else
             creature->MonsterWhisper("Not enough points! You need at least 500 honor/conquest points!", player->GetGUID());

@@ -7938,13 +7938,13 @@ void Player::SendCurrencies() const
 
 void Player::SendPvpRewards() const
 {
-    WorldPacket packet(SMSG_REQUEST_PVP_REWARDS_RESPONSE, 6 * 4);
-    packet << std::max((int)GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_META_RBG, true), 1650);   // rbg conquest cap
-    packet << GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_POINTS, true);                           // total conquest earned
-    packet << std::max((int)GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_META_ARENA, true), 1350); // arena conquest cap
-    packet << GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_META_RBG, true);                         // rbg conquest earned
-    packet << GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_META_ARENA, true);                       // arena conquest earned
-    packet << std::max((int)GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_POINTS, true), 1650);      // total conquest cap
+    WorldPacket packet(SMSG_PVP_REWARDS_RESPONSE, 6 * 4);
+    packet << std::max((int)GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_RBG, true), MIN_RBG_CURRENCY_REWARD);     // This is the RGB Cap
+    packet << GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_POINTS, true);                                           // This is the Total Conquest Earned
+    packet << std::max((int)GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_ARENA, true), MIN_ARENA_CURRENCY_REWARD); // This is the Arena Conquest Cap
+    packet << GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_RBG, true);                                              // This is the RBG Conquest Earned
+    packet << GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_ARENA, true);                                            // This is the Arena Conquest Earned
+    packet << std::max((int)GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_POINTS, true), MIN_RBG_CURRENCY_REWARD);  // This is the Total Conquest Cap
 
     GetSession()->SendPacket(&packet);
 }
@@ -8140,8 +8140,8 @@ void Player::ResetCurrencyWeekCap()
     }
 
     UpdateConquestCurrencyCap(CURRENCY_TYPE_CONQUEST_POINTS);
-    UpdateConquestCurrencyCap(CURRENCY_TYPE_CONQUEST_META_ARENA);
-    UpdateConquestCurrencyCap(CURRENCY_TYPE_CONQUEST_META_RBG);
+    UpdateConquestCurrencyCap(CURRENCY_TYPE_CONQUEST_ARENA);
+    UpdateConquestCurrencyCap(CURRENCY_TYPE_CONQUEST_RBG);
 
     WorldPacket data(SMSG_WEEKLY_RESET_CURRENCY, 0);
     SendDirectMessage(&data);
@@ -8155,8 +8155,8 @@ uint32 Player::GetCurrencyWeekCap(CurrencyTypesEntry const *currency, bool useRa
     // conquest points don't have a own week cap...
     case CURRENCY_TYPE_CONQUEST_POINTS:
     {
-        CurrencyTypesEntry const *arena = sCurrencyTypesStore.LookupEntry(CURRENCY_TYPE_CONQUEST_META_ARENA);
-        CurrencyTypesEntry const *rbg = sCurrencyTypesStore.LookupEntry(CURRENCY_TYPE_CONQUEST_META_RBG);
+        CurrencyTypesEntry const *arena = sCurrencyTypesStore.LookupEntry(CURRENCY_TYPE_CONQUEST_ARENA);
+        CurrencyTypesEntry const *rbg = sCurrencyTypesStore.LookupEntry(CURRENCY_TYPE_CONQUEST_RBG);
 
         if (!arena || !rbg)
         {
@@ -8166,10 +8166,10 @@ uint32 Player::GetCurrencyWeekCap(CurrencyTypesEntry const *currency, bool useRa
         cap = std::max(GetConquestWeekCap(arena), GetConquestWeekCap(rbg));
         break;
     }
-    case CURRENCY_TYPE_CONQUEST_META_ARENA:
+    case CURRENCY_TYPE_CONQUEST_ARENA:
         cap = GetConquestWeekCap(currency);
         break;
-    case CURRENCY_TYPE_CONQUEST_META_RBG:
+    case CURRENCY_TYPE_CONQUEST_RBG:
         cap = GetConquestWeekCap(currency);
         break;
     case CURRENCY_TYPE_VALOR_POINTS:
@@ -8225,7 +8225,7 @@ uint32 Player::GetConquestWeekCap(CurrencyTypesEntry const *currency) const
         if (itr->second.week_cap && itr->second.week_cap < 400000)
             return itr->second.week_cap;
 
-    return currency->ID == CURRENCY_TYPE_CONQUEST_META_ARENA ? 135000 : 165000;
+    return currency->ID == CURRENCY_TYPE_CONQUEST_ARENA ? 135000 : 165000;
 }
 
 void Player::UpdateConquestCurrencyCap(uint32 currency)
@@ -8242,10 +8242,10 @@ void Player::UpdateConquestCurrencyCap(uint32 currency)
             cap = std::max(arenaCap, rbgCap);
             break;
         }
-        case CURRENCY_TYPE_CONQUEST_META_ARENA:
+        case CURRENCY_TYPE_CONQUEST_ARENA:
             cap = Trinity::Currency::ConquestRatingCalculator(GetMaxPersonalArenaRatingRequirement(0)) * CURRENCY_PRECISION;
             break;
-        case CURRENCY_TYPE_CONQUEST_META_RBG:
+        case CURRENCY_TYPE_CONQUEST_RBG:
             cap = Trinity::Currency::BgConquestRatingCalculator(GetRbgOrSoloQueueRatingForCapCalculation()) * CURRENCY_PRECISION;
             break;
         default:

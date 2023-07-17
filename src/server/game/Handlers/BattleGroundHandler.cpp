@@ -916,13 +916,13 @@ void WorldSession::HandleRequestRatedBgInfo(WorldPacket &recvData)
     if (mode == 3)
     {
         baseReward = sWorld->getIntConfig(CONFIG_RATED_BATTLEGROUND_REWARD) / CURRENCY_PRECISION;
-        int32 remainingConquestRBG = _player->GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_META_RBG, true) - _player->GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_META_RBG, true);
+        int32 remainingConquestRBG = _player->GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_RBG, true) - _player->GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_RBG, true);
         baseReward = std::min<int32>(baseReward, remainingConquestRBG);
     }
     else
     {
         baseReward = sWorld->getIntConfig(CONFIG_CURRENCY_CONQUEST_POINTS_ARENA_REWARD) / CURRENCY_PRECISION;
-        int32 remainingConquestArena = _player->GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_META_ARENA, true) - _player->GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_META_ARENA, true);
+        int32 remainingConquestArena = _player->GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_ARENA, true) - _player->GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_ARENA, true);
         baseReward = std::min<int32>(baseReward, remainingConquestArena);
     }
 
@@ -932,9 +932,9 @@ void WorldSession::HandleRequestRatedBgInfo(WorldPacket &recvData)
     data << uint32(info.RBGRating);                                                    // Rating
     data << uint32(_player->GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_POINTS, true));   // RewardPointsThisWeek
     data << uint32(_player->GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_POINTS, true));  // MaxRewardPointsThisWeek
-    data << uint32(_player->GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_META_RBG, true)); // RatedRewardPointsThisWeek
+    data << uint32(_player->GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_RBG, true)); // RatedRewardPointsThisWeek
     data << uint32(0);                                                                 // Is Not Used But Appears in the Sniff
-    data << uint32(_player->GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_META_RBG, true));
+    data << uint32(_player->GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_RBG, true));
 
     SendPacket(&data);
 
