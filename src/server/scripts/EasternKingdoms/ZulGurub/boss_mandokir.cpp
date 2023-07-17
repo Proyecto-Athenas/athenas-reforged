@@ -758,7 +758,7 @@ class spell_mandokir_bloodletting : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_mandokir_bloodletting_AuraScript();
         }

@@ -1243,7 +1243,7 @@ class spell_sindragosa_instability : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_sindragosa_instability_AuraScript();
         }
@@ -1278,7 +1278,7 @@ class spell_sindragosa_frost_beacon : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_sindragosa_frost_beacon_AuraScript();
         }
@@ -1352,7 +1352,7 @@ public:
         return new spell_sindragosa_ice_tomb_SpellScript();
     }
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_sindragosa_ice_tomb_AuraScript();
     }
@@ -1654,7 +1654,7 @@ class spell_frostwarden_handler_focus_fire : public SpellScriptLoader
             return new spell_frostwarden_handler_focus_fire_SpellScript();
         }
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_frostwarden_handler_focus_fire_AuraScript();
         }

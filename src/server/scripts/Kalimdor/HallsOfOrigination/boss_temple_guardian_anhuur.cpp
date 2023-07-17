@@ -405,7 +405,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_anhuur_divine_reckoning_AuraScript();
     }

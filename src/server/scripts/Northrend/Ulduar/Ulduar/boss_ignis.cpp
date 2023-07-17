@@ -570,7 +570,7 @@ class spell_ignis_slag_pot : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_ignis_slag_pot_AuraScript();
         }

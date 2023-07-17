@@ -613,7 +613,7 @@ public:
         InstanceScript* _instance;
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_wailing_winds_AuraScript();
     }

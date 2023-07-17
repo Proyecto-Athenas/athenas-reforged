@@ -2262,7 +2262,7 @@ class spell_the_lich_king_infest : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_the_lich_king_infest_AuraScript();
         }
@@ -2310,7 +2310,7 @@ class spell_the_lich_king_necrotic_plague : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_the_lich_king_necrotic_plague_AuraScript();
         }
@@ -2433,7 +2433,7 @@ class spell_the_lich_king_necrotic_plague_jump : public SpellScriptLoader
             return new spell_the_lich_king_necrotic_plague_SpellScript();
         }
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_the_lich_king_necrotic_plague_AuraScript();
         }
@@ -2460,7 +2460,7 @@ class spell_the_lich_king_shadow_trap_visual : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_the_lich_king_shadow_trap_visual_AuraScript();
         }
@@ -2726,7 +2726,7 @@ class spell_the_lich_king_soul_reaper : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_the_lich_king_soul_reaper_AuraScript();
         }
@@ -2920,7 +2920,7 @@ class spell_the_lich_king_vile_spirits : public SpellScriptLoader
             bool _is25Man;
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_the_lich_king_vile_spirits_AuraScript();
         }
@@ -3077,7 +3077,7 @@ class spell_the_lich_king_harvest_soul : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_the_lich_king_harvest_soul_AuraScript();
         }
@@ -3114,7 +3114,7 @@ class spell_the_lich_king_lights_favor : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_the_lich_king_lights_favor_AuraScript();
         }
@@ -3143,7 +3143,7 @@ class spell_the_lich_king_soul_rip : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_the_lich_king_soul_rip_AuraScript();
         }
@@ -3234,7 +3234,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_the_lich_king_dark_hunger_AuraScript();
     }
@@ -3267,7 +3267,7 @@ class spell_the_lich_king_in_frostmourne_room : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_the_lich_king_in_frostmourne_room_AuraScript();
         }

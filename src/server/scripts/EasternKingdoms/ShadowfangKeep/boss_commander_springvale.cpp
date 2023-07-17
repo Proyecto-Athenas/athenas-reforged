@@ -214,7 +214,7 @@ public:
         InstanceScript* _instance;
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_springvale_unholy_power_AuraScript();
     }
@@ -244,7 +244,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_springvale_forsaken_ability_AuraScript();
     }

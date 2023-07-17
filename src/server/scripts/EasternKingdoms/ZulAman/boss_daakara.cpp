@@ -666,7 +666,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_daakara_grievous_throw_AuraScript();
     }
@@ -716,7 +716,7 @@ public:
         uint64 targetGUID;
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_daakara_charge_AuraScript();
     }

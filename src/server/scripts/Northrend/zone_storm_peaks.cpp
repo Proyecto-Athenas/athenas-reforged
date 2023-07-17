@@ -779,7 +779,7 @@ class spell_close_rift : public SpellScriptLoader
 
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_close_rift_AuraScript();
         }

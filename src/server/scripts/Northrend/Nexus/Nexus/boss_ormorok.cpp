@@ -272,7 +272,7 @@ class spell_crystal_spike : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_crystal_spike_AuraScript();
         }

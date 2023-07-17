@@ -2866,7 +2866,7 @@ class spell_load_into_catapult : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_load_into_catapult_AuraScript();
         }
@@ -2990,7 +2990,7 @@ class spell_systems_shutdown : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_systems_shutdown_AuraScript();
         }
@@ -3219,7 +3219,7 @@ class spell_shield_generator : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_shield_generator_AuraScript();
         }

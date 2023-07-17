@@ -1082,7 +1082,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_atramedes_devastation_periodic_AuraScript();
     }
@@ -1410,7 +1410,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_obnoxious_phase_shift_AuraScript();
     }

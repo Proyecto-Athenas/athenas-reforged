@@ -1065,7 +1065,7 @@ class spell_algalon_phase_punch : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_algalon_phase_punch_AuraScript();
         }
@@ -1179,7 +1179,7 @@ class spell_algalon_collapse : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_algalon_collapse_AuraScript();
         }
@@ -1248,7 +1248,7 @@ class spell_algalon_remove_phase : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_algalon_remove_phase_AuraScript();
         }

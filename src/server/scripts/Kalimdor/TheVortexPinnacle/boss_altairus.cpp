@@ -299,7 +299,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_wind_of_alth_AuraScript();
     }

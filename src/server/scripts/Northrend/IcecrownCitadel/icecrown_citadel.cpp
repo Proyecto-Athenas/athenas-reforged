@@ -2029,7 +2029,7 @@ class spell_icc_stoneform : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_icc_stoneform_AuraScript();
         }

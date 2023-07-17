@@ -673,7 +673,7 @@ public:
         uint32 _damage;
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_amber_drake_temporal_rift_AuraScript();
     }
@@ -704,7 +704,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_gen_stop_time_AuraScript();
     }

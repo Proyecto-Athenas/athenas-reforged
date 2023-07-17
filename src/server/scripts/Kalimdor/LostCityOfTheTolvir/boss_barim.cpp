@@ -752,7 +752,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_fifty_lashings_AuraScript();
     }

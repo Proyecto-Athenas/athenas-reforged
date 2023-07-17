@@ -643,7 +643,7 @@ class spell_toxic_link_aura : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_toxic_link_aura_AuraScript();
         }
@@ -673,7 +673,7 @@ class spell_whispers_of_hethiss : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_whispers_of_hethiss_AuraScript();
         }

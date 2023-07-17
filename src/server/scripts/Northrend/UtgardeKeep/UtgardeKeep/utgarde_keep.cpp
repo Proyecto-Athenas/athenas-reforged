@@ -191,7 +191,7 @@ class spell_ticking_time_bomb : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_ticking_time_bomb_AuraScript();
         }

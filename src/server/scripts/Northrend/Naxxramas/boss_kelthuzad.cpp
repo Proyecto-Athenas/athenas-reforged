@@ -807,7 +807,7 @@ class spell_kelthuzad_detonate_mana : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_kelthuzad_detonate_mana_AuraScript();
         }

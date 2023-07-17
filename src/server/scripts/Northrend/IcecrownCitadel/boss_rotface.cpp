@@ -851,7 +851,7 @@ class spell_rotface_unstable_ooze_explosion_suicide : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_rotface_unstable_ooze_explosion_suicide_AuraScript();
         }

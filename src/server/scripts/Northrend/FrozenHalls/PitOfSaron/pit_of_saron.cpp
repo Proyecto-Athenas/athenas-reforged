@@ -229,7 +229,7 @@ class spell_trash_mob_glacial_strike : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_trash_mob_glacial_strike_AuraScript();
         }

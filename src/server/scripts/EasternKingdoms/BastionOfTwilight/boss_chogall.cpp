@@ -303,7 +303,7 @@ public:
 
         void EnterEvadeMode()
         {
-            // if we passed the 3 % Chogall shouldn´t reset anymore
+            // if we passed the 3 % Chogall shouldnï¿½t reset anymore
             if (dieEvent)
                 return;
 
@@ -970,7 +970,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_chogall_veneration_AuraScript();
     }
@@ -1203,7 +1203,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_debilitating_ray_AuraScript();
     }
@@ -1328,7 +1328,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_chogall_illness_AuraScript();
     }

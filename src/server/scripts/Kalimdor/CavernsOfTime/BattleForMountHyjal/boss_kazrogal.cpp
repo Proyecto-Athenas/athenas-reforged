@@ -231,7 +231,7 @@ class spell_mark_of_kazrogal : public SpellScriptLoader
             return new spell_mark_of_kazrogal_SpellScript();
         }
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_mark_of_kazrogal_AuraScript();
         }

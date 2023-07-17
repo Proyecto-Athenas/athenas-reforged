@@ -1081,7 +1081,7 @@ class spell_biting_cold : public SpellScriptLoader
                 TargetList listOfTargets;
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_biting_cold_AuraScript();
         }
@@ -1117,7 +1117,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_biting_cold_dot_AuraScript();
     }

@@ -850,7 +850,7 @@ class spell_xt002_searing_light_spawn_life_spark : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_xt002_searing_light_spawn_life_spark_AuraScript();
         }
@@ -902,7 +902,7 @@ class spell_xt002_gravity_bomb_aura : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_xt002_gravity_bomb_aura_AuraScript();
         }
@@ -1166,7 +1166,7 @@ class spell_xt002_hearth_overload : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_xt002_hearth_overload_AuraScript();
         }

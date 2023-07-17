@@ -542,7 +542,7 @@ class spell_krick_explosive_barrage : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_krick_explosive_barrage_AuraScript();
         }
@@ -581,7 +581,7 @@ class spell_ick_explosive_barrage : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_ick_explosive_barrage_AuraScript();
         }
@@ -616,7 +616,7 @@ class spell_exploding_orb_hasty_grow : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_exploding_orb_hasty_grow_AuraScript();
         }
@@ -675,7 +675,7 @@ class spell_krick_pursuit : public SpellScriptLoader
             return new spell_krick_pursuit_SpellScript();
         }
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_krick_pursuit_AuraScript();
         }
@@ -709,7 +709,7 @@ class spell_krick_pursuit_confusion : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_krick_pursuit_confusion_AuraScript();
         }

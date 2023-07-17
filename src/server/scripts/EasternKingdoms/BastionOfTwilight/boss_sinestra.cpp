@@ -1143,7 +1143,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_sinestra_wrack_AuraScript();
     }
@@ -1245,7 +1245,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_sinestra_wrack_jump_AuraScript();
     }
@@ -1272,7 +1272,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_twilight_extinction_AuraScript();
     }

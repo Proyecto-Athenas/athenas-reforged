@@ -18,18 +18,18 @@
 
 enum twilightCage
 {
-    NPC_BILGEWATER_LABORER  = 36722,
+    NPC_BILGEWATER_LABORER = 36722,
 };
 
 class go_azshara_twilight_cage : public GameObjectScript
 {
 public:
-    go_azshara_twilight_cage() : GameObjectScript("go_azshara_twilight_cage") { }
+    go_azshara_twilight_cage() : GameObjectScript("go_azshara_twilight_cage") {}
 
-    bool OnGossipHello(Player* player, GameObject* go)
+    bool OnGossipHello(Player *player, GameObject *go)
     {
         go->UseDoorOrButton(180);
-        if (Creature* laborer = go->FindNearestCreature(NPC_BILGEWATER_LABORER, 5.0f, true))
+        if (Creature *laborer = go->FindNearestCreature(NPC_BILGEWATER_LABORER, 5.0f, true))
         {
             Position pos;
             laborer->GetNearPosition(pos, 15.00f, 0.00f);
@@ -41,36 +41,34 @@ public:
     }
 };
 
-
-
 enum FadeToBlackQuest
 {
-    NPC_MALICION                = 36649,
-    ACTION_ENTER_COMBAT         = 1,
-    ACTION_LAND                 = 2,
-    POINT_AIR                   = 4,
-    POINT_GROUND                = 5,
-    SPELL_FLAME_BURST           = 69114,
-    SPELL_SHIELD_BREAK          = 69115,
-    SPELL_RIDE_VEHICLE          = 43671,
-    SPELL_TWILIGHT_BARRIER      = 69135,
-    SPELL_SUMMON_KALECGOS       = 69178,
-    EVENT_FLAME_BURST           = 1,
-    EVENT_TWILIGHT_BARRIER      = 2,
-    EVENT_PHASE_1               = 1,
-    EVENT_PHASE_2               = 2,
-    TALK_VEHICLE_ENTER          = -36897,
-    TALK_KATRANA_ENTER_COMBAT   = -77866,
+    NPC_MALICION = 36649,
+    ACTION_ENTER_COMBAT = 1,
+    ACTION_LAND = 2,
+    POINT_AIR = 4,
+    POINT_GROUND = 5,
+    SPELL_FLAME_BURST = 69114,
+    SPELL_SHIELD_BREAK = 69115,
+    SPELL_RIDE_VEHICLE = 43671,
+    SPELL_TWILIGHT_BARRIER = 69135,
+    SPELL_SUMMON_KALECGOS = 69178,
+    EVENT_FLAME_BURST = 1,
+    EVENT_TWILIGHT_BARRIER = 2,
+    EVENT_PHASE_1 = 1,
+    EVENT_PHASE_2 = 2,
+    TALK_VEHICLE_ENTER = -36897,
+    TALK_KATRANA_ENTER_COMBAT = -77866,
 };
 
 class npc_azshara_twilight_lord_katrana : public CreatureScript
 {
 public:
-    npc_azshara_twilight_lord_katrana() : CreatureScript("npc_azshara_twilight_lord_katrana") { }
+    npc_azshara_twilight_lord_katrana() : CreatureScript("npc_azshara_twilight_lord_katrana") {}
 
     struct npc_azshara_twilight_lord_katranaAI : public ScriptedAI
     {
-        npc_azshara_twilight_lord_katranaAI(Creature* creature) : ScriptedAI(creature), summons(creature) {}
+        npc_azshara_twilight_lord_katranaAI(Creature *creature) : ScriptedAI(creature), summons(creature) {}
 
         void Reset() override
         {
@@ -79,27 +77,27 @@ public:
             me->SummonCreature(NPC_MALICION, 4766.41f, -7336.79f, 128.913f, 1.35019f, TEMPSUMMON_DEAD_DESPAWN);
         }
 
-        void EnterCombat(Unit* attacker)
+        void EnterCombat(Unit *attacker) override
         {
             events.SetPhase(EVENT_PHASE_1);
-            if (Creature* drake = ObjectAccessor::GetCreature(*me, summons.front()))
+            if (Creature *drake = ObjectAccessor::GetCreature(*me, summons.front()))
                 drake->AI()->DoAction(ACTION_ENTER_COMBAT);
             Talk(TALK_KATRANA_ENTER_COMBAT);
         }
 
-        void JustSummoned(Creature* summon)
+        void JustSummoned(Creature *summon) override
         {
             summons.Summon(summon);
         }
 
-        void JustDied(Unit* killer) override
+        void JustDied(Unit *killer) override
         {
             events.Reset();
-            if (Creature* drake = ObjectAccessor::GetCreature(*me, summons.front()))
+            if (Creature *drake = ObjectAccessor::GetCreature(*me, summons.front()))
                 drake->AI()->DoAction(ACTION_LAND);
         }
 
-        void DamageTaken(Unit* attacker, uint32& damage) override
+        void DamageTaken(Unit *attacker, uint32 &damage) override
         {
             if (events.IsInPhase(EVENT_PHASE_1) && me->HealthBelowPctDamaged(60, damage))
             {
@@ -109,13 +107,13 @@ public:
             }
         }
 
-        void SummonedCreatureDamageTaken(Unit* attacker, Creature* summon, uint32& damage, SpellInfo const* spellInfo)
+        void SummonedCreatureDamageTaken(Unit *attacker, Creature *summon, uint32 &damage, SpellInfo const *spellInfo) override
         {
             if (!me->isInCombat())
                 me->AI()->AttackStart(attacker);
         }
 
-        void SpellHit(Unit* attacker, SpellInfo const* spellInfo) override
+        void SpellHit(Unit *attacker, SpellInfo const *spellInfo) override
         {
             if (spellInfo->Id == SPELL_SHIELD_BREAK)
                 me->RemoveAurasDueToSpell(SPELL_TWILIGHT_BARRIER);
@@ -132,12 +130,12 @@ public:
             {
                 switch (eventId)
                 {
-                    case EVENT_TWILIGHT_BARRIER:
-                        DoCast(me, SPELL_TWILIGHT_BARRIER, true);
-                        events.ScheduleEvent(EVENT_TWILIGHT_BARRIER, urand(28000, 32000));
-                        break;
-                    default:
-                        break;
+                case EVENT_TWILIGHT_BARRIER:
+                    DoCast(me, SPELL_TWILIGHT_BARRIER, true);
+                    events.ScheduleEvent(EVENT_TWILIGHT_BARRIER, urand(28000, 32000));
+                    break;
+                default:
+                    break;
                 }
             }
 
@@ -149,7 +147,7 @@ public:
         SummonList summons;
     };
 
-    CreatureAI* GetAI(Creature* creature) const
+    CreatureAI *GetAI(Creature *creature) const
     {
         return new npc_azshara_twilight_lord_katranaAI(creature);
     }
@@ -158,13 +156,13 @@ public:
 class npc_azshara_malicion : public CreatureScript
 {
 public:
-    npc_azshara_malicion() : CreatureScript("npc_azshara_malicion") { }
+    npc_azshara_malicion() : CreatureScript("npc_azshara_malicion") {}
 
     struct npc_azshara_malicionAI : public ScriptedAI
     {
-        npc_azshara_malicionAI(Creature* creature) : ScriptedAI(creature) {}
+        npc_azshara_malicionAI(Creature *creature) : ScriptedAI(creature) {}
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit *summoner) override
         {
             me->SetReactState(REACT_PASSIVE);
         }
@@ -196,22 +194,22 @@ public:
 
             switch (id)
             {
-                case POINT_AIR:
-                    me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_DISABLE_MOVE);
-                    me->SetOrientation(6.1050f);
-                    events.ScheduleEvent(EVENT_FLAME_BURST, 1000);
-                    break;
-                case POINT_GROUND:
-                    if (Player* player = me->FindNearestPlayer(150.00f))
-                        player->CastSpell(me, SPELL_RIDE_VEHICLE, true);
-                    Talk(TALK_VEHICLE_ENTER);
-                    break;
-                default:
-                    break;
+            case POINT_AIR:
+                me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_DISABLE_MOVE);
+                me->SetOrientation(6.1050f);
+                events.ScheduleEvent(EVENT_FLAME_BURST, 1000);
+                break;
+            case POINT_GROUND:
+                if (Player *player = me->FindNearestPlayer(150.00f))
+                    player->CastSpell(me, SPELL_RIDE_VEHICLE, true);
+                Talk(TALK_VEHICLE_ENTER);
+                break;
+            default:
+                break;
             }
         }
 
-        void JustDied(Unit* killer) override
+        void JustDied(Unit *killer) override
         {
             events.Reset();
         }
@@ -223,13 +221,13 @@ public:
             {
                 switch (eventId)
                 {
-                    case EVENT_FLAME_BURST:
-                        if (Player* player = me->FindNearestPlayer(80.00f))
-                            DoCast(player, SPELL_FLAME_BURST, true);
-                        events.ScheduleEvent(EVENT_FLAME_BURST, 5000);
-                        break;
-                    default:
-                        break;
+                case EVENT_FLAME_BURST:
+                    if (Player *player = me->FindNearestPlayer(80.00f))
+                        DoCast(player, SPELL_FLAME_BURST, true);
+                    events.ScheduleEvent(EVENT_FLAME_BURST, 5000);
+                    break;
+                default:
+                    break;
                 }
             }
         }
@@ -238,12 +236,11 @@ public:
         EventMap events;
     };
 
-    CreatureAI* GetAI(Creature* creature) const
+    CreatureAI *GetAI(Creature *creature) const
     {
         return new npc_azshara_malicionAI(creature);
     }
 };
-
 
 enum total_war
 {
@@ -255,9 +252,9 @@ enum total_war
 class gameobject_thundermar_keg : public GameObjectScript
 {
 public:
-    gameobject_thundermar_keg() : GameObjectScript("gameobject_thundermar_keg") { }
+    gameobject_thundermar_keg() : GameObjectScript("gameobject_thundermar_keg") {}
 
-    bool OnGossipHello(Player* player, GameObject* go)
+    bool OnGossipHello(Player *player, GameObject *go)
     {
         if (!player || !go)
             return false;
@@ -265,10 +262,9 @@ public:
         // quest_total_war
         if (player->hasQuest(QUEST_H) || player->hasQuest(QUEST_A))
         {
-            if (player->GetQuestStatus(QUEST_H) == QuestStatus::QUEST_STATUS_INCOMPLETE
-                || player->GetQuestStatus(QUEST_A) == QuestStatus::QUEST_STATUS_INCOMPLETE)
+            if (player->GetQuestStatus(QUEST_H) == QuestStatus::QUEST_STATUS_INCOMPLETE || player->GetQuestStatus(QUEST_A) == QuestStatus::QUEST_STATUS_INCOMPLETE)
             {
-                const Quest* l_questTemplate = sObjectMgr->GetQuestTemplate(QUEST_H);
+                const Quest *l_questTemplate = sObjectMgr->GetQuestTemplate(QUEST_H);
                 if (l_questTemplate == nullptr)
                     return false;
 
@@ -281,7 +277,7 @@ public:
             }
         }
         else
-            player->CastSpell(player, SPELL_DRUNK, false);  // normal case
+            player->CastSpell(player, SPELL_DRUNK, false); // normal case
 
         return true;
     }

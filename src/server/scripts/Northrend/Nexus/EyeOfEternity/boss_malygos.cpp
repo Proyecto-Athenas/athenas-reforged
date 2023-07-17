@@ -1746,7 +1746,7 @@ class spell_malygos_portal_beam : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_malygos_portal_beam_AuraScript();
         }
@@ -1987,7 +1987,7 @@ class spell_malygos_vortex_visual : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_malygos_vortex_visual_AuraScript();
         }
@@ -2214,7 +2214,7 @@ class spell_malygos_destroy_platform_channel : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_malygos_destroy_platform_channel_AuraScript();
         }
@@ -2523,7 +2523,7 @@ class spell_alexstrasza_gift_beam : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_alexstrasza_gift_beam_AuraScript();
         }
@@ -2579,7 +2579,7 @@ class spell_alexstrasza_gift_beam_visual : public SpellScriptLoader
             GameObject* _alexstraszaGift;
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_alexstrasza_gift_beam_visual_AuraScript();
         }

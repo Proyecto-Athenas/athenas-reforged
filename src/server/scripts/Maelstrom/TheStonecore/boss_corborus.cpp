@@ -261,7 +261,7 @@ public:
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_crystal_barrage_AuraScript();
         }

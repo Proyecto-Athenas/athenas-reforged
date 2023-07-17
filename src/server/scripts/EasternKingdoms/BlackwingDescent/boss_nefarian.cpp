@@ -1227,7 +1227,7 @@ public:
 
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_onyxia_eletric_charge_periodic_dummy_AuraScript();
     }
@@ -1263,7 +1263,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_onyxia_deathwing_children_periodic_dummy_AuraScript();
     }
@@ -1299,7 +1299,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_nefarian_deathwing_children_periodic_dummy_AuraScript();
     }
@@ -1330,7 +1330,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_nefarian_eletric_charge_periodic_dummy_AuraScript();
     }
@@ -1805,7 +1805,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_nefarian_magma_damage_AuraScript();
     }
@@ -2021,7 +2021,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_nefarian_mind_free_AuraScript();
     }
@@ -2118,7 +2118,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_nefarian_explosive_cinder_AuraScript();
     }

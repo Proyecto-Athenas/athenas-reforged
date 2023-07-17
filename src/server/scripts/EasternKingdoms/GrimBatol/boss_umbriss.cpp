@@ -338,7 +338,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_bleeding_wound_AuraScript();
     }

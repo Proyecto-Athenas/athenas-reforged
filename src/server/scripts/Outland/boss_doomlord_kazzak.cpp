@@ -216,7 +216,7 @@ class spell_mark_of_kazzak : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_mark_of_kazzak_AuraScript();
         }

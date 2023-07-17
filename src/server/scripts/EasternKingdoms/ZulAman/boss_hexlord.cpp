@@ -1023,7 +1023,7 @@ class spell_hexlord_unstable_affliction : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_hexlord_unstable_affliction_AuraScript();
         }

@@ -1186,7 +1186,7 @@ class spell_toc5_ride_mount : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_toc5_ride_mount_AuraScript();
         }
@@ -1248,7 +1248,7 @@ class spell_toc5_defend : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_toc5_defendAuraScript();
         }
@@ -1311,7 +1311,7 @@ class spell_toc5_hex_mending : public SpellScriptLoader
             bool oldAIState;
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_toc5_hex_mending_AuraScript();
         }

@@ -307,7 +307,7 @@ public:
 };
 
 #define    GOSSIP_CANON_START "Lancez-moi ! |cFF0008E8(Jeton de Sombrelune)|r"
-#define    GOSSIP_CANON_INFORMATION     "Comment utiliser le canon ?"
+#define    GOSSIP_CANON_INFORMATION     "Comment utiliser le canonï¿½?"
 
 class npc_darkmoon_cannon : public CreatureScript
 {
@@ -400,7 +400,7 @@ public:
 
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_magic_wings_AuraScript();
     }
@@ -653,7 +653,7 @@ public:
 
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_ring_launch_AuraScript();
     }

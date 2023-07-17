@@ -1425,7 +1425,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_woe_nether_portal_AuraScript();
     }

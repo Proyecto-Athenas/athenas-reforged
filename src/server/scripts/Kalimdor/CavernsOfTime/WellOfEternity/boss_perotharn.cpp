@@ -1879,7 +1879,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_woe_summon_circle_spawn_AuraScript();
     }
@@ -2073,7 +2073,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_woe_shadowcloak_periodic_AuraScript();
     }
@@ -2105,7 +2105,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_woe_shadow_walk_AuraScript();
     }
@@ -2133,7 +2133,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_woe_firewall_periodic_AuraScript();
     }
@@ -2163,7 +2163,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_woe_wall_of_shadow_periodic_AuraScript();
     }
@@ -2225,7 +2225,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_woe_fel_crystal_meltdown_AuraScript();
     }
@@ -2352,7 +2352,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_woe_demon_grip_periodic_AuraScript();
     }
