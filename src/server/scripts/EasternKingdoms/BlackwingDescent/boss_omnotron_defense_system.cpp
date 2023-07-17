@@ -1379,7 +1379,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_electron_shield_AuraScript();
     }
@@ -1411,7 +1411,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_magmatron_shield_AuraScript();
     }
@@ -1457,7 +1457,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_electron_poison_bomb_AuraScript();
     }

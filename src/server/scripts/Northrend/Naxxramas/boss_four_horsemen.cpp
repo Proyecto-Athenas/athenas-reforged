@@ -441,7 +441,7 @@ class spell_four_horsemen_mark : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_four_horsemen_mark_AuraScript();
         }

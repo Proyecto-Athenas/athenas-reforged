@@ -1224,7 +1224,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_tfw_correct_channel_eff1_AuraScript();
     }
@@ -1256,7 +1256,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_tfw_correct_channel_eff0_AuraScript();
     }
@@ -1316,7 +1316,7 @@ public:
         float speed;
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_rohash_windblast_AuraScript();
     }
@@ -1370,7 +1370,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_rohash_hurricane_cs_veh_AuraScript();
     }
@@ -1552,7 +1552,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_anshal_wing_dummy_AuraScript();
     }
@@ -1583,7 +1583,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_nezir_wing_dummy_AuraScript();
     }
@@ -1614,7 +1614,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_rohash_wing_dummy_AuraScript();
     }

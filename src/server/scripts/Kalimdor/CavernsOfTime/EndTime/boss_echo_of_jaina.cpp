@@ -245,7 +245,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_jaina_flamecore_periodic_AuraScript();
     }

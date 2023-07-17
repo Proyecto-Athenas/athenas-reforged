@@ -22,27 +22,27 @@
 
 enum Spells
 {
-    SPELL_BERSERK               = 47008,
-    SPELL_CONSUMING_DARKNESS    = 88954,
-    SPELL_METEOR_SLASH          = 88942,
-    SPELL_FEL_FIRESTORM         = 88972,
+    SPELL_BERSERK = 47008,
+    SPELL_CONSUMING_DARKNESS = 88954,
+    SPELL_METEOR_SLASH = 88942,
+    SPELL_FEL_FIRESTORM = 88972,
 };
 
 enum Events
 {
-    EVENT_BERSERK               = 1,
-    EVENT_CONSUMING_DARKNESS    = 2,
-    EVENT_METEOR_SLASH          = 3,
+    EVENT_BERSERK = 1,
+    EVENT_CONSUMING_DARKNESS = 2,
+    EVENT_METEOR_SLASH = 3,
 };
 
-class boss_argaloth: public CreatureScript
+class boss_argaloth : public CreatureScript
 {
 public:
-    boss_argaloth() : CreatureScript("boss_argaloth") { }
+    boss_argaloth() : CreatureScript("boss_argaloth") {}
 
-    struct boss_argalothAI: public BossAI
+    struct boss_argalothAI : public BossAI
     {
-        boss_argalothAI(Creature* creature) : BossAI(creature, DATA_ARGALOTH) { }
+        boss_argalothAI(Creature *creature) : BossAI(creature, DATA_ARGALOTH) {}
 
         uint8 FirestormCount;
 
@@ -52,7 +52,7 @@ public:
             FirestormCount = 0;
         }
 
-        void EnterCombat(Unit* /*who*/)
+        void EnterCombat(Unit * /*who*/)
         {
             _EnterCombat();
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
@@ -61,7 +61,7 @@ public:
             events.ScheduleEvent(EVENT_METEOR_SLASH, urand(15000, 20000));
         }
 
-        void JustDied(Unit* /*who*/)
+        void JustDied(Unit * /*who*/)
         {
             _JustDied();
             instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
@@ -73,7 +73,7 @@ public:
             BossAI::EnterEvadeMode();
         }
 
-        void DamageTaken(Unit* /*damager*/, uint32& /*damage*/)
+        void DamageTaken(Unit * /*damager*/, uint32 & /*damage*/)
         {
             if (me->GetHealthPct() < 66 && FirestormCount == 0)
             {
@@ -104,17 +104,17 @@ public:
             {
                 switch (eventId)
                 {
-                    case EVENT_CONSUMING_DARKNESS:
-                        CastCunsumingDarkness();
-                        events.RescheduleEvent(EVENT_CONSUMING_DARKNESS, urand(20000, 25000));
-                        break;
-                    case EVENT_METEOR_SLASH:
-                        DoCast(SPELL_METEOR_SLASH);
-                        events.RescheduleEvent(EVENT_METEOR_SLASH, urand(15000, 20000));
-                        break;
-                    case EVENT_BERSERK:
-                        DoCast(me, SPELL_BERSERK);
-                        break;
+                case EVENT_CONSUMING_DARKNESS:
+                    CastCunsumingDarkness();
+                    events.RescheduleEvent(EVENT_CONSUMING_DARKNESS, urand(20000, 25000));
+                    break;
+                case EVENT_METEOR_SLASH:
+                    DoCast(SPELL_METEOR_SLASH);
+                    events.RescheduleEvent(EVENT_METEOR_SLASH, urand(15000, 20000));
+                    break;
+                case EVENT_BERSERK:
+                    DoCast(me, SPELL_BERSERK);
+                    break;
                 }
             }
 
@@ -124,15 +124,15 @@ public:
 
         void CastCunsumingDarkness()
         {
-            std::list<Unit*> targets;
+            std::list<Unit *> targets;
             SelectTargetList(targets, Is25ManRaid() ? 8 : 3, SELECT_TARGET_RANDOM, 0.0f, true, -SPELL_CONSUMING_DARKNESS);
             if (targets.size() > 1)
-                for (std::list<Unit*>::iterator itr = targets.begin(); itr != targets.end(); ++itr)
+                for (std::list<Unit *>::iterator itr = targets.begin(); itr != targets.end(); ++itr)
                     DoCast(*itr, SPELL_CONSUMING_DARKNESS);
         }
     };
 
-    CreatureAI* GetAI(Creature* creature) const
+    CreatureAI *GetAI(Creature *creature) const
     {
         return new boss_argalothAI(creature);
     }
@@ -147,7 +147,7 @@ public:
     {
         PrepareAuraScript(spell_argaloth_consuming_darkness_AuraScript);
 
-        void OnUpdate(AuraEffect* aurEff)
+        void OnUpdate(AuraEffect *aurEff)
         {
             if (aurEff->GetTickNumber() > 1)
                 aurEff->SetAmount(1.1f * aurEff->GetAmount());
@@ -159,7 +159,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript *GetAuraScript() const override
     {
         return new spell_argaloth_consuming_darkness_AuraScript();
     }

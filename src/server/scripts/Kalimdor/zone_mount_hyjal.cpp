@@ -51,14 +51,14 @@ enum eQuests
 class npc_archidrud_hamuul : public CreatureScript
 {
 public:
-    npc_archidrud_hamuul() : CreatureScript("npc_archidrud_hamuul") { }
+    npc_archidrud_hamuul() : CreatureScript("npc_archidrud_hamuul") {}
 
-    CreatureAI* GetAI(Creature* creature) const
+    CreatureAI *GetAI(Creature *creature) const
     {
         return new npc_archidrud_hamuulAI(creature);
     }
 
-    bool OnQuestAccept(Player* player, Creature* creature, Quest const*_Quest)
+    bool OnQuestAccept(Player *player, Creature *creature, Quest const *_Quest)
     {
         if (_Quest->GetQuestId() == QUEST_RITUAL_OF_FLAME)
             creature->AI()->DoAction(ACTION_START_RITUAL);
@@ -73,7 +73,7 @@ public:
 
     struct npc_archidrud_hamuulAI : public ScriptedAI
     {
-        npc_archidrud_hamuulAI(Creature* creature) : ScriptedAI(creature), summons(me)
+        npc_archidrud_hamuulAI(Creature *creature) : ScriptedAI(creature), summons(me)
         {
             isEventInProgress = false;
         }
@@ -84,7 +84,6 @@ public:
 
         void SetData(uint32 id, uint32 value)
         {
-
         }
 
         void DoAction(int32 const param)
@@ -94,18 +93,18 @@ public:
 
             switch (param)
             {
-                case ACTION_START_RITUAL:
-                    waveCount = 0;
-                    isEventInProgress = true;
-                    events.Reset();
-                    events.ScheduleEvent(EVENT_START_INFERNAL_WAVES, 0);
-                    events.ScheduleEvent(EVENT_SAFE_RESET, 900000);
-                    break;
-                case ACTION_START_SANCTUARY_EVENT:
-                    isEventInProgress = true;
-                    events.Reset();
-                    events.ScheduleEvent(EVENT_START_SACTUARY_EVENT, 0);
-                    break;
+            case ACTION_START_RITUAL:
+                waveCount = 0;
+                isEventInProgress = true;
+                events.Reset();
+                events.ScheduleEvent(EVENT_START_INFERNAL_WAVES, 0);
+                events.ScheduleEvent(EVENT_SAFE_RESET, 900000);
+                break;
+            case ACTION_START_SANCTUARY_EVENT:
+                isEventInProgress = true;
+                events.Reset();
+                events.ScheduleEvent(EVENT_START_SACTUARY_EVENT, 0);
+                break;
             }
         }
 
@@ -118,16 +117,16 @@ public:
         {
         }
 
-        void SpellHit(Unit* caster, const SpellInfo* spell)
+        void SpellHit(Unit *caster, const SpellInfo *spell)
         {
         }
 
-        void DamageTaken(Unit* /*done_by*/, uint32 &damage)
+        void DamageTaken(Unit * /*done_by*/, uint32 &damage)
         {
             damage = 0;
         }
 
-        void SummonedCreatureDies(Creature* summon, Unit* /*killer*/)
+        void SummonedCreatureDies(Creature *summon, Unit * /*killer*/)
         {
             if (summon->GetEntry() == NPC_LEARA)
             {
@@ -141,37 +140,37 @@ public:
             }
         }
 
-        void JustSummoned(Creature* summon)
+        void JustSummoned(Creature *summon)
         {
             switch (summon->GetEntry())
             {
-                case NPC_RHYOLITH:
+            case NPC_RHYOLITH:
+            {
+                summon->SetSpeed(MOVE_WALK, 1.0f);
+                summon->SetSpeed(MOVE_RUN, 1.0f);
+                summon->GetMotionMaster()->MovePoint(0, 4445.4f, -2089.42f, 1206.0f);
+                summon->AI()->TalkWithDelay(5000, 0);
+                summon->AI()->TalkWithDelay(9000, 1);
+                summon->AI()->TalkWithDelay(12000, 2);
+                for (int i = 0; i < 8; i++)
                 {
-                    summon->SetSpeed(MOVE_WALK, 1.0f);
-                    summon->SetSpeed(MOVE_RUN, 1.0f);
-                    summon->GetMotionMaster()->MovePoint(0, 4445.4f, -2089.42f, 1206.0f);
-                    summon->AI()->TalkWithDelay(5000, 0);
-                    summon->AI()->TalkWithDelay(9000, 1);
-                    summon->AI()->TalkWithDelay(12000, 2);
-                    for (int i = 0; i < 8; i++)
-                    {
-                        Position spawn1;
-                        summon->GetRandomNearPosition(spawn1, 10);
-                        me->SummonCreature(NPC_RAGING_INVADER, spawn1, TEMPSUMMON_TIMED_DESPAWN, 20000);
-                    }
-                    events.ScheduleEvent(EVENT_SUMMON_MALORNE, 15000);
-                    break;
+                    Position spawn1;
+                    summon->GetRandomNearPosition(spawn1, 10);
+                    me->SummonCreature(NPC_RAGING_INVADER, spawn1, TEMPSUMMON_TIMED_DESPAWN, 20000);
                 }
-                case NPC_MALORNE:
-                {
-                    if (Creature *rhy = me->FindNearestCreature(NPC_RHYOLITH, 100.0f))
-                        summon->AI()->AttackStart(rhy);
-                }
+                events.ScheduleEvent(EVENT_SUMMON_MALORNE, 15000);
+                break;
+            }
+            case NPC_MALORNE:
+            {
+                if (Creature *rhy = me->FindNearestCreature(NPC_RHYOLITH, 100.0f))
+                    summon->AI()->AttackStart(rhy);
+            }
             }
             summons.Summon(summon);
         }
 
-        void UpdateAI(const uint32 diff)
+        void UpdateAI(const uint32 diff) override
         {
             events.Update(diff);
 
@@ -179,64 +178,64 @@ public:
             {
                 switch (eventId)
                 {
-                    case EVENT_START_INFERNAL_WAVES:
-                        me->SummonCreature(NPC_CHARRED_INVADER, 4605.53f, -2096.02f, 1238.90f, 0.22f, TEMPSUMMON_TIMED_DESPAWN, 8000);
-                        me->SummonCreature(NPC_CHARRED_INVADER, 4603.53f, -2094.02f, 1238.90f, 0.22f, TEMPSUMMON_TIMED_DESPAWN, 8000);
-                        waveCount++;
-                        if (waveCount < 5)
-                            events.ScheduleEvent(EVENT_START_INFERNAL_WAVES, 8000);
-                        else
-                            events.ScheduleEvent(EVENT_START_LEARA, 8000);
-                        break;
-                    case EVENT_START_LEARA:
-                        waveCount = 0;
-                        me->SummonCreature(NPC_LEARA, 4605.53f, -2096.02f, 1238.90f, 0.22f);
-                        break;
-                    case EVENT_SAFE_RESET:
-                        summons.DespawnAll();
-                        isEventInProgress = false;
-                        break;
-                    case EVENT_START_SACTUARY_EVENT:
-                    {
-                        if (Creature *mato = me->FindNearestCreature(NPC_MATOCLAW, 20.0f))
-                            if (Creature *malfurion = me->FindNearestCreature(NPC_MALFURION, 20.0f))
-                            {
-                                malfurion->SetReactState(REACT_PASSIVE);
-                                mato->AI()->TalkWithDelay(5000, 0);
-                                mato->AI()->TalkWithDelay(10000, 1);
-                                malfurion->AI()->TalkWithDelay(15000, 1);
-                                malfurion->AI()->TalkWithDelay(20000, 2);
-                                TalkWithDelay(25000, 1);
-                                mato->AI()->TalkWithDelay(30000, 2);
-                                TalkWithDelay(35000, 2);
-                                malfurion->AI()->TalkWithDelay(40000, 3);
-                                TalkWithDelay(45000, 3);
-                            }
-                        events.ScheduleEvent(EVENT_STOP_SANCTUARY_EVENT, 55000);
-                        events.ScheduleEvent(EVENT_SUMMON_ADDS, 30000);
-                        break;
-                    }
-                    case EVENT_SUMMON_ADDS:
-                        me->SummonCreature(NPC_RHYOLITH, 4485.75f, -2064.86f, 1206.1f, 3.58f, TEMPSUMMON_TIMED_DESPAWN, 27000);
-                        break;
-                    case EVENT_STOP_SANCTUARY_EVENT:
-                    {
-                        std::list<Player *> _players = me->GetPlayersInRange(20.0f, true);
-                        for (std::list<Player *>::iterator itr = _players.begin(); itr != _players.end(); itr++)
-                            if ((*itr)->hasQuest(QUEST_SANCTUARY_MUST_STAY))
-                                (*itr)->KilledMonsterCredit(52845, 0);
-                        if (Creature *malorne = me->FindNearestCreature(NPC_MALORNE, 100.0f))
-                            malorne->GetMotionMaster()->MovePoint(0, 4417.0f, -2079.69f, 1210.4f);
-                        isEventInProgress = false;
-                        break;
-                    }
-                    case EVENT_SUMMON_MALORNE:
-                    {
-                        Position pos;
-                        me->GetPosition(&pos);
-                        me->SummonCreature(NPC_MALORNE, 4440.23f, -2089.86f, 1205.8f, 0.0f, TEMPSUMMON_TIMED_DESPAWN, 33000);
-                        break;
-                    }
+                case EVENT_START_INFERNAL_WAVES:
+                    me->SummonCreature(NPC_CHARRED_INVADER, 4605.53f, -2096.02f, 1238.90f, 0.22f, TEMPSUMMON_TIMED_DESPAWN, 8000);
+                    me->SummonCreature(NPC_CHARRED_INVADER, 4603.53f, -2094.02f, 1238.90f, 0.22f, TEMPSUMMON_TIMED_DESPAWN, 8000);
+                    waveCount++;
+                    if (waveCount < 5)
+                        events.ScheduleEvent(EVENT_START_INFERNAL_WAVES, 8000);
+                    else
+                        events.ScheduleEvent(EVENT_START_LEARA, 8000);
+                    break;
+                case EVENT_START_LEARA:
+                    waveCount = 0;
+                    me->SummonCreature(NPC_LEARA, 4605.53f, -2096.02f, 1238.90f, 0.22f);
+                    break;
+                case EVENT_SAFE_RESET:
+                    summons.DespawnAll();
+                    isEventInProgress = false;
+                    break;
+                case EVENT_START_SACTUARY_EVENT:
+                {
+                    if (Creature *mato = me->FindNearestCreature(NPC_MATOCLAW, 20.0f))
+                        if (Creature *malfurion = me->FindNearestCreature(NPC_MALFURION, 20.0f))
+                        {
+                            malfurion->SetReactState(REACT_PASSIVE);
+                            mato->AI()->TalkWithDelay(5000, 0);
+                            mato->AI()->TalkWithDelay(10000, 1);
+                            malfurion->AI()->TalkWithDelay(15000, 1);
+                            malfurion->AI()->TalkWithDelay(20000, 2);
+                            TalkWithDelay(25000, 1);
+                            mato->AI()->TalkWithDelay(30000, 2);
+                            TalkWithDelay(35000, 2);
+                            malfurion->AI()->TalkWithDelay(40000, 3);
+                            TalkWithDelay(45000, 3);
+                        }
+                    events.ScheduleEvent(EVENT_STOP_SANCTUARY_EVENT, 55000);
+                    events.ScheduleEvent(EVENT_SUMMON_ADDS, 30000);
+                    break;
+                }
+                case EVENT_SUMMON_ADDS:
+                    me->SummonCreature(NPC_RHYOLITH, 4485.75f, -2064.86f, 1206.1f, 3.58f, TEMPSUMMON_TIMED_DESPAWN, 27000);
+                    break;
+                case EVENT_STOP_SANCTUARY_EVENT:
+                {
+                    std::list<Player *> _players = me->GetPlayersInRange(20.0f, true);
+                    for (std::list<Player *>::iterator itr = _players.begin(); itr != _players.end(); itr++)
+                        if ((*itr)->hasQuest(QUEST_SANCTUARY_MUST_STAY))
+                            (*itr)->KilledMonsterCredit(52845, 0);
+                    if (Creature *malorne = me->FindNearestCreature(NPC_MALORNE, 100.0f))
+                        malorne->GetMotionMaster()->MovePoint(0, 4417.0f, -2079.69f, 1210.4f);
+                    isEventInProgress = false;
+                    break;
+                }
+                case EVENT_SUMMON_MALORNE:
+                {
+                    Position pos;
+                    me->GetPosition(&pos);
+                    me->SummonCreature(NPC_MALORNE, 4440.23f, -2089.86f, 1205.8f, 0.0f, TEMPSUMMON_TIMED_DESPAWN, 33000);
+                    break;
+                }
                 }
             }
 
@@ -256,16 +255,16 @@ public:
 class npcs_taken_by_surprise : public CreatureScript
 {
 public:
-    npcs_taken_by_surprise() : CreatureScript("npcs_taken_by_surprise") { }
+    npcs_taken_by_surprise() : CreatureScript("npcs_taken_by_surprise") {}
 
-    CreatureAI* GetAI(Creature* creature) const
+    CreatureAI *GetAI(Creature *creature) const
     {
         return new npcs_taken_by_surpriseAI(creature);
     }
 
     struct npcs_taken_by_surpriseAI : public ScriptedAI
     {
-        npcs_taken_by_surpriseAI(Creature* creature) : ScriptedAI(creature), summons(me)
+        npcs_taken_by_surpriseAI(Creature *creature) : ScriptedAI(creature), summons(me)
         {
             canHello = true;
         }
@@ -277,12 +276,12 @@ public:
                 events.ScheduleEvent(EVENT_START_INFERNAL_WAVES, 0);
         }
 
-        void DamageTaken(Unit* /*done_by*/, uint32 &damage)
+        void DamageTaken(Unit * /*done_by*/, uint32 &damage)
         {
             damage = 0;
         }
 
-        void SummonedCreatureDies(Creature* summon, Unit* killer)
+        void SummonedCreatureDies(Creature *summon, Unit *killer)
         {
             if (me->GetPhaseMask() != 512)
                 return;
@@ -306,13 +305,13 @@ public:
                 }
         }
 
-        void JustSummoned(Creature* summon)
+        void JustSummoned(Creature *summon)
         {
             AttackStart(summon);
             summons.Summon(summon);
         }
 
-        void MoveInLineOfSight(Unit* unit)
+        void MoveInLineOfSight(Unit *unit)
         {
             if (me->GetPhaseMask() != 512)
                 return;
@@ -341,7 +340,7 @@ public:
             }
         }
 
-        void UpdateAI(const uint32 diff)
+        void UpdateAI(const uint32 diff) override
         {
             events.Update(diff);
 
@@ -349,16 +348,16 @@ public:
             {
                 switch (eventId)
                 {
-                    case EVENT_START_INFERNAL_WAVES:
-                    {
-                        Position spawn1, spawn2;
-                        me->GetRandomNearPosition(spawn1, 10);
-                        me->GetRandomNearPosition(spawn2, 15);
-                        me->SummonCreature(NPC_CHAINED_INVADER, spawn1, TEMPSUMMON_TIMED_DESPAWN, 20000);
-                        me->SummonCreature(NPC_CHAINED_INVADER, spawn2, TEMPSUMMON_TIMED_DESPAWN, 20000);
-                        events.ScheduleEvent(EVENT_START_INFERNAL_WAVES, 20000);
-                        break;
-                    }
+                case EVENT_START_INFERNAL_WAVES:
+                {
+                    Position spawn1, spawn2;
+                    me->GetRandomNearPosition(spawn1, 10);
+                    me->GetRandomNearPosition(spawn2, 15);
+                    me->SummonCreature(NPC_CHAINED_INVADER, spawn1, TEMPSUMMON_TIMED_DESPAWN, 20000);
+                    me->SummonCreature(NPC_CHAINED_INVADER, spawn2, TEMPSUMMON_TIMED_DESPAWN, 20000);
+                    events.ScheduleEvent(EVENT_START_INFERNAL_WAVES, 20000);
+                    break;
+                }
                 }
             }
 
@@ -377,13 +376,13 @@ public:
 class spell_tortolla_save_turtle : public SpellScriptLoader
 {
 public:
-    spell_tortolla_save_turtle() : SpellScriptLoader("spell_tortolla_save_turtle") { }
+    spell_tortolla_save_turtle() : SpellScriptLoader("spell_tortolla_save_turtle") {}
 
     class spell_tortolla_save_turtle_SpellScript : public SpellScript
     {
         PrepareSpellScript(spell_tortolla_save_turtle_SpellScript);
 
-        bool Validate(SpellInfo const* /*spellEntry*/)
+        bool Validate(SpellInfo const * /*spellEntry*/)
         {
             return true;
         }
@@ -407,7 +406,7 @@ public:
         }
     };
 
-    SpellScript* GetSpellScript() const
+    SpellScript *GetSpellScript() const
     {
         return new spell_tortolla_save_turtle_SpellScript();
     }
@@ -429,16 +428,16 @@ enum leyaraEventSpells
 class npc_hyjal_leyara : public CreatureScript
 {
 public:
-    npc_hyjal_leyara() : CreatureScript("npc_hyjal_leyara") { }
+    npc_hyjal_leyara() : CreatureScript("npc_hyjal_leyara") {}
 
-    CreatureAI* GetAI(Creature* creature) const
+    CreatureAI *GetAI(Creature *creature) const
     {
         return new npc_hyjal_leyaraAI(creature);
     }
 
     struct npc_hyjal_leyaraAI : public ScriptedAI
     {
-        npc_hyjal_leyaraAI(Creature* creature) : ScriptedAI(creature), summons(me)
+        npc_hyjal_leyaraAI(Creature *creature) : ScriptedAI(creature), summons(me)
         {
             isEventInProgress = false;
             eventStep = 0;
@@ -452,12 +451,12 @@ public:
             me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
         }
 
-        void DamageTaken(Unit* /*done_by*/, uint32 &damage)
+        void DamageTaken(Unit * /*done_by*/, uint32 &damage)
         {
             damage = 0;
         }
 
-        void MoveInLineOfSight(Unit* unit)
+        void MoveInLineOfSight(Unit *unit)
         {
             if (isEventInProgress || unit->GetTypeId() != TYPEID_PLAYER)
                 return;
@@ -477,19 +476,19 @@ public:
             }
         }
 
-        void JustSummoned(Creature* summon)
+        void JustSummoned(Creature *summon)
         {
             switch (summon->GetEntry())
             {
-                case NPC_HAMUUL_LEYARA_EVENT:
-                    summon->SetReactState(REACT_PASSIVE);
-                    summon->NearTeleportTo(5228.96f, -1226.64f, 1375.70f, 1.11f);
-                    _billiGUID = summon->GetGUID();
-                    break;
+            case NPC_HAMUUL_LEYARA_EVENT:
+                summon->SetReactState(REACT_PASSIVE);
+                summon->NearTeleportTo(5228.96f, -1226.64f, 1375.70f, 1.11f);
+                _billiGUID = summon->GetGUID();
+                break;
             }
         }
 
-        void UpdateAI(const uint32 diff)
+        void UpdateAI(const uint32 diff) override
         {
             events.Update(diff);
 
@@ -497,80 +496,80 @@ public:
             {
                 switch (eventId)
                 {
-                    case EVENT_START_LEARA:
+                case EVENT_START_LEARA:
+                {
+                    uint32 nextEventTimer = 8000;
+                    switch (eventStep)
                     {
-                        uint32 nextEventTimer = 8000;
-                        switch (eventStep)
-                        {
-                            case 0:
-                                if (Creature *billi = me->FindNearestCreature(NPC_HAMUUL_LEYARA_EVENT, 50.0f))
-                                    JustSummoned(billi);
-                                Talk(0);
-                                break;
-                            case 1:
-                                if (Creature *billi = Unit::GetCreature(*me, _billiGUID))
-                                    billi->AI()->Talk(0);
-                                break;
-                            case 2:
-                                if (Creature *billi = Unit::GetCreature(*me, _billiGUID))
-                                {
-                                    billi->AI()->Talk(1);
-                                    billi->CastSpell(me, SPELL_HAMUUL_WRATH, false);
-                                }
-                                break;
-                            case 3:
-                                Talk(1);
-                                nextEventTimer = 2000;
-                                break;
-                            case 4:
-                                if (Creature *billi = Unit::GetCreature(*me, _billiGUID))
-                                {
-                                    me->CastSpell(billi, SPELL_SMOLDERING_ROOTS2, false);
-                                    billi->AI()->Talk(2);
-                                }
-                                break;
-                            case 5:
-                                if (Creature *billi = Unit::GetCreature(*me, _billiGUID))
-                                {
-                                    me->CastSpell(billi, SPELL_BURN, false);
-                                    billi->CastSpell(billi, 29266, true);
-                                }
-                                Talk(2);
-                                nextEventTimer = 3000;
-                                break;
-                            case 6:
-                                if (Creature *billi = Unit::GetCreature(*me, _billiGUID))
-                                    me->CastSpell(billi, SPELL_BURN, false);
-                                Talk(3);
-                                break;
-                            case 7:
-                                Talk(4);
-                                nextEventTimer = 23000;
-                                break;
-                            case 8:
-                                if (Player *player = Unit::GetPlayer(*me, _playerGUID))
-                                    player->KilledMonsterCredit(me->GetEntry(), 0);
-                                me->CastSpell(me, SPELL_SHIFT_FLY_FORM, false);
-                                Talk(5);
-                                break;
-                            case 9:
-                                me->SetVisible(false);
-                                break;
-                            case 10:
-                                break;
-                            case 11:
-                                break;
-                            default:
-                                eventStep = 0;
-                                isEventInProgress = false;
-                                me->RemoveAura(SPELL_SHIFT_FLY_FORM);
-                                me->SetVisible(true);
-                                return;
-                        }
-                        eventStep++;
-                        events.ScheduleEvent(EVENT_START_LEARA, 8000);
+                    case 0:
+                        if (Creature *billi = me->FindNearestCreature(NPC_HAMUUL_LEYARA_EVENT, 50.0f))
+                            JustSummoned(billi);
+                        Talk(0);
                         break;
+                    case 1:
+                        if (Creature *billi = Unit::GetCreature(*me, _billiGUID))
+                            billi->AI()->Talk(0);
+                        break;
+                    case 2:
+                        if (Creature *billi = Unit::GetCreature(*me, _billiGUID))
+                        {
+                            billi->AI()->Talk(1);
+                            billi->CastSpell(me, SPELL_HAMUUL_WRATH, false);
+                        }
+                        break;
+                    case 3:
+                        Talk(1);
+                        nextEventTimer = 2000;
+                        break;
+                    case 4:
+                        if (Creature *billi = Unit::GetCreature(*me, _billiGUID))
+                        {
+                            me->CastSpell(billi, SPELL_SMOLDERING_ROOTS2, false);
+                            billi->AI()->Talk(2);
+                        }
+                        break;
+                    case 5:
+                        if (Creature *billi = Unit::GetCreature(*me, _billiGUID))
+                        {
+                            me->CastSpell(billi, SPELL_BURN, false);
+                            billi->CastSpell(billi, 29266, true);
+                        }
+                        Talk(2);
+                        nextEventTimer = 3000;
+                        break;
+                    case 6:
+                        if (Creature *billi = Unit::GetCreature(*me, _billiGUID))
+                            me->CastSpell(billi, SPELL_BURN, false);
+                        Talk(3);
+                        break;
+                    case 7:
+                        Talk(4);
+                        nextEventTimer = 23000;
+                        break;
+                    case 8:
+                        if (Player *player = Unit::GetPlayer(*me, _playerGUID))
+                            player->KilledMonsterCredit(me->GetEntry(), 0);
+                        me->CastSpell(me, SPELL_SHIFT_FLY_FORM, false);
+                        Talk(5);
+                        break;
+                    case 9:
+                        me->SetVisible(false);
+                        break;
+                    case 10:
+                        break;
+                    case 11:
+                        break;
+                    default:
+                        eventStep = 0;
+                        isEventInProgress = false;
+                        me->RemoveAura(SPELL_SHIFT_FLY_FORM);
+                        me->SetVisible(true);
+                        return;
                     }
+                    eventStep++;
+                    events.ScheduleEvent(EVENT_START_LEARA, 8000);
+                    break;
+                }
                 }
             }
 
@@ -588,24 +587,24 @@ public:
 
 enum BounceEvent
 {
-    EVENT_BOUNCE_PLAYERS                = 1,
-    SPELL_TRAMPOLINE_BOUNCE             = 79024,
-    SPELL_TRAMPOLINE_BOUNCE_2           = 79040,
-    SPELL_TRAMPOLINE_BOUNCE_3           = 79043,
-    SPELL_TRAMPOLINE_BOUNCE_4           = 79044,
-    SPELL_TRAMPOLINE_BOUNCE_5           = 79046,
-    SPELL_BOUNCE_ACHIEVEMENT_TRIGGER    = 95531,
-    SPELL_BOUNCE_ACHIEVEMENT_AURA       = 95529,
+    EVENT_BOUNCE_PLAYERS = 1,
+    SPELL_TRAMPOLINE_BOUNCE = 79024,
+    SPELL_TRAMPOLINE_BOUNCE_2 = 79040,
+    SPELL_TRAMPOLINE_BOUNCE_3 = 79043,
+    SPELL_TRAMPOLINE_BOUNCE_4 = 79044,
+    SPELL_TRAMPOLINE_BOUNCE_5 = 79046,
+    SPELL_BOUNCE_ACHIEVEMENT_TRIGGER = 95531,
+    SPELL_BOUNCE_ACHIEVEMENT_AURA = 95529,
 };
 
 class npc_bounce_controller : public CreatureScript
 {
 public:
-    npc_bounce_controller() : CreatureScript("npc_bounce_controller") { }
+    npc_bounce_controller() : CreatureScript("npc_bounce_controller") {}
 
     struct npc_bounce_controllerAI : public ScriptedAI
     {
-        npc_bounce_controllerAI(Creature* creature) : ScriptedAI(creature) {}
+        npc_bounce_controllerAI(Creature *creature) : ScriptedAI(creature) {}
 
         void InitializeAI() override
         {
@@ -613,7 +612,7 @@ public:
             ScriptedAI::InitializeAI();
         }
 
-        void UpdateAI(const uint32 diff)
+        void UpdateAI(const uint32 diff) override
         {
             events.Update(diff);
 
@@ -621,18 +620,18 @@ public:
             {
                 switch (eventId)
                 {
-                    case EVENT_BOUNCE_PLAYERS:
-                        std::list<Player *> players = me->GetPlayersInRange(3.0f, true);
-                        for (Player* player : players)
+                case EVENT_BOUNCE_PLAYERS:
+                    std::list<Player *> players = me->GetPlayersInRange(3.0f, true);
+                    for (Player *player : players)
+                    {
+                        if (!player->IsFalling())
                         {
-                            if (!player->IsFalling())
-                            {
-                                DoCast(player, SPELL_BOUNCE_ACHIEVEMENT_TRIGGER, true);
-                                DoCast(player, RAND(SPELL_TRAMPOLINE_BOUNCE, SPELL_TRAMPOLINE_BOUNCE_2, SPELL_TRAMPOLINE_BOUNCE_3, SPELL_TRAMPOLINE_BOUNCE_4, SPELL_TRAMPOLINE_BOUNCE_5), true);
-                            }
+                            DoCast(player, SPELL_BOUNCE_ACHIEVEMENT_TRIGGER, true);
+                            DoCast(player, RAND(SPELL_TRAMPOLINE_BOUNCE, SPELL_TRAMPOLINE_BOUNCE_2, SPELL_TRAMPOLINE_BOUNCE_3, SPELL_TRAMPOLINE_BOUNCE_4, SPELL_TRAMPOLINE_BOUNCE_5), true);
                         }
-                        events.ScheduleEvent(EVENT_BOUNCE_PLAYERS, 1500);
-                        break;
+                    }
+                    events.ScheduleEvent(EVENT_BOUNCE_PLAYERS, 1500);
+                    break;
                 }
             }
         }
@@ -640,7 +639,7 @@ public:
     private:
         EventMap events;
     };
-    CreatureAI* GetAI(Creature* creature) const
+    CreatureAI *GetAI(Creature *creature) const
     {
         return new npc_bounce_controllerAI(creature);
     }
@@ -649,13 +648,13 @@ public:
 class spell_bounce_achievement_aura : public SpellScriptLoader
 {
 public:
-    spell_bounce_achievement_aura() : SpellScriptLoader("spell_bounce_achievement_aura") { }
+    spell_bounce_achievement_aura() : SpellScriptLoader("spell_bounce_achievement_aura") {}
 
     class spell_bounce_achievement_aura_AuraScript : public AuraScript
     {
         PrepareAuraScript(spell_bounce_achievement_aura_AuraScript);
 
-        void Remove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
+        void Remove(AuraEffect const * /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (GetTarget()->GetTypeId() != TYPEID_PLAYER)
                 return;
@@ -668,7 +667,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript *GetAuraScript() const override
     {
         return new spell_bounce_achievement_aura_AuraScript();
     }

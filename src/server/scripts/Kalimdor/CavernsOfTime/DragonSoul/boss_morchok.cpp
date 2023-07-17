@@ -799,7 +799,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_ds_resonating_crystal_periodic_AuraScript();
     }
@@ -985,7 +985,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_ds_falling_fragments_periodic_AuraScript();
     }
@@ -1101,7 +1101,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_ds_black_blood_of_the_earth_periodic_AuraScript();
     }

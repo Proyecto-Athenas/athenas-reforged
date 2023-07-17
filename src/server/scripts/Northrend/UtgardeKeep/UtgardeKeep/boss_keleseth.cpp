@@ -361,7 +361,7 @@ class spell_frost_tomb : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_frost_tomb_AuraScript();
         }

@@ -193,7 +193,7 @@ class spell_loatheb_necrotic_aura_warning : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_loatheb_necrotic_aura_warning_AuraScript();
         }

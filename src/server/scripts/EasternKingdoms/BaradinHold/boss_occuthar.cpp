@@ -248,7 +248,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_eyes_of_occuthar_summon_AuraScript();
     }

@@ -1652,7 +1652,7 @@ class spell_deathbringer_blood_link_aura : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_deathbringer_blood_link_AuraScript();
         }
@@ -1708,7 +1708,7 @@ class spell_deathbringer_blood_power : public SpellScriptLoader
             return new spell_deathbringer_blood_power_SpellScript();
         }
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_deathbringer_blood_power_AuraScript();
         }

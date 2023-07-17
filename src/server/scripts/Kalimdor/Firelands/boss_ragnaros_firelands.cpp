@@ -3112,7 +3112,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_fl_dreadflame_periodic_AuraScript();
     }
@@ -3244,7 +3244,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_fl_breadth_of_frost_stun_AuraScript();
     }
@@ -3274,7 +3274,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_fl_meteor_freeze_AuraScript();
     }

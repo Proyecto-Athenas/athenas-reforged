@@ -226,7 +226,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_rupture_periodic_AuraScript();
     }

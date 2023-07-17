@@ -921,7 +921,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_boss_lady_malande_shield_AuraScript();
     }

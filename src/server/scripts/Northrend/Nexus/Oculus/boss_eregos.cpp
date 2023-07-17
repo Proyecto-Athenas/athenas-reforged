@@ -270,7 +270,7 @@ class spell_eregos_planar_shift : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_eregos_planar_shift_AuraScript();
         }

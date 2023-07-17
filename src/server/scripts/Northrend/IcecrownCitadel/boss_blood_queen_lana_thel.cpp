@@ -388,7 +388,7 @@ class boss_blood_queen_lana_thel : public CreatureScript
                                     if (newOfftank)
                                     {
                                         // both spells have SPELL_ATTR5_SINGLE_TARGET_SPELL, no manual removal needed
-                                        // doch tank (me->getVictim()) kann gewechselt haben, alter link muss gelöscht werden
+                                        // doch tank (me->getVictim()) kann gewechselt haben, alter link muss gelï¿½scht werden
                                         instance->DoRemoveAurasDueToSpellOnPlayers(SPELL_BLOOD_MIRROR_DAMAGE);
                                         instance->DoRemoveAurasDueToSpellOnPlayers(SPELL_BLOOD_MIRROR_VISUAL);
                                         instance->DoRemoveAurasDueToSpellOnPlayers(SPELL_BLOOD_MIRROR_DUMMY);
@@ -651,7 +651,7 @@ class spell_blood_queen_frenzied_bloodthirst : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_blood_queen_frenzied_bloodthirst_AuraScript();
         }
@@ -751,7 +751,7 @@ class spell_blood_queen_essence_of_the_blood_queen : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_blood_queen_essence_of_the_blood_queen_AuraScript();
         }
@@ -837,7 +837,7 @@ class spell_blood_queen_pact_of_the_darkfallen_dmg : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_blood_queen_pact_of_the_darkfallen_dmg_AuraScript();
         }

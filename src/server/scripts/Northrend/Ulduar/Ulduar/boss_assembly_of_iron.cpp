@@ -647,7 +647,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_steelbreaker_electrical_charge_AuraScript();
     }
@@ -1323,7 +1323,7 @@ class spell_shield_of_runes : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_shield_of_runes_AuraScript();
         }

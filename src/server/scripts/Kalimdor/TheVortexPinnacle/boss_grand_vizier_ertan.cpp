@@ -595,7 +595,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_ertan_storms_edge_knockback_AuraScript();
     }
@@ -671,7 +671,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_lurk_search_AuraScript();
     }

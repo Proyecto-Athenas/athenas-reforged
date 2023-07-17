@@ -2,7 +2,6 @@
  * trinity core og
  */
 
-
 #include "ObjectMgr.h"
 #include "ScriptMgr.h"
 #include "ScriptedCreature.h"
@@ -18,35 +17,35 @@
 enum Texts
 {
     TALK_ENTER_COMBAT = 0,
-    TALK_INTRO        = 1, // What dark horrors have you wrought in this place? By my ancestors
-    TALK_PLAYER_DIE   = 2,
+    TALK_INTRO = 1, // What dark horrors have you wrought in this place? By my ancestors
+    TALK_PLAYER_DIE = 2,
     TALK_LAUNCH_TOTEM = 4,
-    TALK_PULVERIZE    = 5,
-    TALK_UNK2         = 6, // My wrath knows no bounds
-    TALK_UNK3         = 7, // You wish to train? YOU!?
-    TALK_DEATH        = 8,
+    TALK_PULVERIZE = 5,
+    TALK_UNK2 = 6, // My wrath knows no bounds
+    TALK_UNK3 = 7, // You wish to train? YOU!?
+    TALK_DEATH = 8,
 };
 
 enum Spells
 {
-    SPELL_LAUNCH_TOTEM_DUMMY         = 101613,
-    SPELL_LAUNCH_TOTEM               = 101615,
-    SPELL_SUMMON_LAUNCHED_TOTEM      = 101614,
-    SPELL_MOLTEN_AXE_PERIODIC_DUMMY  = 101834,
-    SPELL_MOLTEN_AXE                 = 101836,
-    SPELL_MOLTEN_BLAST               = 101840,
-    SPELL_MOLTEN_FISTS_PERIODIC      = 101865,
-    SPELL_MOLTEN_FISTS_PROC_AURA     = 101866,
-    SPELL_PULVERIZE_DUMMY            = 101625,
-    SPELL_PULVERIZE                  = 101626,
-    SPELL_PULVERIZE_1                = 101627,
+    SPELL_LAUNCH_TOTEM_DUMMY = 101613,
+    SPELL_LAUNCH_TOTEM = 101615,
+    SPELL_SUMMON_LAUNCHED_TOTEM = 101614,
+    SPELL_MOLTEN_AXE_PERIODIC_DUMMY = 101834,
+    SPELL_MOLTEN_AXE = 101836,
+    SPELL_MOLTEN_BLAST = 101840,
+    SPELL_MOLTEN_FISTS_PERIODIC = 101865,
+    SPELL_MOLTEN_FISTS_PROC_AURA = 101866,
+    SPELL_PULVERIZE_DUMMY = 101625,
+    SPELL_PULVERIZE = 101626,
+    SPELL_PULVERIZE_1 = 101627,
     SPELL_PULVERIZE_DESTROY_PLATFORM = 101815,
-    AURA_IN_LAVA                     = 101619,
+    AURA_IN_LAVA = 101619,
     // NPC_BAINE_TOTEM
-    SPELL_BAINE_TOTAM_AURA           = 101594,
+    SPELL_BAINE_TOTAM_AURA = 101594,
     // players ?
-    SPELL_TOTEM_BACK_PERIODIC        = 107837,
-    SPELL_TOTEM_BACK                 = 101601,
+    SPELL_TOTEM_BACK_PERIODIC = 107837,
+    SPELL_TOTEM_BACK = 101601,
 };
 
 enum Events
@@ -58,9 +57,9 @@ enum Events
 
 enum Npcs
 {
-    NPC_BAINE_TOTEM   = 54434,
+    NPC_BAINE_TOTEM = 54434,
     NPC_BAINE_TOTEM_2 = 54433, // wtf is this for ? cast veh hardcoded on NPC_BAINE_TOTEM
-    NPC_ROCK_ISLAND   = 54496,
+    NPC_ROCK_ISLAND = 54496,
 };
 
 enum Gobs
@@ -74,17 +73,17 @@ enum Gobs
 class boss_echo_of_baine : public CreatureScript
 {
 public:
-    boss_echo_of_baine() : CreatureScript("boss_echo_of_baine") { }
+    boss_echo_of_baine() : CreatureScript("boss_echo_of_baine") {}
     struct boss_echo_of_baineAI : public BossAI
     {
-        boss_echo_of_baineAI(Creature* creature) : BossAI(creature, BOSS_ECHO_OF_BAINE)
+        boss_echo_of_baineAI(Creature *creature) : BossAI(creature, BOSS_ECHO_OF_BAINE)
         {
             introDone = false;
             creature->ApplySpellImmune(0, IMMUNITY_EFFECT, SPELL_EFFECT_KNOCK_BACK, true);
             creature->ApplySpellImmune(0, IMMUNITY_MECHANIC, MECHANIC_GRIP, true);
         }
 
-        void Reset()
+        void Reset() override
         {
             me->RemoveAurasDueToSpell(SPELL_MOLTEN_AXE_PERIODIC_DUMMY);
             _Reset();
@@ -96,7 +95,7 @@ public:
             BossAI::EnterEvadeMode();
         }
 
-        void MoveInLineOfSight(Unit* who)
+        void MoveInLineOfSight(Unit *who) override
         {
             if (introDone)
                 return;
@@ -110,13 +109,13 @@ public:
 
         void RebuiltPlatforms()
         {
-            if (GameObject* platform =  me->FindNearestGameObject(PLATFORM_1, 100.0f))
+            if (GameObject *platform = me->FindNearestGameObject(PLATFORM_1, 100.0f))
                 platform->SetDestructibleState(GO_DESTRUCTIBLE_REBUILDING);
-            if (GameObject* platform =  me->FindNearestGameObject(PLATFORM_2, 100.0f))
+            if (GameObject *platform = me->FindNearestGameObject(PLATFORM_2, 100.0f))
                 platform->SetDestructibleState(GO_DESTRUCTIBLE_REBUILDING);
-            if (GameObject* platform =  me->FindNearestGameObject(PLATFORM_3, 100.0f))
+            if (GameObject *platform = me->FindNearestGameObject(PLATFORM_3, 100.0f))
                 platform->SetDestructibleState(GO_DESTRUCTIBLE_REBUILDING);
-            if (GameObject* platform =  me->FindNearestGameObject(PLATFORM_4, 100.0f))
+            if (GameObject *platform = me->FindNearestGameObject(PLATFORM_4, 100.0f))
                 platform->SetDestructibleState(GO_DESTRUCTIBLE_REBUILDING);
             std::list<Creature *> trigList;
             me->GetCreatureListWithEntryInGrid(trigList, NPC_ROCK_ISLAND, 100.0f);
@@ -124,7 +123,7 @@ public:
                 (*itr)->Respawn();
         }
 
-        void JustDied(Unit* killer)
+        void JustDied(Unit *killer) override
         {
             Talk(TALK_DEATH);
             instance->DoRemoveAurasDueToSpellOnPlayers(SPELL_MOLTEN_FISTS_PERIODIC);
@@ -132,29 +131,29 @@ public:
             _JustDied();
         }
 
-        void EnterCombat(Unit* who)
+        void EnterCombat(Unit *who) override
         {
             Talk(TALK_ENTER_COMBAT);
             events.ScheduleEvent(EVENT_LAUNCH_TOTEM, 10000);
             events.ScheduleEvent(EVENT_PULVERIZE, 30000);
             events.ScheduleEvent(EVENT_MOLTEN_AXE, 3000);
-            Map::PlayerList const& PlayerList = me->GetMap()->GetPlayers();
+            Map::PlayerList const &PlayerList = me->GetMap()->GetPlayers();
             for (Map::PlayerList::const_iterator itr = PlayerList.begin(); itr != PlayerList.end(); ++itr)
-                if (Player* player = itr->getSource())
+                if (Player *player = itr->getSource())
                     if (player->GetAreaId() == 5792)
                         player->AddAura(SPELL_MOLTEN_FISTS_PERIODIC, player);
 
             _EnterCombat();
         }
 
-        void JustSummoned(Creature *summon)
+        void JustSummoned(Creature *summon) override
         {
             switch (summon->GetEntry())
             {
-                case NPC_BAINE_TOTEM:
-                    summon->SetReactState(REACT_PASSIVE);
-                    summon->CastSpell(summon, SPELL_BAINE_TOTAM_AURA, true);
-                    break;
+            case NPC_BAINE_TOTEM:
+                summon->SetReactState(REACT_PASSIVE);
+                summon->CastSpell(summon, SPELL_BAINE_TOTAM_AURA, true);
+                break;
             }
         }
 
@@ -164,7 +163,7 @@ public:
                 me->CastSpell(me, SPELL_PULVERIZE_1, true);
         }
 
-        void UpdateAI(const uint32 diff)
+        void UpdateAI(const uint32 diff) override
         {
             if (!UpdateVictim())
                 return;
@@ -178,21 +177,21 @@ public:
             {
                 switch (eventId)
                 {
-                    case EVENT_LAUNCH_TOTEM:
-                        Talk(TALK_LAUNCH_TOTEM);
-                        DoCast(SPELL_LAUNCH_TOTEM_DUMMY);
-                        events.ScheduleEvent(EVENT_LAUNCH_TOTEM, 30000);
-                        break;
-                    case EVENT_PULVERIZE:
-                        Talk(TALK_PULVERIZE);
-                        DoCast(SPELL_PULVERIZE_DUMMY);
-                        events.ScheduleEvent(EVENT_PULVERIZE, 45000);
-                        break;
-                    case EVENT_MOLTEN_AXE:
-                        me->CastSpell(me, SPELL_MOLTEN_AXE_PERIODIC_DUMMY, true);
-                        break;
-                    default:
-                        break;
+                case EVENT_LAUNCH_TOTEM:
+                    Talk(TALK_LAUNCH_TOTEM);
+                    DoCast(SPELL_LAUNCH_TOTEM_DUMMY);
+                    events.ScheduleEvent(EVENT_LAUNCH_TOTEM, 30000);
+                    break;
+                case EVENT_PULVERIZE:
+                    Talk(TALK_PULVERIZE);
+                    DoCast(SPELL_PULVERIZE_DUMMY);
+                    events.ScheduleEvent(EVENT_PULVERIZE, 45000);
+                    break;
+                case EVENT_MOLTEN_AXE:
+                    me->CastSpell(me, SPELL_MOLTEN_AXE_PERIODIC_DUMMY, true);
+                    break;
+                default:
+                    break;
                 }
             }
 
@@ -203,7 +202,7 @@ public:
         bool introDone;
     };
 
-    CreatureAI* GetAI(Creature* creature) const
+    CreatureAI *GetAI(Creature *creature) const override
     {
         return new boss_echo_of_baineAI(creature);
     }
@@ -212,23 +211,23 @@ public:
 class npc_baine_totem : public CreatureScript
 {
 public:
-    npc_baine_totem() : CreatureScript("npc_baine_totem") { }
+    npc_baine_totem() : CreatureScript("npc_baine_totem") {}
 
     struct npc_baine_totemAI : public ScriptedAI
     {
-        npc_baine_totemAI(Creature* creature) : ScriptedAI(creature) { }
+        npc_baine_totemAI(Creature *creature) : ScriptedAI(creature) {}
 
         void Reset() override
         {
         }
 
-        void OnSpellClick(Unit* player, bool& result) override
+        void OnSpellClick(Unit *player, bool &result) override
         {
             me->DespawnOrUnsummon();
         }
     };
 
-    CreatureAI* GetAI(Creature* creature) const
+    CreatureAI *GetAI(Creature *creature) const override
     {
         return new npc_baine_totemAI(creature);
     }
@@ -237,22 +236,21 @@ public:
 class spell_baine_totem_launch : public SpellScriptLoader
 {
 public:
-    spell_baine_totem_launch() : SpellScriptLoader("spell_baine_totem_launch") { }
+    spell_baine_totem_launch() : SpellScriptLoader("spell_baine_totem_launch") {}
 
     class spell_baine_totem_launch_SpellScript : public SpellScript
     {
         PrepareSpellScript(spell_baine_totem_launch_SpellScript);
 
-        void FilterTargets(std::list<WorldObject*>& targets)
+        void FilterTargets(std::list<WorldObject *> &targets)
         {
-            targets.remove_if([](WorldObject* target)
+            targets.remove_if([](WorldObject *target)
                               {
                                   if (target->GetTypeId() != TYPEID_PLAYER)
                                       return true;
                                   if (target->ToPlayer()->HasAura(AURA_IN_LAVA))
                                       return true;
-                                  return false;
-                              });
+                                  return false; });
             if (targets.empty())
             {
                 std::list<Creature *> trigList;
@@ -274,14 +272,14 @@ public:
                 }
         }
 
-        void Register()
+        void Register() override
         {
             OnObjectAreaTargetSelect += SpellObjectAreaTargetSelectFn(spell_baine_totem_launch_SpellScript::FilterTargets, EFFECT_0, TARGET_UNIT_SRC_AREA_ENEMY);
             OnEffectHitTarget += SpellEffectFn(spell_baine_totem_launch_SpellScript::HandleDummy, EFFECT_0, SPELL_EFFECT_DUMMY);
         }
     };
 
-    SpellScript* GetSpellScript() const
+    SpellScript *GetSpellScript() const
     {
         return new spell_baine_totem_launch_SpellScript();
     }
@@ -290,22 +288,21 @@ public:
 class spell_baine_pulverize : public SpellScriptLoader
 {
 public:
-    spell_baine_pulverize() : SpellScriptLoader("spell_baine_pulverize") { }
+    spell_baine_pulverize() : SpellScriptLoader("spell_baine_pulverize") {}
 
     class spell_baine_pulverize_SpellScript : public SpellScript
     {
         PrepareSpellScript(spell_baine_pulverize_SpellScript);
 
-        void FilterTargets(std::list<WorldObject*>& targets)
+        void FilterTargets(std::list<WorldObject *> &targets)
         {
-            targets.remove_if([](WorldObject* target)
+            targets.remove_if([](WorldObject *target)
                               {
                                   if (target->GetTypeId() != TYPEID_PLAYER)
                                       return true;
                                   if (target->ToPlayer()->HasAura(AURA_IN_LAVA))
                                       return true;
-                                  return false;
-                              });
+                                  return false; });
             if (targets.empty())
             {
                 std::list<Creature *> trigList;
@@ -316,7 +313,6 @@ public:
             }
             Trinity::Containers::RandomResizeList(targets, 1);
         }
-
 
         void HandleDummy(SpellEffIndex effIndex)
         {
@@ -327,20 +323,19 @@ public:
                     caster->CastSpell(target, spellId, true);
                     if (target->GetTypeId() == TYPEID_UNIT)
                         target->ToCreature()->DespawnOrUnsummon(1000);
-                    else
-                        if (Creature *trig = target->FindNearestCreature(NPC_ROCK_ISLAND, 15.0f))
-                            trig->DespawnOrUnsummon(1000);
+                    else if (Creature *trig = target->FindNearestCreature(NPC_ROCK_ISLAND, 15.0f))
+                        trig->DespawnOrUnsummon(1000);
                 }
         }
 
-        void Register()
+        void Register() override
         {
             OnObjectAreaTargetSelect += SpellObjectAreaTargetSelectFn(spell_baine_pulverize_SpellScript::FilterTargets, EFFECT_0, TARGET_UNIT_SRC_AREA_ENEMY);
-           OnEffectHitTarget += SpellEffectFn(spell_baine_pulverize_SpellScript::HandleDummy, EFFECT_0, SPELL_EFFECT_DUMMY);
+            OnEffectHitTarget += SpellEffectFn(spell_baine_pulverize_SpellScript::HandleDummy, EFFECT_0, SPELL_EFFECT_DUMMY);
         }
     };
 
-    SpellScript* GetSpellScript() const
+    SpellScript *GetSpellScript() const override
     {
         return new spell_baine_pulverize_SpellScript();
     }
@@ -349,13 +344,13 @@ public:
 class spell_molten_axe_periodic_dummy : public SpellScriptLoader
 {
 public:
-    spell_molten_axe_periodic_dummy() : SpellScriptLoader("spell_molten_axe_periodic_dummy") { }
+    spell_molten_axe_periodic_dummy() : SpellScriptLoader("spell_molten_axe_periodic_dummy") {}
 
     class spell_molten_axe_periodic_dummy_AuraScript : public AuraScript
     {
         PrepareAuraScript(spell_molten_axe_periodic_dummy_AuraScript);
 
-        void OnPeriodic(AuraEffect const* aurEff)
+        void OnPeriodic(AuraEffect const *aurEff)
         {
             if (GetTarget()->HasAura(SPELL_MOLTEN_FISTS_PROC_AURA) || GetTarget()->HasAura(SPELL_MOLTEN_AXE))
                 return;
@@ -364,13 +359,13 @@ public:
                 GetTarget()->CastSpell(GetTarget(), GetTarget()->GetTypeId() == TYPEID_PLAYER ? SPELL_MOLTEN_FISTS_PROC_AURA : SPELL_MOLTEN_AXE, true);
         }
 
-        void Register()
+        void Register() override
         {
             OnEffectPeriodic += AuraEffectPeriodicFn(spell_molten_axe_periodic_dummy_AuraScript::OnPeriodic, EFFECT_0, SPELL_AURA_PERIODIC_DUMMY);
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript *GetAuraScript() const override
     {
         return new spell_molten_axe_periodic_dummy_AuraScript();
     }
@@ -379,25 +374,25 @@ public:
 class spell_molten_axe_proc : public SpellScriptLoader
 {
 public:
-    spell_molten_axe_proc() : SpellScriptLoader("spell_molten_axe_proc") { }
+    spell_molten_axe_proc() : SpellScriptLoader("spell_molten_axe_proc") {}
 
     class spell_molten_axe_proc_AuraScript : public AuraScript
     {
         PrepareAuraScript(spell_molten_axe_proc_AuraScript);
 
-        void HandleProc(AuraEffect const* aurEff, ProcEventInfo& eventInfo)
+        void HandleProc(AuraEffect const *aurEff, ProcEventInfo &eventInfo)
         {
             PreventDefaultAction();
             GetTarget()->CastSpell(eventInfo.GetActionTarget(), aurEff->GetSpellInfo()->Effects[EFFECT_0].TriggerSpell, true);
         }
 
-        void Register()
+        void Register() override
         {
             OnEffectProc += AuraEffectProcFn(spell_molten_axe_proc_AuraScript::HandleProc, EFFECT_0, SPELL_AURA_PROC_TRIGGER_SPELL);
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript *GetAuraScript() const override
     {
         return new spell_molten_axe_proc_AuraScript();
     }
@@ -406,7 +401,7 @@ public:
 class spell_player_launch_totem : public SpellScriptLoader
 {
 public:
-    spell_player_launch_totem() : SpellScriptLoader("spell_player_launch_totem") { }
+    spell_player_launch_totem() : SpellScriptLoader("spell_player_launch_totem") {}
 
     class spell_player_launch_totem_SpellScript : public SpellScript
     {
@@ -427,7 +422,7 @@ public:
         }
     };
 
-    SpellScript* GetSpellScript() const override
+    SpellScript *GetSpellScript() const override
     {
         return new spell_player_launch_totem_SpellScript();
     }

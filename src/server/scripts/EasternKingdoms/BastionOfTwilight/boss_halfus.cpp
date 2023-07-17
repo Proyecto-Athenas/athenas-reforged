@@ -744,7 +744,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_halfus_malevolent_strikes_AuraScript();
     }

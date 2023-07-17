@@ -368,7 +368,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_tol_barad_turret_periodic_AuraScript();
     }

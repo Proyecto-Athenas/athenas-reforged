@@ -395,7 +395,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_rp_thirst_for_blood_AuraScript();
     }

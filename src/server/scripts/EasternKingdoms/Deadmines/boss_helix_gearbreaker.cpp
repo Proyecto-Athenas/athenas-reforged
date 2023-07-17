@@ -565,7 +565,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_helix_ride_timer_AuraScript();
     }
@@ -599,7 +599,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_chess_bomb_periodic_AuraScript();
     }
@@ -766,7 +766,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_oaf_bomb_trigger_aura_AuraScript();
     }

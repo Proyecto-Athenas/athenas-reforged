@@ -62,6 +62,7 @@ include(CheckPlatform)
 # Check Git
 if(NOT WITHOUT_GIT)
   find_package(Git 1.7)
+  set(GIT_EXECUTABLE "git")
 endif()
 
 # basic packagesearching and setup (further support will be needed, this is a preliminary release!)

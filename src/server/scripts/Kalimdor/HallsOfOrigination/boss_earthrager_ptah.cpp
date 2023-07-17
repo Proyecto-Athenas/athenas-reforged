@@ -341,7 +341,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_earthrager_ptah_explosion_AuraScript();
     }

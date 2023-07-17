@@ -562,7 +562,7 @@ public:
 
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_aura_of_despair_AuraScript();
     }
@@ -596,7 +596,7 @@ public:
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_mark_of_the_faceless_auraAuraScript();
         }
@@ -710,7 +710,7 @@ public:
         Position basePos;
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_saronite_vapors_AuraScript();
     }

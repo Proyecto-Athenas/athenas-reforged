@@ -384,7 +384,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_effect_fix_AuraScript();
     }
@@ -484,7 +484,7 @@ public:
 
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_disoriented_roar_AuraScript();
     }
@@ -510,7 +510,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_burning_flames_dispel_AuraScript();
     }

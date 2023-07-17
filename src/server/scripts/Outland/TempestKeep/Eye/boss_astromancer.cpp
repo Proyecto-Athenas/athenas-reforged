@@ -527,7 +527,7 @@ class spell_astromancer_wrath_of_the_astromancer : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_astromancer_wrath_of_the_astromancer_AuraScript();
         }

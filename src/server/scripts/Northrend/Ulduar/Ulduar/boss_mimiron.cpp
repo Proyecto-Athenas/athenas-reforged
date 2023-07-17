@@ -1845,7 +1845,7 @@ class spell_rapid_burst : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_rapid_burst_AuraScript();
         }

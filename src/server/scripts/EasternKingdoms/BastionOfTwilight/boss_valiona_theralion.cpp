@@ -1535,7 +1535,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_blackout_bot_AuraScript();
     }
@@ -1567,7 +1567,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_engulfing_magic_AuraScript();
     }
@@ -1740,7 +1740,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_vali_ther_twilight_shift_heroic_AuraScript();
     }
@@ -1799,7 +1799,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_twiligh_sentry_summon_periodic_AuraScript();
     }
@@ -1847,7 +1847,7 @@ public:
         Unit* _procTarget;
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_tank_twilight_shift_heroic_AuraScript();
     }

@@ -519,7 +519,7 @@ class spell_marrowgar_coldflame_damage : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_marrowgar_coldflame_damage_AuraScript();
         }

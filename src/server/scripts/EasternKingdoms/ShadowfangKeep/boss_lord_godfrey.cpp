@@ -157,7 +157,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_godfrey_summon_ghouls_AuraScript();
     }
@@ -226,7 +226,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_pistol_barrage_AuraScript();
     }
@@ -253,7 +253,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_cursed_bullets_AuraScript();
     }

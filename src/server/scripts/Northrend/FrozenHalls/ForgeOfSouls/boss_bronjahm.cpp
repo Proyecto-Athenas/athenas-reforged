@@ -318,7 +318,7 @@ class spell_bronjahm_soulstorm_channel : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_bronjahm_soulstorm_channel_AuraScript();
         }
@@ -349,7 +349,7 @@ class spell_bronjahm_soulstorm_visual : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_bronjahm_soulstorm_visual_AuraScript();
         }

@@ -1168,7 +1168,7 @@ class spell_dreamwalker_mana_void : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_dreamwalker_mana_void_AuraScript();
         }
@@ -1206,7 +1206,7 @@ class spell_dreamwalker_decay_periodic_timer : public SpellScriptLoader
             int32 _decayRate;
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_dreamwalker_decay_periodic_timer_AuraScript();
         }
@@ -1296,7 +1296,7 @@ class spell_dreamwalker_summon_suppresser : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_dreamwalker_summon_suppresser_AuraScript();
         }
@@ -1430,7 +1430,7 @@ class spell_dreamwalker_nightmare_cloud : public SpellScriptLoader
             InstanceScript* _instance;
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_dreamwalker_nightmare_cloud_AuraScript();
         }

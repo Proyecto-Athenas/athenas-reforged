@@ -1320,7 +1320,7 @@ class spell_keg_placed : public SpellScriptLoader
 
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_keg_placed_AuraScript();
         }

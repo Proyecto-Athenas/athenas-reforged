@@ -26,7 +26,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_grievous_wound_bwd_AuraScript();
     }

@@ -1015,7 +1015,7 @@ class spell_deathwhisper_mana_barrier : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_deathwhisper_mana_barrier_AuraScript();
         }

@@ -32,50 +32,50 @@ class Pet;
 class Player;
 class AreaTrigger;
 
-#define MAX_NUMBER_OF_CELLS     8
+#define MAX_NUMBER_OF_CELLS 8
 
-#define MAX_NUMBER_OF_GRIDS      64
+#define MAX_NUMBER_OF_GRIDS 64
 
-#define SIZE_OF_GRIDS            533.3333f
-#define CENTER_GRID_ID           (MAX_NUMBER_OF_GRIDS/2)
+#define SIZE_OF_GRIDS 533.3333f
+#define CENTER_GRID_ID (MAX_NUMBER_OF_GRIDS / 2)
 
-#define CENTER_GRID_OFFSET      (SIZE_OF_GRIDS/2)
+#define CENTER_GRID_OFFSET (SIZE_OF_GRIDS / 2)
 
-#define MIN_GRID_DELAY          (MINUTE*IN_MILLISECONDS)
-#define MIN_MAP_UPDATE_DELAY    50
+#define MIN_GRID_DELAY (MINUTE * IN_MILLISECONDS)
+#define MIN_MAP_UPDATE_DELAY 50
 
-#define SIZE_OF_GRID_CELL       (SIZE_OF_GRIDS/MAX_NUMBER_OF_CELLS)
+#define SIZE_OF_GRID_CELL (SIZE_OF_GRIDS / MAX_NUMBER_OF_CELLS)
 
-#define CENTER_GRID_CELL_ID     (MAX_NUMBER_OF_CELLS*MAX_NUMBER_OF_GRIDS/2)
-#define CENTER_GRID_CELL_OFFSET (SIZE_OF_GRID_CELL/2)
+#define CENTER_GRID_CELL_ID (MAX_NUMBER_OF_CELLS * MAX_NUMBER_OF_GRIDS / 2)
+#define CENTER_GRID_CELL_OFFSET (SIZE_OF_GRID_CELL / 2)
 
-#define TOTAL_NUMBER_OF_CELLS_PER_MAP    (MAX_NUMBER_OF_GRIDS*MAX_NUMBER_OF_CELLS)
+#define TOTAL_NUMBER_OF_CELLS_PER_MAP (MAX_NUMBER_OF_GRIDS * MAX_NUMBER_OF_CELLS)
 
 #define MAP_RESOLUTION 128
 
-#define MAP_SIZE                (SIZE_OF_GRIDS*MAX_NUMBER_OF_GRIDS)
-#define MAP_HALFSIZE            (MAP_SIZE/2)
+#define MAP_SIZE (SIZE_OF_GRIDS * MAX_NUMBER_OF_GRIDS)
+#define MAP_HALFSIZE (MAP_SIZE / 2)
 
 // Creature used instead pet to simplify *::Visit templates (not required duplicate code for Creature->Pet case)
-typedef TYPELIST_4(Player, Creature/*pets*/, Corpse/*resurrectable*/, DynamicObject/*farsight target*/) AllWorldObjectTypes;
-typedef TYPELIST_5(GameObject, Creature/*except pets*/, DynamicObject, Corpse/*Bones*/, AreaTrigger) AllGridObjectTypes;
+typedef TYPELIST_4(Player, Creature /*pets*/, Corpse /*resurrectable*/, DynamicObject /*farsight target*/) AllWorldObjectTypes;
+typedef TYPELIST_5(GameObject, Creature /*except pets*/, DynamicObject, Corpse /*Bones*/, AreaTrigger) AllGridObjectTypes;
 
-typedef GridRefManager<Corpse>          CorpseMapType;
-typedef GridRefManager<Creature>        CreatureMapType;
-typedef GridRefManager<DynamicObject>   DynamicObjectMapType;
-typedef GridRefManager<GameObject>      GameObjectMapType;
-typedef GridRefManager<Player>          PlayerMapType;
-typedef GridRefManager<AreaTrigger>     AreaTriggerMapType;
+typedef GridRefManager<Corpse> CorpseMapType;
+typedef GridRefManager<Creature> CreatureMapType;
+typedef GridRefManager<DynamicObject> DynamicObjectMapType;
+typedef GridRefManager<GameObject> GameObjectMapType;
+typedef GridRefManager<Player> PlayerMapType;
+typedef GridRefManager<AreaTrigger> AreaTriggerMapType;
 
 enum GridMapTypeMask
 {
-    GRID_MAP_TYPE_MASK_CORPSE           = 0x01,
-    GRID_MAP_TYPE_MASK_CREATURE         = 0x02,
-    GRID_MAP_TYPE_MASK_DYNAMICOBJECT    = 0x04,
-    GRID_MAP_TYPE_MASK_GAMEOBJECT       = 0x08,
-    GRID_MAP_TYPE_MASK_PLAYER           = 0x10,
-    GRID_MAP_TYPE_MASK_AREATRIGGER      = 0x20,
-    GRID_MAP_TYPE_MASK_ALL              = 0x3F
+    GRID_MAP_TYPE_MASK_CORPSE = 0x01,
+    GRID_MAP_TYPE_MASK_CREATURE = 0x02,
+    GRID_MAP_TYPE_MASK_DYNAMICOBJECT = 0x04,
+    GRID_MAP_TYPE_MASK_GAMEOBJECT = 0x08,
+    GRID_MAP_TYPE_MASK_PLAYER = 0x10,
+    GRID_MAP_TYPE_MASK_AREATRIGGER = 0x20,
+    GRID_MAP_TYPE_MASK_ALL = 0x3F
 };
 
 typedef Grid<Player, AllWorldObjectTypes, AllGridObjectTypes> GridType;
@@ -84,20 +84,20 @@ typedef NGrid<MAX_NUMBER_OF_CELLS, Player, AllWorldObjectTypes, AllGridObjectTyp
 typedef TypeMapContainer<AllGridObjectTypes> GridTypeMapContainer;
 typedef TypeMapContainer<AllWorldObjectTypes> WorldTypeMapContainer;
 
-template<uint32 LIMIT>
+template <uint32 LIMIT>
 struct CoordPair
 {
-    CoordPair(uint32 x=0, uint32 y=0)
-        : x_coord(x)
-        , y_coord(y)
-    {}
+    CoordPair(uint32 x = 0, uint32 y = 0)
+        : x_coord(x), y_coord(y)
+    {
+    }
 
     CoordPair(const CoordPair<LIMIT> &obj)
-        : x_coord(obj.x_coord)
-        , y_coord(obj.y_coord)
-    {}
+        : x_coord(obj.x_coord), y_coord(obj.y_coord)
+    {
+    }
 
-    CoordPair<LIMIT> & operator=(const CoordPair<LIMIT> &obj)
+    CoordPair<LIMIT> &operator=(const CoordPair<LIMIT> &obj)
     {
         x_coord = obj.x_coord;
         y_coord = obj.y_coord;
@@ -141,7 +141,7 @@ struct CoordPair
         return x_coord < LIMIT && y_coord < LIMIT;
     }
 
-    CoordPair& normalize()
+    CoordPair &normalize()
     {
         x_coord = std::min(x_coord, LIMIT - 1);
         y_coord = std::min(y_coord, LIMIT - 1);
@@ -157,13 +157,13 @@ struct CoordPair
     uint32 y_coord;
 };
 
-template<uint32 LIMIT>
+template <uint32 LIMIT>
 bool operator==(const CoordPair<LIMIT> &p1, const CoordPair<LIMIT> &p2)
 {
     return (p1.x_coord == p2.x_coord && p1.y_coord == p2.y_coord);
 }
 
-template<uint32 LIMIT>
+template <uint32 LIMIT>
 bool operator!=(const CoordPair<LIMIT> &p1, const CoordPair<LIMIT> &p2)
 {
     return !(p1 == p2);
@@ -174,12 +174,12 @@ typedef CoordPair<TOTAL_NUMBER_OF_CELLS_PER_MAP> CellCoord;
 
 namespace Trinity
 {
-    template<class RET_TYPE, int CENTER_VAL>
+    template <class RET_TYPE, int CENTER_VAL>
     inline RET_TYPE Compute(float x, float y, float center_offset, float size)
     {
         // calculate and store temporary values in double format for having same result as same mySQL calculations
-        double x_offset = (double(x) - center_offset)/size;
-        double y_offset = (double(y) - center_offset)/size;
+        double x_offset = (double(x) - center_offset) / size;
+        double y_offset = (double(y) - center_offset) / size;
 
         int x_val = int(x_offset + CENTER_VAL + 0.5f);
         int y_val = int(y_offset + CENTER_VAL + 0.5f);
@@ -198,8 +198,8 @@ namespace Trinity
 
     inline CellCoord ComputeCellCoord(float x, float y, float &x_off, float &y_off)
     {
-        double x_offset = (double(x) - CENTER_GRID_CELL_OFFSET)/SIZE_OF_GRID_CELL;
-        double y_offset = (double(y) - CENTER_GRID_CELL_OFFSET)/SIZE_OF_GRID_CELL;
+        double x_offset = (double(x) - CENTER_GRID_CELL_OFFSET) / SIZE_OF_GRID_CELL;
+        double y_offset = (double(y) - CENTER_GRID_CELL_OFFSET) / SIZE_OF_GRID_CELL;
 
         int x_val = int(x_offset + CENTER_GRID_CELL_ID + 0.5f);
         int y_val = int(y_offset + CENTER_GRID_CELL_ID + 0.5f);
@@ -218,7 +218,7 @@ namespace Trinity
 
     inline bool IsValidMapCoord(float c)
     {
-        return finite(c) && (std::fabs(c) <= MAP_HALFSIZE - 0.5f);
+        return isfinite(c) && (std::fabs(c) <= MAP_HALFSIZE - 0.5f);
     }
 
     inline bool IsValidMapCoord(float x, float y)
@@ -228,12 +228,12 @@ namespace Trinity
 
     inline bool IsValidMapCoord(float x, float y, float z)
     {
-        return IsValidMapCoord(x, y) && finite(z);
+        return IsValidMapCoord(x, y) && isfinite(z);
     }
 
     inline bool IsValidMapCoord(float x, float y, float z, float o)
     {
-        return IsValidMapCoord(x, y, z) && finite(o);
+        return IsValidMapCoord(x, y, z) && isfinite(o);
     }
 }
 #endif

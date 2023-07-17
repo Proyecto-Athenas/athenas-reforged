@@ -2036,7 +2036,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_feludius_heart_of_ice_AuraScript();
     }
@@ -2199,7 +2199,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_cryogenic_aura_AuraScript();
     }
@@ -2225,7 +2225,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_rising_flames_AuraScript();
     }
@@ -2258,7 +2258,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_lashing_winds_AuraScript();
     }
@@ -2288,7 +2288,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_grounded_AuraScript();
     }
@@ -2329,7 +2329,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_harden_skin_AuraScript();
     }
@@ -2534,7 +2534,7 @@ public:
         return new spell_gravity_core_SpellScript();
     }
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_gravity_core_AuraScript();
     }
@@ -2561,7 +2561,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_frozen_orb_periodic_AuraScript();
     }

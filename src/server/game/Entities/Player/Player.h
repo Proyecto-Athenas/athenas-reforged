@@ -1327,10 +1327,10 @@ public:
     bool SendRealNameQuery();
     FakePlayers m_FakePlayers;
 
-    void CleanupsBeforeDelete(bool finalCleanup = true);
+    void CleanupsBeforeDelete(bool finalCleanup = true) override;
 
-    void AddToWorld();
-    void RemoveFromWorld();
+    void AddToWorld() override;
+    void RemoveFromWorld() override;
 
     void SetObjectScale(float scale)
     {
@@ -1362,7 +1362,7 @@ public:
 
     bool Create(uint32 guidlow, CharacterCreateInfo *createInfo);
 
-    void Update(uint32 time);
+    void Update(uint32 time) override;
 
     static bool BuildEnumData(PreparedQueryResult result, ByteBuffer *dataBuffer, ByteBuffer *bitBuffer);
 
@@ -1370,8 +1370,8 @@ public:
 
     void SetInWater(bool apply);
 
-    bool IsInWater() const { return m_isInWater; }
-    bool IsUnderWater() const;
+    bool IsInWater() const override { return m_isInWater; }
+    bool IsUnderWater() const override;
     bool IsFalling() { return GetPositionZ() < m_lastFallZ; }
 
     void SendInitialPacketsBeforeAddToMap();
@@ -1480,7 +1480,7 @@ public:
     uint32 GetTotalPlayedTime() { return m_Played_time[PLAYED_TIME_TOTAL]; }
     uint32 GetLevelPlayedTime() { return m_Played_time[PLAYED_TIME_LEVEL]; }
 
-    void setDeathState(DeathState s); // overwrite Unit::setDeathState
+    void setDeathState(DeathState s) override; // overwrite Unit::setDeathState
 
     void InnEnter(time_t time, uint32 mapid, float x, float y, float z)
     {
@@ -1524,7 +1524,7 @@ public:
     /*********************************************************/
 
     void SetVirtualItemSlot(uint8 i, Item *item);
-    void SetSheath(SheathState sheathed); // overwrite Unit version
+    void SetSheath(SheathState sheathed) override; // overwrite Unit version
     uint8 FindEquipSlot(ItemTemplate const *proto, uint32 slot, bool swap) const;
     uint32 GetItemCount(uint32 item, bool inBankAlso = false, Item *skipItem = NULL) const;
     uint32 GetItemCountWithLimitCategory(uint32 limitCategory, Item *skipItem = NULL) const;
@@ -1896,7 +1896,7 @@ public:
     /*********************************************************/
 
     bool LoadFromDB(uint32 guid, SQLQueryHolder *holder);
-    bool isBeingLoaded() const;
+    bool isBeingLoaded() const override;
 
     void Initialize(uint32 guid);
     static uint32 GetUInt32ValueFromArray(Tokenizer const &data, uint16 index);
@@ -2033,7 +2033,7 @@ public:
     void PossessSpellInitialize();
     void VehicleSpellInitialize();
     void SendRemoveControlBar();
-    bool HasSpell(uint32 spell) const;
+    bool HasSpell(uint32 spell) const override;
     bool HasActiveSpell(uint32 spell) const; // show in spellbook
     TrainerSpellState GetTrainerSpellState(TrainerSpell const *trainer_spell) const;
     bool IsSpellFitByClassAndRace(uint32 spell_id) const;
@@ -2137,7 +2137,7 @@ public:
     void SetSpellModTakingSpell(Spell *spell, bool apply);
 
     void SendCooldownEvent(SpellInfo const *spellInfo, uint32 itemId = 0, Spell *spell = NULL, bool setCooldown = true);
-    void ProhibitSpellSchool(SpellSchoolMask idSchoolMask, uint32 unTimeMs);
+    void ProhibitSpellSchool(SpellSchoolMask idSchoolMask, uint32 unTimeMs) override;
     void ModifySpellCooldown(uint32 spellId, int32 cooldown);
     void RemoveSpellCooldown(uint32 spell_id, bool update = false);
     void RemoveSpellCategoryCooldown(uint32 cat, bool update = false);
@@ -2288,14 +2288,14 @@ public:
     float GetHealthBonusFromStamina();
     float GetManaBonusFromIntellect();
 
-    bool UpdateStats(Stats stat);
-    bool UpdateAllStats();
-    void UpdateResistances(uint32 school);
-    void UpdateArmor();
-    void UpdateMaxHealth();
-    void UpdateMaxPower(Powers power);
-    void UpdateAttackPowerAndDamage(bool ranged = false);
-    void UpdateDamagePhysical(WeaponAttackType attType);
+    bool UpdateStats(Stats stat) override;
+    bool UpdateAllStats() override;
+    void UpdateResistances(uint32 school) override;
+    void UpdateArmor() override;
+    void UpdateMaxHealth() override;
+    void UpdateMaxPower(Powers power) override;
+    void UpdateAttackPowerAndDamage(bool ranged = false) override;
+    void UpdateDamagePhysical(WeaponAttackType attType) override;
     void ApplySpellPowerBonus(int32 amount, bool apply);
     void UpdateSpellDamageAndHealingBonus();
     void ApplyRatingMod(CombatRating cr, int32 value, bool apply);
@@ -2346,8 +2346,8 @@ public:
 
     WorldSession *GetSession() const { return m_session; }
 
-    void BuildCreateUpdateBlockForPlayer(UpdateData *data, Player *target) const;
-    void DestroyForPlayer(Player *target, bool onDeath = false) const;
+    void BuildCreateUpdateBlockForPlayer(UpdateData *data, Player *target) const override;
+    void DestroyForPlayer(Player *target, bool onDeath = false) const override;
     void SendLogXPGain(uint32 GivenXP, Unit *victim, uint32 BonusXP, bool recruitAFriend = false, float group_rate = 1.0f);
 
     // notifiers
@@ -2366,14 +2366,14 @@ public:
     void SendResetInstanceFailed(uint32 reason, uint32 MapId);
     void SendResetFailedNotify(uint32 mapid);
 
-    virtual bool UpdatePosition(float x, float y, float z, float orientation, bool teleport = false);
+    virtual bool UpdatePosition(float x, float y, float z, float orientation, bool teleport = false) override;
     bool UpdatePosition(const Position &pos, bool teleport = false) { return UpdatePosition(pos.GetPositionX(), pos.GetPositionY(), pos.GetPositionZ(), pos.GetOrientation(), teleport); }
-    void UpdateUnderwaterState(Map *m, float x, float y, float z);
+    void UpdateUnderwaterState(Map *m, float x, float y, float z) override;
 
-    void SendMessageToSet(WorldPacket *data, bool self) { SendMessageToSetInRange(data, GetVisibilityRange(), self); }; // overwrite Object::SendMessageToSet
-    void SendMessageToSetInRange(WorldPacket *data, float fist, bool self);                                             // overwrite Object::SendMessageToSetInRange
+    void SendMessageToSet(WorldPacket *data, bool self) override { SendMessageToSetInRange(data, GetVisibilityRange(), self); }; // overwrite Object::SendMessageToSet
+    void SendMessageToSetInRange(WorldPacket *data, float fist, bool self) override;                                                      // overwrite Object::SendMessageToSetInRange
     void SendMessageToSetInRange(WorldPacket *data, float dist, bool self, bool own_team_only);
-    void SendMessageToSet(WorldPacket *data, Player const *skipped_rcvr);
+    void SendMessageToSet(WorldPacket *data, Player const *skipped_rcvr) override;
 
     Corpse *GetCorpse() const;
     void SpawnCorpseBones();
@@ -2486,7 +2486,7 @@ public:
     void UpdateCorpseReclaimDelay();
     void SendCorpseReclaimDelay(bool load = false);
 
-    uint32 GetBlockPercent() { return GetUInt32Value(PLAYER_SHIELD_BLOCK); }
+    uint32 GetBlockPercent() override { return GetUInt32Value(PLAYER_SHIELD_BLOCK); }
     bool CanParry() const { return m_canParry; }
     void SetCanParry(bool value);
     bool CanBlock() const { return m_canBlock; }
@@ -2759,12 +2759,12 @@ public:
 
     bool HaveAtClient(WorldObject const *u) const { return u == this || m_clientGUIDs.find(u->GetGUID()) != m_clientGUIDs.end(); }
 
-    bool IsNeverVisible() const;
+    bool IsNeverVisible() const override;
 
     bool IsVisibleGloballyFor(Player const *player) const;
 
     void SendInitialVisiblePackets(Unit *target);
-    void UpdateObjectVisibility(bool forced = true);
+    void UpdateObjectVisibility(bool forced = true) override;
     void UpdateVisibilityForPlayer();
     void UpdateVisibilityOf(WorldObject *target);
     void UpdateTriggerVisibility();
@@ -2882,8 +2882,8 @@ public:
     MapReference &GetMapRef() { return m_mapRef; }
 
     // Set map to player and add reference
-    void SetMap(Map *map);
-    void ResetMap();
+    void SetMap(Map *map) override;
+    void ResetMap() override;
 
     bool isAllowedToLoot(const Creature *creature);
 
@@ -2983,7 +2983,7 @@ public:
     void SendMovementSetCanTransitionBetweenSwimAndFly(bool apply);
     void SendMovementSetCollisionHeight(float height);
 
-    bool CanFly() const { return m_movementInfo.HasMovementFlag(MOVEMENTFLAG_CAN_FLY); }
+    bool CanFly() const override { return m_movementInfo.HasMovementFlag(MOVEMENTFLAG_CAN_FLY); }
 
     //! Return collision height sent to client
     float GetCollisionHeight(bool mounted)
@@ -3395,9 +3395,9 @@ protected:
     Runes *m_runes;
     EquipmentSets m_EquipmentSets;
 
-    bool CanAlwaysSee(WorldObject const *obj) const;
+    bool CanAlwaysSee(WorldObject const *obj) const override;
 
-    bool IsAlwaysDetectableFor(WorldObject const *seer) const;
+    bool IsAlwaysDetectableFor(WorldObject const *seer) const override;
 
     uint8 m_grantableLevels;
 

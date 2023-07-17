@@ -874,7 +874,7 @@ class spell_magmaw_parasitic_infection_aura : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_magmaw_parasitic_infection_aura_AuraScript();
         }

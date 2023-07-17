@@ -323,7 +323,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_nefarian_controled_mage_AuraScript();
     }
@@ -537,7 +537,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_nefarian_controled_shaman_AuraScript();
     }
@@ -597,7 +597,7 @@ public:
         return new spell_nefarian_controled_warlock_SpellScript();
     }
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_nefarian_controled_warlock_AuraScript();
     }

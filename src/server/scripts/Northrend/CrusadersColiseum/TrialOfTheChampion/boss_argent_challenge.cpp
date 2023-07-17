@@ -360,7 +360,7 @@ class spell_paletress_shield : public SpellScriptLoader
         };
 
         // function which creates AuraScript
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_paletress_shieldAuraScript();
         }

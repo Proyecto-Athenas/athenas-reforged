@@ -527,7 +527,7 @@ class spell_wave_of_agony_periodic : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_wave_of_agony_periodic_AuraScript();
         }
@@ -559,7 +559,7 @@ class spell_wave_of_agony_periodic_2 : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_wave_of_agony_periodic_2_AuraScript();
         }

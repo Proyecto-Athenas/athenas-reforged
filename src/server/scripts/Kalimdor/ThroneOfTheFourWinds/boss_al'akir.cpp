@@ -730,7 +730,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_alakir_electrocute_AuraScript();
     }
@@ -925,7 +925,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_alakir_wind_burst_AuraScript();
     }
@@ -1082,7 +1082,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_alakir_eject_platform_AuraScript();
     }

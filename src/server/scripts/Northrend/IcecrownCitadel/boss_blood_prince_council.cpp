@@ -1473,7 +1473,7 @@ class spell_taldaram_flame_ball_visual : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_flame_ball_visual_AuraScript();
         }
@@ -1562,7 +1562,7 @@ class spell_valanar_kinetic_bomb : public SpellScriptLoader
             return new spell_valanar_kinetic_bomb_SpellScript();
         }
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_valanar_kinetic_bomb_AuraScript();
         }
@@ -1617,7 +1617,7 @@ class spell_valanar_kinetic_bomb_absorb : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_valanar_kinetic_bomb_absorb_AuraScript();
         }
@@ -1644,7 +1644,7 @@ class spell_blood_council_shadow_prison : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_blood_council_shadow_prison_AuraScript();
         }

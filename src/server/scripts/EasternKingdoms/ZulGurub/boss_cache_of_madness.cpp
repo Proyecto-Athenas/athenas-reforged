@@ -797,7 +797,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_grilek_fixate_AuraScript();
     }
@@ -1137,7 +1137,7 @@ private:
         return new spell_haz_nightmare_SpellScript();
     }
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_haz_nightmare_AuraScript();
     }

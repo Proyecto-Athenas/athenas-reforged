@@ -347,7 +347,7 @@ class spell_ex_66244 : public SpellScriptLoader
         };
 
         // function which creates AuraScript
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_ex_66244AuraScript();
         }
@@ -387,7 +387,7 @@ class spell_ex_absorb_aura : public SpellScriptLoader
         };
 
         // function which creates AuraScript
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_ex_absorb_auraAuraScript();
         }
@@ -415,7 +415,7 @@ class spell_ex_463 : public SpellScriptLoader
         };
 
         // function which creates AuraScript
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_ex_463AuraScript();
         }
@@ -483,7 +483,7 @@ class spell_ex : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_ex_AuraScript();
         }

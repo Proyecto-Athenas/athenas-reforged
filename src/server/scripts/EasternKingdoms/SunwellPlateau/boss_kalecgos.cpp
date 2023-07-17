@@ -842,7 +842,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new curse_of_boundless_agony_AuraScript();
     }

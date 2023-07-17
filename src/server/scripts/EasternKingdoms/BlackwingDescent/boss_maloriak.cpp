@@ -910,7 +910,7 @@ class spell_maloriak_remedy : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_maloriak_remedy_AuraScript();
         }
@@ -944,7 +944,7 @@ class spell_maloriak_magma_jets_periodic : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_maloriak_magma_jets_periodic_AuraScript();
         }
@@ -1213,7 +1213,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_maloriak_debilitating_slime_AuraScript();
     }
@@ -1257,7 +1257,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_maloriak_consuming_flames_AuraScript();
     }
@@ -1285,7 +1285,7 @@ class spell_maloriak_engulfing_madness : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_maloriak_engulfing_madness_AuraScript();
         }
@@ -1321,7 +1321,7 @@ class spell_maloriak_vil_rata_periodic : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_maloriak_vil_rata_periodic_AuraScript();
         }

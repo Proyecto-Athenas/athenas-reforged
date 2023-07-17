@@ -709,7 +709,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_tyrande_achievement_tracker_AuraScript();
     }

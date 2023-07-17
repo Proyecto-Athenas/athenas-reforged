@@ -529,7 +529,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_janalai_firebomb_periodic_AuraScript();
     }
@@ -573,7 +573,7 @@ public:
         float orientation;
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_janalai_flamebreath_periodic_AuraScript();
     }

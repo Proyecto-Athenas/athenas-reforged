@@ -858,7 +858,7 @@ class spell_putricide_gaseous_bloat : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_putricide_gaseous_bloat_AuraScript();
         }
@@ -1300,7 +1300,7 @@ class spell_putricide_mutated_plague : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_putricide_mutated_plague_AuraScript();
         }
@@ -1388,7 +1388,7 @@ class spell_putricide_mutation_init : public SpellScriptLoader
             return new spell_putricide_mutation_init_SpellScript();
         }
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_putricide_mutation_init_AuraScript();
         }
@@ -1415,7 +1415,7 @@ class spell_putricide_mutated_transformation_dismiss : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_putricide_mutated_transformation_dismiss_AuraScript();
         }

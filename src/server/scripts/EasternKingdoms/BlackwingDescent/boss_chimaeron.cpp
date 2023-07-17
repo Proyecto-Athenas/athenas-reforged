@@ -588,7 +588,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_finkles_mixture_AuraScript();
     }
@@ -678,7 +678,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_below_10_percent_health_AuraScript();
     }

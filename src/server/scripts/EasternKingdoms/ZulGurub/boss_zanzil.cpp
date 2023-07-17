@@ -723,7 +723,7 @@ class spell_zanzili_fire : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_zanzili_fire_AuraScript();
         }

@@ -256,7 +256,7 @@ class spell_intense_cold : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_intense_cold_AuraScript();
         }

@@ -486,7 +486,7 @@ class spell_festergut_blighted_spores : public SpellScriptLoader
             }
         };
 
-        AuraScript* GetAuraScript() const
+        AuraScript* GetAuraScript() const override
         {
             return new spell_festergut_blighted_spores_AuraScript();
         }

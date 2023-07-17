@@ -424,7 +424,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_glubtok_fist_AuraScript();
     }
@@ -613,7 +613,7 @@ public:
         }
     };
 
-    AuraScript* GetAuraScript() const
+    AuraScript* GetAuraScript() const override
     {
         return new spell_gl_firewall_b_AuraScript();
     }

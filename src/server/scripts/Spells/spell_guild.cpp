@@ -9,26 +9,26 @@
 
 enum General
 {
-    FACTION_GUILD_REPUTATION    = 1168,
+    FACTION_GUILD_REPUTATION = 1168,
 };
 
 /***********************
-* Guild Chest (83958)
-***********************/
+ * Guild Chest (83958)
+ ***********************/
 
 enum GuildChest
 {
     SPELL_SUMMON_CHEST_ALLIANCE = 88304,
-    GOB_GUILD_CHEST_ALLIANCE    = 206602,
+    GOB_GUILD_CHEST_ALLIANCE = 206602,
 
-    SPELL_SUMMON_CHEST_HORDE    = 88306,
-    GOB_GUILD_CHEST_HORDE       = 206603
+    SPELL_SUMMON_CHEST_HORDE = 88306,
+    GOB_GUILD_CHEST_HORDE = 206603
 };
 
 class spell_guild_chest : public SpellScriptLoader
 {
 public:
-    spell_guild_chest() : SpellScriptLoader("spell_guild_chest") { }
+    spell_guild_chest() : SpellScriptLoader("spell_guild_chest") {}
 
     class spell_guild_chest_SpellScript : public SpellScript
     {
@@ -36,7 +36,7 @@ public:
 
         SpellCastResult CheckRequirement()
         {
-            Player* caster = GetCaster()->ToPlayer();
+            Player *caster = GetCaster()->ToPlayer();
             if (!caster)
                 return SPELL_FAILED_ERROR;
 
@@ -48,7 +48,7 @@ public:
 
         void HandleScript(SpellEffIndex /*effIndex*/)
         {
-            Player* caster = GetCaster()->ToPlayer();
+            Player *caster = GetCaster()->ToPlayer();
             caster->CastSpell(caster, caster->GetTeamId() == TEAM_ALLIANCE ? SPELL_SUMMON_CHEST_ALLIANCE : SPELL_SUMMON_CHEST_HORDE, true);
         }
 
@@ -59,15 +59,15 @@ public:
         }
     };
 
-    SpellScript* GetSpellScript() const override
+    SpellScript *GetSpellScript() const override
     {
         return new spell_guild_chest_SpellScript();
     }
 };
 
 /***********************
-* General spellscript to check friendly guild reputation
-***********************/
+ * General spellscript to check friendly guild reputation
+ ***********************/
 
 class spell_guild_check_friendly_reputation : public SpellScriptLoader
 {
@@ -80,39 +80,39 @@ public:
 
         SpellCastResult CheckRequirement()
         {
-            Unit* caster = GetCaster();
-            if(!caster || caster->GetTypeId() != TYPEID_PLAYER)
+            Unit *caster = GetCaster();
+            if (!caster || caster->GetTypeId() != TYPEID_PLAYER)
                 return SPELL_FAILED_ERROR;
 
-            if(caster->ToPlayer()->GetReputationRank(FACTION_GUILD_REPUTATION) < REP_FRIENDLY)
+            if (caster->ToPlayer()->GetReputationRank(FACTION_GUILD_REPUTATION) < REP_FRIENDLY)
                 return SPELL_FAILED_REPUTATION;
 
             return SPELL_CAST_OK;
         }
 
-        void Register()
+        void Register() override
         {
             OnCheckCast += SpellCheckCastFn(spell_guild_check_friendly_reputation_SpellScript::CheckRequirement);
         }
     };
 
-    SpellScript* GetSpellScript() const
+    SpellScript *GetSpellScript() const
     {
         return new spell_guild_check_friendly_reputation_SpellScript();
     }
 };
 
 /***********************
-* Flask of Battle (92679)
-***********************/
+ * Flask of Battle (92679)
+ ***********************/
 
 enum FlaskOfBattle
 {
-    SPELL_FLASK_OF_THE_STEELSKIN    = 79469,
+    SPELL_FLASK_OF_THE_STEELSKIN = 79469,
     SPELL_FLASK_OF_TITANIC_STRENGTH = 79472,
-    SPELL_FLASK_OF_THE_WINDS        = 79471,
-    SPELL_FLASK_OF_FLOWING_WATER    = 94160,
-    SPELL_FLASK_OF_DRACONIC_MIND    = 79470,
+    SPELL_FLASK_OF_THE_WINDS = 79471,
+    SPELL_FLASK_OF_FLOWING_WATER = 94160,
+    SPELL_FLASK_OF_DRACONIC_MIND = 79470,
 };
 
 class spell_guild_flask_of_battle : public SpellScriptLoader
@@ -126,11 +126,11 @@ public:
 
         void HandleDummy(SpellEffIndex /*effIndex*/)
         {
-            Unit* caster = GetCaster();
-            if(!caster || caster->GetTypeId() != TYPEID_PLAYER)
+            Unit *caster = GetCaster();
+            if (!caster || caster->GetTypeId() != TYPEID_PLAYER)
                 return;
 
-            Player* player = caster->ToPlayer();
+            Player *player = caster->ToPlayer();
             uint32 castedSpell = SPELL_FLASK_OF_DRACONIC_MIND;
             switch (player->GetPrimaryTalentTree(player->GetActiveSpec()))
             {
@@ -181,7 +181,7 @@ public:
 
                 // Feral druids
             case TALENT_TREE_DRUID_FERAL_COMBAT:
-                if(caster->GetShapeshiftForm() == FORM_BEAR)
+                if (caster->GetShapeshiftForm() == FORM_BEAR)
                     castedSpell = SPELL_FLASK_OF_THE_STEELSKIN;
                 else
                     castedSpell = SPELL_FLASK_OF_THE_WINDS;
@@ -193,14 +193,14 @@ public:
 
             caster->CastSpell(caster, castedSpell, TRIGGERED_FULL_MASK);
 
-            if (Aura* aura = caster->GetAura(castedSpell))
+            if (Aura *aura = caster->GetAura(castedSpell))
             {
                 int32 duration = aura->GetMaxDuration();
-                if (Guild* guild = sGuildMgr->GetGuildById(caster->ToPlayer()->GetGuildId()))
+                if (Guild *guild = sGuildMgr->GetGuildById(caster->ToPlayer()->GetGuildId()))
                 {
-                    if (guild->GetLevel() >= 22) //Guild Perk rank 2
+                    if (guild->GetLevel() >= 22) // Guild Perk rank 2
                         duration *= 2;
-                    else if (guild->GetLevel() >= 10) //Guild Perk rank 1
+                    else if (guild->GetLevel() >= 10) // Guild Perk rank 1
                         duration *= 1.5;
                 }
                 aura->SetMaxDuration(duration);
@@ -208,13 +208,13 @@ public:
             }
         }
 
-        void Register()
+        void Register() override
         {
             OnEffectLaunch += SpellEffectFn(spell_guild_flask_of_battle_SpellScript::HandleDummy, EFFECT_0, SPELL_EFFECT_DUMMY);
         }
     };
 
-    SpellScript* GetSpellScript() const
+    SpellScript *GetSpellScript() const
     {
         return new spell_guild_flask_of_battle_SpellScript();
     }
@@ -224,7 +224,7 @@ public:
 class spell_guild_big_cauldron_of_battle : public SpellScriptLoader
 {
 public:
-    spell_guild_big_cauldron_of_battle() : SpellScriptLoader("spell_guild_big_cauldron_of_battle") { }
+    spell_guild_big_cauldron_of_battle() : SpellScriptLoader("spell_guild_big_cauldron_of_battle") {}
 
     class spell_guild_big_cauldron_of_battle_SpellScript : public SpellScript
     {
@@ -232,11 +232,11 @@ public:
 
         void HandleDummy(SpellEffIndex /*effIndex*/)
         {
-            Player* caster = GetCaster()->ToPlayer();
+            Player *caster = GetCaster()->ToPlayer();
             if (!caster)
                 return;
 
-            if (Guild* guild = sGuildMgr->GetGuildById(caster->GetGuildId()))
+            if (Guild *guild = sGuildMgr->GetGuildById(caster->GetGuildId()))
             {
                 if (guild->GetLevel() >= 20)
                     caster->CastSpell(caster, caster->GetTeamId() == TEAM_ALLIANCE ? 92652 : 92654, true);
@@ -245,29 +245,28 @@ public:
             }
         }
 
-        void Register()
+        void Register() override
         {
             OnEffectLaunch += SpellEffectFn(spell_guild_big_cauldron_of_battle_SpellScript::HandleDummy, EFFECT_0, SPELL_EFFECT_DUMMY);
         }
     };
 
-    SpellScript* GetSpellScript() const
+    SpellScript *GetSpellScript() const
     {
         return new spell_guild_big_cauldron_of_battle_SpellScript();
     }
 };
 
-
 enum CauldronBattle
 {
-    OBJECT_CAULDRON_BATTLE_NOPERK_H     = 207362,
-    OBJECT_CAULDRON_BATTLE_PERK_H       = 207357,
+    OBJECT_CAULDRON_BATTLE_NOPERK_H = 207362,
+    OBJECT_CAULDRON_BATTLE_PERK_H = 207357,
 };
 
 class spell_guild_cauldron_of_battle : public SpellScriptLoader
 {
 public:
-    spell_guild_cauldron_of_battle() : SpellScriptLoader("spell_guild_cauldron_of_battle") { }
+    spell_guild_cauldron_of_battle() : SpellScriptLoader("spell_guild_cauldron_of_battle") {}
 
     class spell_guild_cauldron_of_battle_SpellScript : public SpellScript
     {
@@ -275,11 +274,11 @@ public:
 
         void HandleDummy(SpellEffIndex /* effIndex */)
         {
-            Player* caster = GetCaster()->ToPlayer();
+            Player *caster = GetCaster()->ToPlayer();
             if (!caster)
                 return;
 
-            if (Guild* guild = sGuildMgr->GetGuildById(caster->GetGuildId()))
+            if (Guild *guild = sGuildMgr->GetGuildById(caster->GetGuildId()))
             {
                 if (guild->GetLevel() >= 20)
                     caster->CastSpell(caster, caster->GetTeamId() == TEAM_ALLIANCE ? 92645 : 92635, true);
@@ -288,13 +287,13 @@ public:
             }
         }
 
-        void Register()
+        void Register() override
         {
             OnEffectHitTarget += SpellEffectFn(spell_guild_cauldron_of_battle_SpellScript::HandleDummy, EFFECT_0, SPELL_EFFECT_DUMMY);
         }
     };
 
-    SpellScript* GetSpellScript() const
+    SpellScript *GetSpellScript() const
     {
         return new spell_guild_cauldron_of_battle_SpellScript();
     }
@@ -303,7 +302,7 @@ public:
 class spell_guild_have_group_will_travel : public SpellScriptLoader
 {
 public:
-    spell_guild_have_group_will_travel() : SpellScriptLoader("spell_guild_have_group_will_travel") { }
+    spell_guild_have_group_will_travel() : SpellScriptLoader("spell_guild_have_group_will_travel") {}
 
     class spell_guild_have_group_will_travel_SpellScript : public SpellScript
     {
@@ -311,7 +310,7 @@ public:
 
         SpellCastResult CheckZone()
         {
-            if (Unit* caster = GetCaster())
+            if (Unit *caster = GetCaster())
             {
                 if (caster->GetMap()->IsBattlegroundOrArena())
                     return SPELL_FAILED_NOT_IN_BATTLEGROUND;
@@ -322,7 +321,7 @@ public:
                 if (caster->GetTransport())
                     return SPELL_FAILED_NOT_ON_TRANSPORT;
 
-                if (Battlefield* bf = sBattlefieldMgr->GetBattlefieldToZoneId(caster->GetZoneId()))
+                if (Battlefield *bf = sBattlefieldMgr->GetBattlefieldToZoneId(caster->GetZoneId()))
                     if (bf->IsWarTime())
                         return SPELL_FAILED_NOT_HERE;
             }
@@ -330,13 +329,13 @@ public:
             return SPELL_CAST_OK;
         }
 
-        void Register()
+        void Register() override
         {
             OnCheckCast += SpellCheckCastFn(spell_guild_have_group_will_travel_SpellScript::CheckZone);
         }
     };
 
-    SpellScript* GetSpellScript() const
+    SpellScript *GetSpellScript() const
     {
         return new spell_guild_have_group_will_travel_SpellScript();
     }
