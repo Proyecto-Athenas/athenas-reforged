@@ -7939,12 +7939,12 @@ void Player::SendCurrencies() const
 void Player::SendPvpRewards() const
 {
     WorldPacket packet(SMSG_PVP_REWARDS_RESPONSE, 6 * 4);
-    packet << std::max((int)GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_RBG, true), (int) MIN_RBG_CURRENCY_REWARD);     // This is the RGB Cap
-    packet << GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_POINTS, true);                                           // This is the Total Conquest Earned
-    packet << std::max((int)GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_ARENA, true), (int) MIN_ARENA_CURRENCY_REWARD); // This is the Arena Conquest Cap
-    packet << GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_RBG, true);                                              // This is the RBG Conquest Earned
-    packet << GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_ARENA, true);                                            // This is the Arena Conquest Earned
-    packet << std::max((int)GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_POINTS, true), (int) MIN_RBG_CURRENCY_REWARD);  // This is the Total Conquest Cap
+    packet << std::max((int)GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_RBG, true), (int)MIN_RBG_CURRENCY_REWARD);     // This is the RGB Cap
+    packet << GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_POINTS, true);                                                // This is the Total Conquest Earned
+    packet << std::max((int)GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_ARENA, true), (int)MIN_ARENA_CURRENCY_REWARD); // This is the Arena Conquest Cap
+    packet << GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_RBG, true);                                                   // This is the RBG Conquest Earned
+    packet << GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_ARENA, true);                                                 // This is the Arena Conquest Earned
+    packet << std::max((int)GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_POINTS, true), (int)MIN_RBG_CURRENCY_REWARD);  // This is the Total Conquest Cap
 
     GetSession()->SendPacket(&packet);
 }
