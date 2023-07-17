@@ -23,3 +23,10 @@
     2. El número máximo de insignias que se puede reclamar en una batalla depende del tipo de arenas anotada, por ejemplo, la arena 2c2 permite reclamar un máximo de 2 Insignias.
 
 - Fix: Se Arregla comportamiento de las pets al montar una montura, ahora Enlace de almas del Brujo funciona correctamente cuando el Player se sube o baja de la montura.
+
+### === 17/07/2023 ===
+
+- Fix: Se arregla Mecanismo de entrega de puntos de conquista, ahora se reparte correctamente y se visualizan correctamente en la información del personaje (H).
+- Fix: Se arregla el calculo del indice personal de las arenas.
+- Fix: Ahora Funciona correctamente Enlace de Almas del Brujo al subirse y bajarse de una montura.
+- Fix Custom: Ahora la Vaca Permite aprender todas las profesiones sin ningún límite.
