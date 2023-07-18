@@ -1,12 +1,3 @@
-# output generic information about the core and buildtype chosen
-message("")
-message("* OMFG.GG ver. hash  : ${rev_info}")
-message("* OMFG.GG ver. date  : ${rev_date}")
-if( UNIX )
-  message("* OMFG.GG buildtype  : ${CMAKE_BUILD_TYPE}")
-endif()
-message("")
-
 # output information about installation-directories and locations
 
 message("* Install core to        : ${CMAKE_INSTALL_PREFIX}")
@@ -98,7 +89,7 @@ if(WITHOUT_GIT)
     message(" *** version of git for the revision-hash to work, and be allowede to ask for")
     message(" *** support if needed.")
 else()
-    message("* Use GIT revision hash  : Yes (default)")
+    message("* Use GIT revision  : Yes (default)")
 endif()
 
 message("")
