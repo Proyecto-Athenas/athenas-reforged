@@ -14,12 +14,14 @@ elseif( MSVC )
   add_definitions(/W0)
 endif()
 
-add_definitions(-Wno-deprecated-register)
-
 if(CMAKE_SYSTEM_NAME MATCHES "Linux")
   if((AUTHSERVER OR WORLDSERVER) AND NOT NOJEM)
     add_subdirectory(jemalloc)  
   endif()
+endif()
+
+if(NOT MSVC)
+  add_definitions(-Wno-deprecated-register)
 endif()
 
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
