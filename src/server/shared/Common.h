@@ -119,7 +119,6 @@
 #define snprintf _snprintf
 #define atoll _atoi64
 #define vsnprintf _vsnprintf
-#define isfinite(X) _finite(X)
 #define llabs _abs64
 
 #else
@@ -131,7 +130,7 @@
 
 #endif
 
-inline float finiteAlways(float f) { return isfinite(f) ? f : 0.0f; }
+inline float finiteAlways(float f) { return std::isfinite(f) ? f : 0.0f; }
 
 #define atol(a) strtoul(a, NULL, 10)
 
