@@ -236,7 +236,7 @@ class boss_bwd_onyxia : public CreatureScript
             summons.DespawnAll();
             me->AddUnitState(UNIT_STATE_IGNORE_PATHFINDING);
             for (int cnt = 0; cnt < 3; cnt++)
-                chain[cnt] = NULL;
+                chain[cnt] = nullptr;
             me->CastSpell(me, SPELL_ONYXIA_FEIGN_DEATH, true);
             instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
             me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE);
@@ -493,17 +493,17 @@ class boss_bwd_nefarian : public CreatureScript
                     if (Creature* t = c->SummonCreature(NPC_SHADOWBLAZE_FLASHPOINT, pos.m_positionX, pos.m_positionY,
                                                         pos.m_positionZ, 0.0f, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 30000))
                         t->CastSpell(t, SPELL_BRUSHFIRE_AURA, true);
-                    Player* player = NULL;
+                    Player* player = nullptr;
                     float dist = 0.0f;
                     Map::PlayerList const& players = c->GetMap()->GetPlayers();
                     if (!players.isEmpty())
-                        for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
-                            if (Player* plr = itr->getSource())
+                        for (auto const& itr : players)
+                            if (Player* plr = itr.getSource())
                                 if (plr->isAlive())
                                     if (!AccountMgr::IsGMAccount(plr->GetSession()->GetSecurity()))
                                     {
                                         float tempDist = c->GetDistance2d(plr->GetPositionX(), plr->GetPositionY());
-                                        if (player == NULL || dist > tempDist)
+                                        if (player == nullptr || dist > tempDist)
                                         {
                                             dist = tempDist;
                                             player = plr;
@@ -683,9 +683,8 @@ class boss_bwd_nefarian : public CreatureScript
                 std::list<Creature*> creatures;
                 GetCreatureListWithEntryInGrid(creatures, me, NPC_ANIMATED_BONE_WARRIOR, 500.0f);
                 if (!creatures.empty())
-                    for (std::list<Creature*>::iterator iter = creatures.begin(); iter != creatures.end(); iter++)
-                        if (Creature* c = *iter)
-                            c->AI()->DoAction(ACTION_DESACTIVATE_BONES_WARRIOR);
+                    for (auto const& _creature : creatures)
+                        _creature->AI()->DoAction(ACTION_DESACTIVATE_BONES_WARRIOR);
                 break;
             }
             case START_PHASE_PRE_P1:
@@ -736,12 +735,13 @@ class boss_bwd_nefarian : public CreatureScript
                 std::list<Creature*> creatures;
                 GetCreatureListWithEntryInGrid(creatures, me, NPC_CHROMATIC_PROTOTYPE, 500.0f);
                 if (!creatures.empty())
-                    for (std::list<Creature*>::iterator iter = creatures.begin(); iter != creatures.end(); iter++)
-                        if (Creature* c = *iter)
-                        {
-                            c->NearTeleportTo(c->GetPositionX(), c->GetPositionY(), 17.0f, c->GetOrientation());
-                            c->m_Events.AddEvent(new CheckReactState(c), c->m_Events.CalculateTime(1000));
-                        }
+                    for (auto const& creature : creatures)
+                    {
+                        creature->NearTeleportTo(creature->GetPositionX(), creature->GetPositionY(), 17.0f,
+                                                 creature->GetOrientation());
+                        creature->m_Events.AddEvent(new CheckReactState(creature),
+                                                    creature->m_Events.CalculateTime(1000));
+                    }
                 events.ScheduleEvent(EVENT_NEFARIAN_ELETRIC_CHARGE, 0, 0, PHASE_3);
                 events.ScheduleEvent(EVENT_NEFARIAN_TAIL_LASH, 9000, 0, PHASE_3);
                 events.ScheduleEvent(EVENT_NEFARIAN_SHADOWFLAME_BREATH, 4000, 0, PHASE_3);
@@ -921,10 +921,8 @@ class boss_bwd_nefarian : public CreatureScript
                         std::list<Creature*> creatures;
                         GetCreatureListWithEntryInGrid(creatures, me, NPC_ANIMATED_BONE_WARRIOR, 500.0f);
                         if (!creatures.empty())
-                            for (std::list<Creature*>::iterator iter = creatures.begin(); iter != creatures.end();
-                                 iter++)
-                                if (Creature* c = *iter)
-                                    c->NearTeleportTo(c->GetPositionX(), c->GetPositionY(), 9.0f, c->GetOrientation());
+                            for (auto const& c : creatures)
+                                c->NearTeleportTo(c->GetPositionX(), c->GetPositionY(), 9.0f, c->GetOrientation());
                     }
                     DoCast(SPELL_NEFARIAN_SHADOW_OF_COWARDICE);
                     break;
@@ -939,8 +937,8 @@ class boss_bwd_nefarian : public CreatureScript
                     std::list<Unit*> targets;
                     Map::PlayerList const& players = me->GetMap()->GetPlayers();
                     if (!players.isEmpty())
-                        for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
-                            if (Player* player = itr->getSource())
+                        for (auto const& itr : players)
+                            if (Player* player = itr.getSource())
                                 if (player->isAlive() && !player->HasAura(SPELL_HITTING_YA_PLAYER) &&
                                     !player->HasAura(SPELL_DOMINION) && !player->HasAura(SPELL_PLAYER_MIND_LIBERATE))
                                     targets.push_back(player);
@@ -1018,15 +1016,14 @@ class boss_bwd_nefarian : public CreatureScript
                     GetCreatureListWithEntryInGrid(creatures, me, NPC_ANIMATED_BONE_WARRIOR, 500.0f);
                     if (!creatures.empty())
                     {
-                        Creature* target = NULL;
-                        for (std::list<Creature*>::iterator iter = creatures.begin(); iter != creatures.end(); iter++)
-                            if (Creature* c = *iter)
-                                if (c->HasAura(SPELL_ONYXIA_FEIGN_DEATH))
-                                {
-                                    target = *iter;
-                                    break;
-                                }
-                        if (target == NULL)
+                        Creature* target = nullptr;
+                        for (auto const& c : creatures)
+                            if (c->HasAura(SPELL_ONYXIA_FEIGN_DEATH))
+                            {
+                                target = c;
+                                break;
+                            }
+                        if (target == nullptr)
                         {
                             std::list<Creature*>::const_iterator itr = creatures.begin();
                             std::advance(itr, rand() % creatures.size());
@@ -1383,8 +1380,8 @@ class spell_nefarian_shadow_of_cowardice_dummy : public SpellScriptLoader
             {
                 Map::PlayerList const& players = caster->GetMap()->GetPlayers();
                 if (!players.isEmpty())
-                    for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
-                        if (Player* player = itr->getSource())
+                    for (auto const& itr : players)
+                        if (Player* player = itr.getSource())
                             if (player->isAlive())
                                 if (!AccountMgr::IsGMAccount(player->GetSession()->GetSecurity()))
                                     if (player->GetPositionZ() >= 12.59f)
@@ -1507,8 +1504,8 @@ class spell_onyxia_nefarian_tail_slash : public SpellScriptLoader
             Map::PlayerList const& PlayerList = map->GetPlayers();
             if (PlayerList.isEmpty())
                 return;
-            for (Map::PlayerList::const_iterator i = PlayerList.begin(); i != PlayerList.end(); ++i)
-                if (Player* player = i->getSource())
+            for (auto const& itr : PlayerList)
+                if (Player* player = itr.getSource())
                     if (player->isAlive())
                         if (!AccountMgr::IsGMAccount(player->GetSession()->GetSecurity()))
                             if (caster->isInBackInMap(player, 40.0f, static_cast<float>(M_PI / 6)))
@@ -1561,8 +1558,8 @@ class spell_nefarian_electrocute_dummy : public SpellScriptLoader
                 std::list<Creature*> creatures;
                 GetCreatureListWithEntryInGrid(creatures, me, NPC_INVISIBLE_STALKER_CATACLYSM_BOSS_2, 1000.0f);
                 if (!creatures.empty())
-                    for (std::list<Creature*>::iterator iter = creatures.begin(); iter != creatures.end(); iter++)
-                        unitList.push_back(*iter);
+                    for (auto const& iter : creatures)
+                        unitList.push_back(iter);
             }
         }
 
@@ -1928,8 +1925,8 @@ class spell_nefarian_ombrase_P2 : public SpellScriptLoader
         {
             for (int cnt = 0; cnt < 3; cnt++)
             {
-                pillar[cnt] = NULL;
-                pl[cnt] = NULL;
+                pillar[cnt] = nullptr;
+                pl[cnt] = nullptr;
             }
             return true;
         }
@@ -1951,20 +1948,20 @@ class spell_nefarian_ombrase_P2 : public SpellScriptLoader
             std::list<Creature*> creatures;
             GetCreatureListWithEntryInGrid(creatures, GetCaster(), NPC_PILLAR_MARKER, 500.0f);
             int cnt = 0;
-            for (std::list<Creature*>::iterator itr = creatures.begin(); itr != creatures.end(); itr++)
+            for (auto const& itr : creatures)
             {
                 if (cnt < 3)
-                    pillar[cnt] = *itr;
+                    pillar[cnt] = itr;
                 cnt++;
             }
 
-            for (std::list<WorldObject*>::iterator itr = unitList.begin(); itr != unitList.end(); itr++)
+            for (auto const& itr : unitList)
             {
-                if (Player* player = (*itr)->ToPlayer())
+                if (Player* player = itr->ToPlayer())
                 {
                     for (int cnt = 0; cnt < 3; cnt++)
                         if (Creature* marker = pillar[cnt])
-                            if (pl[cnt] == NULL)
+                            if (pl[cnt] == nullptr)
                                 if (player->GetDistance(marker) <= 7.0f)
                                     pl[cnt] = player;
                 }

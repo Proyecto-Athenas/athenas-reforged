@@ -350,9 +350,9 @@ class boss_magmaw : public CreatureScript
 
             if (!players.isEmpty())
             {
-                for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
+                for (auto const& itr : players)
                 {
-                    if (Player* player = itr->getSource())
+                    if (Player* player = itr.getSource())
                     {
                         if (player->CreateVehicleKit(497, 0))
                         {
@@ -770,7 +770,7 @@ class spell_magmaw_parasitic_infection_aura : public SpellScriptLoader
         void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (Unit* target = GetUnitOwner())
-                target->CastSpell((Unit*)NULL, GetSpellInfo()->Effects[EFFECT_0].TriggerSpell, true);
+                target->CastSpell((Unit*)nullptr, GetSpellInfo()->Effects[EFFECT_0].TriggerSpell, true);
         }
 
         void Register()
@@ -1042,12 +1042,12 @@ class spell_nefarius_magmaw_shadow_breath : public SpellScriptLoader
 
             WorldObject* target = Trinity::Containers::SelectRandomContainerElement(unitList);
 
-            for (std::list<WorldObject*>::iterator itr = unitList.begin(); itr != unitList.end();)
+            for (auto& itr : unitList)
             {
-                if (BadTarget(*itr, target->ToUnit()))
-                    itr = unitList.erase(itr);
-                else
-                    ++itr;
+                if (BadTarget(itr, target->ToUnit()))
+                {
+                    unitList.remove(itr);
+                }
             }
         }
 
