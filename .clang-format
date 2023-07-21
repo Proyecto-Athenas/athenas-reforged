@@ -1,0 +1,4 @@
+BasedOnStyle: Microsoft
+Language: Cpp
+DerivePointerAlignment: false
+PointerAlignment: Left
