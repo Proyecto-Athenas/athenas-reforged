@@ -4403,7 +4403,7 @@ void Spell::EffectScriptEffect(SpellEffIndex effIndex)
             {
                 case 90289: // Glyph of resilient grip
                     if (m_caster->GetTypeId() == TYPEID_PLAYER)
-                        m_caster->ToPlayer()->RemoveSpellCooldown(49576, true);
+                        m_caster->ToPlayer()->ModifySpellCooldown(49576, -34000);
                     break;
             }
             // Pestilence

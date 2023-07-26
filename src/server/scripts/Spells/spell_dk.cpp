@@ -1465,31 +1465,40 @@ class spell_dk_death_grip_dummy : public SpellScriptLoader
 public:
     spell_dk_death_grip_dummy() : SpellScriptLoader("spell_dk_death_grip_dummy") {}
 
+    enum SpellIds
+    {
+        SPELL_DEATH_GRIP              = 49560,
+        SPELL_DEATH_GRIP_INIT         = 49576,
+        SPELL_GLYPH_OF_RESILIENT_GRIP = 59309,
+        SPELL_RESET_DEATH_GRIP_CD     = 90289
+    };
+
     class spell_dk_death_grip_dummy_SpellScript : public SpellScript
     {
         PrepareSpellScript(spell_dk_death_grip_dummy_SpellScript);
 
         void HandleDummy(SpellEffIndex /*effIndex*/)
         {
-            Unit *caster = GetCaster();
-            Unit *spellTarget = GetSpell()->m_targets.GetUnitTarget();
-            if (Unit *target = GetHitUnit())
+            Unit* caster = GetCaster();
+            Unit* spellTarget = GetSpell()->m_targets.GetUnitTarget();
+            if (Unit* target = GetHitUnit())
             {
                 if (spellTarget && caster == target) // Spell reflect cast
-                    spellTarget->CastSpell(caster, 49560, true);
+                    spellTarget->CastSpell(caster, SPELL_DEATH_GRIP, true);
                 else
-                    caster->CastSpell(GetHitUnit(), 49560, true);
+                    caster->CastSpell(target, SPELL_DEATH_GRIP, true);
             }
         }
 
         void HandleOnHit()
         {
-            SpellInfo const *triggered = sSpellMgr->GetSpellInfo(49560);
-            Unit *caster = GetCaster();
+            Unit* caster = GetCaster();
+            SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(SPELL_DEATH_GRIP_INIT);
+            SpellMissInfo info = caster->SpellHitResult(GetHitUnit(), spellInfo, true);
             // Glyph of resilient grip
-            if (AuraEffect *glyph = caster->GetAuraEffect(59309, EFFECT_0, caster->GetGUID()))
-                if (GetHitUnit()->IsImmunedToSpellEffect(triggered, EFFECT_0) && GetHitUnit()->IsImmunedToSpellEffect(triggered, EFFECT_2))
-                    caster->CastSpell(caster, 90289, true);
+            if (caster->HasAura(SPELL_GLYPH_OF_RESILIENT_GRIP))
+                if (info == SPELL_MISS_IMMUNE || info == SPELL_MISS_IMMUNE2)
+                    caster->CastSpell(caster, SPELL_RESET_DEATH_GRIP_CD, true);
         }
 
         void Register() override
@@ -1499,7 +1508,7 @@ public:
         }
     };
 
-    SpellScript *GetSpellScript() const override
+    SpellScript* GetSpellScript() const override
     {
         return new spell_dk_death_grip_dummy_SpellScript();
     }

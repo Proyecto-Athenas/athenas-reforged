@@ -12586,7 +12586,9 @@ bool Unit::IsImmunedToSpell(SpellInfo const *spellInfo, Unit *caster, const uint
         for (SpellImmuneList::const_iterator itr = schoolList.begin(); itr != schoolList.end(); ++itr)
         {
             SpellInfo const *immuneSpellInfo = sSpellMgr->GetSpellInfo(itr->spellId);
-            if ((itr->type & spellInfo->GetSchoolMask()) && !(immuneSpellInfo && immuneSpellInfo->IsPositive() && (spellInfo->IsPositive() || this == caster)) && !spellInfo->CanPierceImmuneAura(immuneSpellInfo))
+            if (((itr->type & spellInfo->GetSchoolMask()) == spellInfo->GetSchoolMask()) &&
+                (!immuneSpellInfo || immuneSpellInfo->IsPositive()) && !spellInfo->IsPositive()
+                && !spellInfo->CanPierceImmuneAura(immuneSpellInfo))
                 return true;
         }
     }
