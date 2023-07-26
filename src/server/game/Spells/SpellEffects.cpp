@@ -4403,6 +4403,7 @@ void Spell::EffectScriptEffect(SpellEffIndex effIndex)
             {
                 case 90289: // Glyph of resilient grip
                     if (m_caster->GetTypeId() == TYPEID_PLAYER)
+                        // Athenas: instead of removing the cd, we set it to 1 sec
                         m_caster->ToPlayer()->ModifySpellCooldown(49576, -34000);
                     break;
             }
