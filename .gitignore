@@ -17,3 +17,4 @@ CMakeLists.txt.user
 *.BASE.*
 *.LOCAL.*
 .vscode*/
+.clang-format
