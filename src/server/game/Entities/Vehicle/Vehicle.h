@@ -137,7 +137,6 @@ class VehicleJoinEvent : public BasicEvent
     friend class Vehicle;
     protected:
         VehicleJoinEvent(Vehicle* v, Unit* u) : Target(v), vehicleGuid(v->GetBase()->GetGUID()), Passenger(u), Seat(Target->Seats.end()) {}
-        ~VehicleJoinEvent();
         bool Execute(uint64, uint32);
         void Abort(uint64);
 
