@@ -13046,12 +13046,16 @@ void Unit::Mount(uint32 mount, uint32 VehicleId, uint32 creatureEntry)
             }
         }
 
-        // Pet Validation, set flag stunned to avoid pet control when mounted
+        // unsummon pet
         Pet *pet = player->GetPet();
         if (pet)
         {
-            // Add Stunned Flag to the pet to avoid Use pet controls when the player are mounted
+            Battleground *bg = ToPlayer()->GetBattleground();
+            // don't unsummon pet in arena but SetFlag UNIT_FLAG_STUNNED to disable pet's interface
             pet->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_STUNNED);
+
+            if (!pet->isInCombat() && !bg)
+                ToPlayer()->UnsummonPetTemporaryIfAny();
         }
 
         player->SendMovementSetCollisionHeight(player->GetCollisionHeight(true));
