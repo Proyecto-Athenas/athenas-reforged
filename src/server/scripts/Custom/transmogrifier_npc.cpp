@@ -544,7 +544,7 @@ public:
 		}
 	}
 	
-	void OnEquip(Player* player, Item* it, uint8 /*bag*/, uint8 /*slot*/, bool /*update*/) override
+	void OnEquip(Player* player, Item* it, uint8 /*bag*/, uint8 /*slot*/, bool /*update*/)
 	{
 		AddToDatabase(player, it);
 	}
