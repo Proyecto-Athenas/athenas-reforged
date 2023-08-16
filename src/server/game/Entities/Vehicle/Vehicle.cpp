@@ -268,7 +268,7 @@ void Vehicle::RemoveAllPassengers()
         while (!_pendingJoinEvents.empty())
         {
             VehicleJoinEvent* e = _pendingJoinEvents.front();
-            e->ScheduleAbort();
+            e->to_Abort = true;
             e->Target = eventVehicle;
             _pendingJoinEvents.pop_front();
         }
@@ -477,7 +477,7 @@ bool Vehicle::AddPassenger(Unit* unit, int8 seatId)
 
         if (seat == Seats.end()) // no available seat
         {
-            e->ScheduleAbort();
+            e->to_Abort = true;
             return false;
         }
 
@@ -489,7 +489,7 @@ bool Vehicle::AddPassenger(Unit* unit, int8 seatId)
         seat = Seats.find(seatId);
         if (seat == Seats.end())
         {
-            e->ScheduleAbort();
+            e->to_Abort = true;
             return false;
         }
 
@@ -834,7 +834,7 @@ void Vehicle::RemovePendingEventsForSeat(int8 seatId)
     {
         if ((*itr)->Seat->first == seatId)
         {
-            (*itr)->ScheduleAbort();
+            (*itr)->to_Abort = true;
             _pendingJoinEvents.erase(itr++);
         }
         else
@@ -859,7 +859,7 @@ void Vehicle::RemovePendingEventsForPassenger(Unit* passenger)
     {
         if ((*itr)->Passenger == passenger)
         {
-            (*itr)->ScheduleAbort();
+            (*itr)->to_Abort = true;
             _pendingJoinEvents.erase(itr++);
         }
         else
@@ -872,8 +872,8 @@ void Vehicle::RemoveAllPendingEvents()
     while (!_pendingJoinEvents.empty())
     {
         VehicleJoinEvent* e = _pendingJoinEvents.front();
-        e->ScheduleAbort();
-        e->Target = nullptr;
+        e->to_Abort = true;
+        e->Target = NULL;
         _pendingJoinEvents.pop_front();
     }
 }

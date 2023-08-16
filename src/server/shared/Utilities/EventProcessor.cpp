@@ -17,20 +17,11 @@
  */
 
 #include "EventProcessor.h"
-#include "Errors.h"
 
-void BasicEvent::ScheduleAbort()
+EventProcessor::EventProcessor()
 {
-    ASSERT(IsRunning()
-        && "Tried to scheduled the abortion of an event twice!");
-    m_abortState = AbortState::STATE_ABORT_SCHEDULED;
-}
-
-void BasicEvent::SetAborted()
-{
-    ASSERT(!IsAborted()
-        && "Tried to abort an already aborted event!");
-    m_abortState = AbortState::STATE_ABORTED;
+    m_time = 0;
+    m_aborting = false;
 }
 
 EventProcessor::~EventProcessor()
@@ -48,75 +39,61 @@ void EventProcessor::Update(uint32 p_time)
     while (((i = m_events.begin()) != m_events.end()) && i->first <= m_time)
     {
         // get and remove event from queue
-        BasicEvent* event = i->second;
+        BasicEvent* Event = i->second;
         m_events.erase(i);
 
-        if (event->IsRunning())
+        if (!Event->to_Abort)
         {
-            if (event->Execute(m_time, p_time))
+            if (Event->Execute(m_time, p_time))
             {
                 // completely destroy event if it is not re-added
-                delete event;
+                delete Event;
             }
-            continue;
         }
-
-        if (event->IsAbortScheduled())
+        else
         {
-            event->Abort(m_time);
-            event->SetAborted();
+            Event->Abort(m_time);
+            delete Event;
         }
-
-        if (event->IsDeletable())
-        {
-            delete event;
-            continue;
-        }
-
-        AddEvent(event, CalculateTime(1), false);
     }
 }
 
 void EventProcessor::KillAllEvents(bool force)
 {
-    for (auto itr = m_events.begin(); itr != m_events.end();)
+    // prevent event insertions
+    m_aborting = true;
+
+    // first, abort all existing events
+    for (EventList::iterator i = m_events.begin(); i != m_events.end();)
     {
-        // Abort events which weren't aborted already
-        if (!itr->second->IsAborted())
+        EventList::iterator i_old = i;
+        ++i;
+
+        i_old->second->to_Abort = true;
+        i_old->second->Abort(m_time);
+        if (force || i_old->second->IsDeletable())
         {
-            itr->second->SetAborted();
-            itr->second->Abort(m_time);
+            delete i_old->second;
+
+            if (!force)                                      // need per-element cleanup
+                m_events.erase (i_old);
         }
-
-        // Skip non-deletable events when we are 
-        // not forcing the event cancellation
-        if (!force && !itr->second->IsDeletable())
-        {
-            ++itr;
-            continue;
-        }
-
-        delete itr->second;
-
-        if (force)
-            ++itr;
-        else
-            itr = m_events.erase(itr);
     }
 
+    // fast clear event list (in force case)
     if (force)
         m_events.clear();
 }
 
-void EventProcessor::AddEvent(BasicEvent* event, uint64 e_time, bool set_addtime)
+void EventProcessor::AddEvent(BasicEvent* Event, uint64 e_time, bool set_addtime)
 {
-    if (set_addtime) 
-        event->m_addTime = m_time;
-    event->m_execTime = e_time;
-    m_events.insert(std::pair<uint64, BasicEvent*>(e_time, event));
+    if (set_addtime) Event->m_addTime = m_time;
+    Event->m_execTime = e_time;
+    m_events.insert(std::pair<uint64, BasicEvent*>(e_time, Event));
 }
 
 uint64 EventProcessor::CalculateTime(uint64 t_offset) const
 {
     return(m_time + t_offset);
 }
+
