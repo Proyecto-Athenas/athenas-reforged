@@ -5743,11 +5743,11 @@ SpellCastResult Spell::CheckCast(bool strict)
         if (m_spellInfo->DmgClass != SPELL_DAMAGE_CLASS_MELEE && !IsTriggered())
         {
             for (auto const& itr : m_caster->GetAuraEffectsByType(SPELL_AURA_INTERFERE_TARGETTING))
-                if (!m_caster->IsFriendlyTo(itr->GetCaster()) && !target->HasAura(itr->GetId(), itr->GetCasterGUID()))
+                if (itr->GetCaster() && !m_caster->IsFriendlyTo(itr->GetCaster()) && !target->HasAura(itr->GetId(), itr->GetCasterGUID()))
                     return SPELL_FAILED_VISION_OBSCURED;
 
             for (auto const& itr : target->GetAuraEffectsByType(SPELL_AURA_INTERFERE_TARGETTING))
-                if (!m_caster->IsFriendlyTo(itr->GetCaster()) && (!target->HasAura(itr->GetId(), itr->GetCasterGUID()) || !m_caster->HasAura(itr->GetId(), itr->GetCasterGUID())))
+                if (itr->GetCaster() && !m_caster->IsFriendlyTo(itr->GetCaster()) && (!target->HasAura(itr->GetId(), itr->GetCasterGUID()) || !m_caster->HasAura(itr->GetId(), itr->GetCasterGUID())))
                     return SPELL_FAILED_VISION_OBSCURED;
         }
 
