@@ -3867,29 +3867,29 @@ void Spell::cast(bool skipCheck)
 
     CallScriptAfterCastHandlers();
 
-    if (std::vector<int32> const* spell_triggered = sSpellMgr->GetSpellLinked(m_spellInfo->Id))
+    if (const std::vector<int32> *spell_triggered = sSpellMgr->GetSpellLinked(m_spellInfo->Id))
     {
-        for (int32 id : *spell_triggered)
-            if (id < 0)
-                m_caster->RemoveAurasDueToSpell(-id);
+        for (std::vector<int32>::const_iterator i = spell_triggered->begin(); i != spell_triggered->end(); ++i)
+            if (*i < 0)
+                m_caster->RemoveAurasDueToSpell(-(*i));
             else
             {
                 if (m_spellInfo->IsAffectingArea())
                 {
-                    SpellInfo const* triggeredSpell = sSpellMgr->GetSpellInfo(id);
+                    SpellInfo const* triggeredSpell = sSpellMgr->GetSpellInfo(*i);
                     if (triggeredSpell && !triggeredSpell->IsAffectingArea())
                     {
                         for (std::list<TargetInfo>::iterator ihit = m_UniqueTargetInfo.begin(); ihit != m_UniqueTargetInfo.end(); ++ihit)
                         {
                             if (Unit* unit = m_caster->GetGUID() == ihit->targetGUID ? m_caster : ObjectAccessor::GetUnit(*m_caster, ihit->targetGUID))
-                                m_caster->CastSpell(unit, id, true);
+                                m_caster->CastSpell(unit, *i, true);
                         }
                     }
                     else
-                        m_caster->CastSpell(m_targets.GetUnitTarget() ? m_targets.GetUnitTarget() : m_caster, id, true);
+                        m_caster->CastSpell(m_targets.GetUnitTarget() ? m_targets.GetUnitTarget() : m_caster, *i, true);
                 }
                 else
-                    m_caster->CastSpell(m_targets.GetUnitTarget() ? m_targets.GetUnitTarget() : m_caster, id, true);
+                    m_caster->CastSpell(m_targets.GetUnitTarget() ? m_targets.GetUnitTarget() : m_caster, *i, true);
             }
     }
 
@@ -7741,8 +7741,7 @@ bool SpellEvent::Execute(uint64 e_time, uint32 p_time)
                 return true;                                // spell is deletable, finish event
             }
             // event will be re-added automatically at the end of routine)
-            break;
-        }
+        } break;
 
         case SPELL_STATE_DELAYED:
         {
@@ -7797,15 +7796,13 @@ bool SpellEvent::Execute(uint64 e_time, uint32 p_time)
                 m_Spell->GetCaster()->m_Events.AddEvent(this, e_time + m_Spell->GetDelayMoment(), false);
                 return false;                               // event not complete
             }
-            break;
-        }
+        } break;
 
         default:
         {
             // all other states
             // event will be re-added automatically at the end of routine)
-            break;
-        }
+        } break;
     }
 
     // spell processing not complete, plan event on the next update interval
