@@ -12945,6 +12945,7 @@ Item *Player::EquipItem(uint16 pos, Item *pItem, bool update, bool slotSwitch)
     if (Guild *guild = GetGuild())
         guild->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_OWN_ITEM, pItem->GetEntry(), 1, 0, NULL, this);
 
+    sScriptMgr->OnEquip(this, pItem, bag, slot, update);
     return pItem;
 }
 
