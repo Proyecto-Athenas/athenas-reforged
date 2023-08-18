@@ -8163,7 +8163,9 @@ uint32 Player::GetCurrencyWeekCap(CurrencyTypesEntry const *currency, bool useRa
             cap = GetConquestWeekCap(currency);
             break;
         }
-        cap = std::max(GetConquestWeekCap(arena), GetConquestWeekCap(rbg));
+		//TODO: FIX that part, is temporal while fix conquest points calculation
+		cap = 3000 * CURRENCY_PRECISION;
+        //cap = std::max(GetConquestWeekCap(arena), GetConquestWeekCap(rbg));
         break;
     }
     case CURRENCY_TYPE_CONQUEST_ARENA:
