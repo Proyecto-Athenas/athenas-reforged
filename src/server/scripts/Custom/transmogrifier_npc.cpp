@@ -413,8 +413,7 @@ public:
 					OnGossipHello(player, m_creature);
 					return true;
 				}
-				// sender = slot, action = display
-				//session->SendAreaTriggerMessage("test, borrar %ld - %ld", sender, action);
+
 				std::string res = Transmogrify(player, action, sender, RequireToken ? false : true);
 				if (res == "Success!") 
 				{
