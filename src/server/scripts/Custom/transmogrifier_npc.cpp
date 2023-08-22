@@ -144,6 +144,7 @@ void ShowTransmogItems(Player* player, Creature* creature, uint8 slot, uint16 go
 	WorldSession* session = player->GetSession();
 	Item* oldItem = player->GetItemByPos(INVENTORY_SLOT_BAG_0, slot);
 	bool sendGossip = true;
+	bool hasSearchString;
 
 	if (oldItem)
 	{
@@ -169,7 +170,11 @@ void ShowTransmogItems(Player* player, Creature* creature, uint8 slot, uint16 go
 		}
 		uint32 accountId = player->GetSession()->GetAccountId();
 		if (collectionCache.find(accountId) != collectionCache.end())
-		{			
+		{
+			std::unordered_map<uint32, std::string>::iterator searchStringIterator = searchStringByPlayer.find(player->GetGUID());
+			hasSearchString = !(searchStringIterator == searchStringByPlayer.end());
+			std::string searchDisplayValue(hasSearchString ? searchStringIterator->second : "search");
+			
 			std::vector<Item*> allowedItems;
 			for (uint32 newItemEntryId : collectionCache[accountId]) {
 				if (!sObjectMgr->GetItemTemplate(newItemEntryId))
@@ -181,6 +186,8 @@ void ShowTransmogItems(Player* player, Creature* creature, uint8 slot, uint16 go
 					continue;
 				//if (GetFakeEntry(oldItem->GetGUID()) == newItem->GetEntry())
 				//	continue;
+				if (hasSearchString && newItem->GetTemplate()->Name1.find(searchDisplayValue) == std::string::npos)
+					continue;
 				allowedItems.push_back(newItem);
 			}
 			for (uint32 i = startValue; i <= endValue; i++)
@@ -233,7 +240,7 @@ void UpdateItem(Player* player, Item* item)
 {
 	bool playSound = sWorld->getBoolConfig(CONFIG_TRANSMOG_PLAYSOUND); // play sound on transmog
 	uint32 soundId = sWorld->getIntConfig(CONFIG_TRANSMOG_PLAYSOUND_ID);
-
+	
 	if (item->IsEquipped())
 	{
 		player->SetVisibleItemSlot(item->GetSlot(), item);
@@ -473,7 +480,7 @@ class PS_Transmogrification : public PlayerScript
 
 		if (AddCollectedAppearance(accountId, itemId))
 		{
-			ChatHandler(player->GetSession()).PSendSysMessage(R"(|c%s|Hitem:%u:0:0:0:0:0:0:0:0|h[%s]|h|r %s)", itemQuality.c_str(), itemId, itemName.c_str(), "has been added to your appearance collection.");
+			ChatHandler(player->GetSession()).PSendSysMessage(R"(|c%s|Hitem:%u:0:0:0:0:0:0:0:0|h[%s]|h|r %s)", itemQuality.c_str(), itemId, itemName.c_str(), "added_appearance");
 			CharacterDatabase.PQuery("INSERT INTO custom_unlocked_appearances (account_id, item_template_id) VALUES ('%ld', '%ld')", accountId, itemId);
 		}
 	}
@@ -537,7 +544,7 @@ public:
 		}
 	}
 	
-	void OnEquip(Player* player, Item* it, uint8 /*bag*/, uint8 /*slot*/, bool /*update*/) override
+	void OnEquip(Player* player, Item* it, uint8 /*bag*/, uint8 /*slot*/, bool /*update*/)
 	{
 		AddToDatabase(player, it);
 	}
