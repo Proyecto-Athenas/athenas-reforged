@@ -212,9 +212,14 @@ include_directories(
 add_library(game STATIC
   ${game_STAT_SRCS}
   ${game_STAT_PCH_SRC}
+  ${SFMT_SOURCES}
 )
 
 add_dependencies(game revision.h)
+
+target_link_libraries(game
+sfmt
+)
 
 # Generate precompiled header
 if (USE_COREPCH)
