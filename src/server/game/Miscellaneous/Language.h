@@ -21,11 +21,12 @@
 
 enum BroadcastTextIds
 {
-    BROADCAST_TEXT_ACHIEVEMENT_EARNED   = 29245,
-    BROADCAST_TEXT_CALL_FOR_HELP        = 2541,
-    BROADCAST_TEXT_FLEE_FOR_ASSIST      = 1150
+    BROADCAST_TEXT_ACHIEVEMENT_EARNED = 29245,
+    BROADCAST_TEXT_CALL_FOR_HELP = 2541,
+    BROADCAST_TEXT_FLEE_FOR_ASSIST = 1150
 };
 
+// clang-format off
 enum TrinityStrings
 {
     // for chat commands
@@ -1212,8 +1213,11 @@ enum TrinityStrings
     LANG_ID_SWITCH_FAILED_IS_DEAD         = 11904,
     LANG_ID_SWITCH_FAILED_IS_IN_FIGHT     = 11905,
 
+    LANG_DONT_HAVE_ITEM                   = 12098,
+
     // NOT RESERVED IDS                   12000-1999999999
     // `db_script_string` table index     2000000000-2000009999 (MIN_DB_SCRIPT_STRING_ID-MAX_DB_SCRIPT_STRING_ID)
     // For other tables maybe             2000010000-2147483647 (max index)
 };
+// clang-format on
 #endif
