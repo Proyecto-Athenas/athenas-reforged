@@ -39,6 +39,7 @@ endif()
 
 if(WORLDSERVER OR TOOLS)
   add_subdirectory(g3dlite)
+  add_subdirectory(SFMT)
   add_subdirectory(recastnavigation)
 endif()
 

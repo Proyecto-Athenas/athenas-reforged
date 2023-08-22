@@ -716,9 +716,6 @@ public:
 
     virtual void OnQuestReward(Player * /*player*/, Quest const * /*quest*/) {}
 
-    // After an item has been equipped
-	virtual void OnEquip(Player* /*player*/, Item* /*it*/, uint8 /*bag*/, uint8 /*slot*/, bool /*update*/) {}
-
     virtual void OnQuestComplete(Player * /*player*/, Quest const * /*quest*/) {}
 
     virtual void OnUpdate(Player * /*player*/, uint32 /*diff*/) {}
@@ -978,7 +975,6 @@ public: /* PlayerScript */
     void OnPlayerEnterMap(Player *player, uint32 mapId);
     void OnPlayerUpdateZone(Player *player, uint32 newZone, uint32 newArea);
     void OnQuestReward(Player *player, Quest const *quest);
-    void OnEquip(Player * player, Item * it, uint8 bag, uint8 slot, bool update);
     void OnQuestComplete(Player *player, Quest const *quest);
     void OnUpdate(Player *player, uint32 diff);
     void OnAddItem(Player *player, Item *item);
