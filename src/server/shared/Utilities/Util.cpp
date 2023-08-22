@@ -31,8 +31,6 @@ typedef ACE_TSS<SFMTRand> SFMTRandTSS;
 static SFMTRandTSS sfmtRand;
 static RandomEngine engine;
 
-static SFMTRand* GetRng() { return sfmtRand.ts_object(); }
-
 int32 irand(int32 min, int32 max)
 {
     ASSERT(max >= min);
@@ -54,7 +52,7 @@ float frand(float min, float max)
     return urd(engine);
 }
 
-int32 rand32() { return GetRng()->RandomUInt32(); }
+int32 rand32() { return sfmtRand->RandomUInt32(); }
 
 double rand_norm(void)
 {
