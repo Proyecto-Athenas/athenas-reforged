@@ -32,6 +32,7 @@
 #    LOGGING SYSTEM SETTINGS
 #    CURRENCIES SETTINGS
 #    TRANSMOGRIFICATION CUSTOM
+#    NPC CHANGE RACIAL
 #
 ###################################################################################################
 
@@ -3398,3 +3399,20 @@ Transmogrification.PlaySound = true
 #        Default:    3337
 
 Transmogrification.SoundId = 3337
+
+#
+
+###################################################################################################
+
+###################################################################################################
+# NPC CHANGE RACIAL
+#
+#    ChangeRacial.Enabled
+#        Description: Enable or disable npc change racial
+#        Default:     0 - (Disabled)
+#                     1 - (Enabled)
+
+ChangeRacial.Enabled = 0
+
+#
+###################################################################################################
