@@ -19,8 +19,8 @@
 #ifndef TRINITY_SHAREDDEFINES_H
 #define TRINITY_SHAREDDEFINES_H
 
-#include "DetourNavMesh.h"
 #include "Define.h"
+#include "DetourNavMesh.h"
 #include <cassert>
 
 #define MAX_CREATURE_BASE_HP 4
@@ -35,15 +35,16 @@ enum SpellEffIndex
 enum Roles
 {
     ROLES_DEFAULT = 0,
-    ROLES_HEALER  = 1,
-    ROLES_DPS     = 2,
-    ROLES_TANK    = 3,
+    ROLES_HEALER = 1,
+    ROLES_DPS = 2,
+    ROLES_TANK = 3,
 };
 
 // used in script definitions
 #define EFFECT_FIRST_FOUND 254
 #define EFFECT_ALL 255
 
+// clang-format off
 // loot modes for creatures and gameobjects, bitmask!
 enum LootModes
 {
@@ -383,7 +384,7 @@ enum SpellAttr2
     SPELL_ATTR2_IS_ARCANE_CONCENTRATION          = 0x00800000, // 23 Only mage Arcane Concentration have this flag
     SPELL_ATTR2_UNK24                            = 0x01000000, // 24
     SPELL_ATTR2_UNK25                            = 0x02000000, // 25
-    SPELL_ATTR2_UNK26                            = 0x04000000, // 26 unaffected by school immunity
+    SPELL_ATTR2_UNAFFECTED_BY_AURA_SCHOOL_IMMUNE = 0x04000000, // 26 unaffected by school immunity
     SPELL_ATTR2_UNK27                            = 0x08000000, // 27
     SPELL_ATTR2_UNK28                            = 0x10000000, // 28
     SPELL_ATTR2_CANT_CRIT                        = 0x20000000, // 29 Spell can't crit
@@ -418,7 +419,7 @@ enum SpellAttr3
     SPELL_ATTR3_REQ_WAND                         = 0x00400000, // 22 Req wand
     SPELL_ATTR3_UNK23                            = 0x00800000, // 23
     SPELL_ATTR3_REQ_OFFHAND                      = 0x01000000, // 24 Req offhand weapon
-    SPELL_ATTR3_UNK25                            = 0x02000000, // 25 no cause spell pushback ?
+    SPELL_ATTR7_CANT_MISS                        = 0x02000000, // 25 no cause spell pushback ?
     SPELL_ATTR3_CAN_PROC_WITH_TRIGGERED          = 0x04000000, // 26 auras with this attribute can proc from triggered spell casts with SPELL_ATTR3_TRIGGERED_CAN_TRIGGER_PROC_2 (67736 + 52999)
     SPELL_ATTR3_DRAIN_SOUL                       = 0x08000000, // 27 only drain soul has this flag
     SPELL_ATTR3_UNK28                            = 0x10000000, // 28
@@ -1614,7 +1615,7 @@ enum Targets
     TOTAL_SPELL_TARGETS
 };
 
-enum SpellMissInfo
+enum SpellMissInfo: uint8
 {
     SPELL_MISS_NONE                    = 0,
     SPELL_MISS_MISS                    = 1,
@@ -3955,5 +3956,6 @@ enum PetSlot
     PET_SLOT_OTHER_PET       = 100,        // PetType != HUNTER_PET
 
 };
+// clang-format on
 
 #endif
