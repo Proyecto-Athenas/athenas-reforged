@@ -127,6 +127,12 @@ class npc_change_racial_traits : public CreatureScript
 
         bool OnGossipHello(Player* player, Creature* creature)
         {
+            if (!sWorld->getBoolConfig(CONFIG_CHANGE_RACIAL))
+            {
+                player->SEND_GOSSIP_MENU(907, creature->GetGUID());
+                return true;
+            }
+
             player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Raciales de Orco", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 1);
             player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Raciales de Elfo de Sangre", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 2);
             player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Raciales de Goblin", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 3);

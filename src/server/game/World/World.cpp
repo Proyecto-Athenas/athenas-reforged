@@ -1407,6 +1407,9 @@ void World::LoadConfigSettings(bool reload)
     m_bool_configs[CONFIG_TRANSMOG_PLAYSOUND] = sConfigMgr->GetBoolDefault("Transmogrification.PlaySound", false);
     m_int_configs[CONFIG_TRANSMOG_PLAYSOUND_ID] = sConfigMgr->GetIntDefault("Transmogrification.SoundId", 3337);
 
+    // npc change racial
+    m_bool_configs[CONFIG_CHANGE_RACIAL] = sConfigMgr->GetBoolDefault("ChangeRacial.Enabled", false);
+
     if (reload)
         sScriptMgr->OnConfigLoad(reload);
 }
