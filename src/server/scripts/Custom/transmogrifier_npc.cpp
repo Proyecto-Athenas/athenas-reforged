@@ -1,10 +1,14 @@
 #include "ScriptPCH.h"
+#include <unordered_map>
+#include <vector>
 
+#define MAX_OPTIONS 25 // do not alter
+
+typedef std::unordered_map<uint32, std::vector<uint32>> collectionCacheMap;
+typedef std::unordered_map<uint32, std::string> searchStringMap;
+collectionCacheMap collectionCache;
+searchStringMap searchStringByPlayer;
 // Transmog settings
-
-
-
-
 
 // Transmog helpers
 std::string GetItemLink(uint32 entry, WorldSession* session)
@@ -131,7 +135,7 @@ bool CanTransmogrifyItemWithItem(Player* player, ItemTemplate const* target, Ite
 }
 
 // Only checks bags while can use an item from anywhere in inventory
-void ShowTransmogItems(Player* player, Creature* creature, uint8 slot)
+void ShowTransmogItems(Player* player, Creature* creature, uint8 slot, uint16 gossipPageNumber)
 {
 	bool RequireToken = sWorld->getBoolConfig(CONFIG_TRANSMOG_TOKEN); // change false to true if you want transmog to cost a token
 	uint32 TokenAmount = sWorld->getIntConfig(CONFIG_TRANSMOG_TOKEN_AMOUNT);  // token amount
@@ -139,6 +143,8 @@ void ShowTransmogItems(Player* player, Creature* creature, uint8 slot)
 	
 	WorldSession* session = player->GetSession();
 	Item* oldItem = player->GetItemByPos(INVENTORY_SLOT_BAG_0, slot);
+	bool sendGossip = true;
+
 	if (oldItem)
 	{
 		std::set<uint32> oldItemId;
@@ -149,60 +155,85 @@ void ShowTransmogItems(Player* player, Creature* creature, uint8 slot)
 		if (RequireToken)
 			ss << std::endl << std::endl << TokenAmount << " x " << GetItemLink(TokenEntry, session);
 
-		for (uint8 i = INVENTORY_SLOT_ITEM_START; i < INVENTORY_SLOT_ITEM_END; ++i)
-		{
-			if (limit >= 25)
-				break;
-			Item* newItem = player->GetItemByPos(INVENTORY_SLOT_BAG_0, i);
-			if (!newItem)
-				continue;
-			if (!CanTransmogrifyItemWithItem(player, oldItem->GetTemplate(), newItem->GetTemplate()))
-				continue;
-			oldItemId.insert(newItem->GetEntry());
-			++limit;
-		}
+		sendGossip = false;
 
-		for (uint8 i = INVENTORY_SLOT_BAG_START; i < INVENTORY_SLOT_BAG_END; ++i)
+		uint16 pageNumber = 0;
+		uint32 startValue = 0;
+		uint32 endValue = MAX_OPTIONS - 4;
+		bool lastPage = false;
+		if (gossipPageNumber > EQUIPMENT_SLOT_END + 10)
 		{
-			Bag* bag = player->GetBagByPos(i);
-			if (!bag)
-				continue;
-			for (uint32 j = 0; j < bag->GetBagSize(); ++j)
-			{
-				if (limit >= 25)
-					break;
-				Item* newItem = player->GetItemByPos(i, j);
+			pageNumber = gossipPageNumber - EQUIPMENT_SLOT_END - 10;
+			startValue = (pageNumber * (MAX_OPTIONS - 2));
+			endValue = (pageNumber + 1) * (MAX_OPTIONS - 2) - 1;
+		}
+		uint32 accountId = player->GetSession()->GetAccountId();
+		if (collectionCache.find(accountId) != collectionCache.end())
+		{			
+			std::vector<Item*> allowedItems;
+			for (uint32 newItemEntryId : collectionCache[accountId]) {
+				if (!sObjectMgr->GetItemTemplate(newItemEntryId))
+					continue;
+				Item* newItem = Item::CreateItem(newItemEntryId, 1, 0);
 				if (!newItem)
 					continue;
 				if (!CanTransmogrifyItemWithItem(player, oldItem->GetTemplate(), newItem->GetTemplate()))
 					continue;
-				oldItemId.insert(newItem->GetEntry());
-				++limit;
+				//if (GetFakeEntry(oldItem->GetGUID()) == newItem->GetEntry())
+				//	continue;
+				allowedItems.push_back(newItem);
+			}
+			for (uint32 i = startValue; i <= endValue; i++)
+			{
+				if (allowedItems.empty() || i > allowedItems.size() - 1)
+				{
+					lastPage = true;
+					break;
+				}
+				Item* newItem = allowedItems.at(i);
+				player->ADD_GOSSIP_ITEM_EXTENDED(GOSSIP_ICON_MONEY_BAG, GetItemLink(newItem->GetEntry(), session), slot, newItem->GetEntry(), "Using this item for transmogrify will bind it to you and make it non-refundable and non-tradeable.\nDo you wish to continue?\n\n" + GetItemLink(newItem->GetEntry(), session) + ss.str(), price, false);
 			}
 		}
-
-		for (auto oldEntry : oldItemId)
+		if (gossipPageNumber == EQUIPMENT_SLOT_END + 11)
 		{
-			Item* newItem = player->GetItemByEntry(oldEntry);
-			if (!newItem)
-				continue;
-			player->ADD_GOSSIP_ITEM_EXTENDED(GOSSIP_ICON_MONEY_BAG, GetItemLink(newItem->GetEntry(), session), slot, newItem->GetGUIDLow(), "Using this item for transmogrify will bind it to you and make it non-refundable and non-tradeable.\nDo you wish to continue?\n\n" + GetItemLink(newItem->GetEntry(), session) + ss.str(), price, false);
+			player->ADD_GOSSIP_ITEM(GOSSIP_ICON_MONEY_BAG, "<- previous_page", EQUIPMENT_SLOT_END, slot);
+			if (!lastPage)
+			{
+				player->ADD_GOSSIP_ITEM(GOSSIP_ICON_MONEY_BAG, "next_page ->", gossipPageNumber + 1, slot);
+			}
+		}
+		else if (gossipPageNumber > EQUIPMENT_SLOT_END + 11)
+		{
+			player->ADD_GOSSIP_ITEM(GOSSIP_ICON_MONEY_BAG, "<- previous_page", gossipPageNumber - 1, slot);
+			if (!lastPage)
+			{
+				player->ADD_GOSSIP_ITEM(GOSSIP_ICON_MONEY_BAG, "next_page ->", gossipPageNumber + 1, slot);
+			}
+		}
+		else if (!lastPage)
+		{
+			player->ADD_GOSSIP_ITEM(GOSSIP_ICON_MONEY_BAG, "Next Page ->", EQUIPMENT_SLOT_END + 11, slot);
 		}
 
-		oldItemId.clear();
+		player->ADD_GOSSIP_ITEM_EXTENDED(GOSSIP_ICON_MONEY_BAG, "Remove transmogrification", EQUIPMENT_SLOT_END + 2, slot, "Remove transmogrification from the slot?", 0, false);
+		player->ADD_GOSSIP_ITEM(GOSSIP_ICON_MONEY_BAG, "Update menu", EQUIPMENT_SLOT_END, slot);
+		player->ADD_GOSSIP_ITEM(GOSSIP_ICON_MONEY_BAG, "<- Back", EQUIPMENT_SLOT_END + 1, 0);
+		player->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
 	}
 
-	player->ADD_GOSSIP_ITEM_EXTENDED(GOSSIP_ICON_MONEY_BAG, "Remove transmogrification", EQUIPMENT_SLOT_END + 2, slot, "Remove transmogrification from the slot?", 0, false);
-	player->ADD_GOSSIP_ITEM(GOSSIP_ICON_MONEY_BAG, "Update menu", EQUIPMENT_SLOT_END, slot);
-	player->ADD_GOSSIP_ITEM(GOSSIP_ICON_MONEY_BAG, "<- Back", EQUIPMENT_SLOT_END + 1, 0);
-	player->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
+	if (sendGossip) {
+		player->ADD_GOSSIP_ITEM_EXTENDED(GOSSIP_ICON_MONEY_BAG, "Remove transmogrification", EQUIPMENT_SLOT_END + 2, slot, "Remove transmogrification from the slot?", 0, false);
+		player->ADD_GOSSIP_ITEM(GOSSIP_ICON_MONEY_BAG, "Update menu", EQUIPMENT_SLOT_END, slot);
+		player->ADD_GOSSIP_ITEM(GOSSIP_ICON_MONEY_BAG, "<- Back", EQUIPMENT_SLOT_END + 1, 0);
+		player->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
+	}
 }
 
 void UpdateItem(Player* player, Item* item)
 {
 	bool playSound = sWorld->getBoolConfig(CONFIG_TRANSMOG_PLAYSOUND); // play sound on transmog
 	uint32 soundId = sWorld->getIntConfig(CONFIG_TRANSMOG_PLAYSOUND_ID);
-	
+
 	if (item->IsEquipped())
 	{
 		player->SetVisibleItemSlot(item->GetSlot(), item);
@@ -227,7 +258,7 @@ void SetFakeEntry(Player* player, Item* item, uint32 entry)
 	UpdateItem(player, item);
 }
 
-std::string Transmogrify(Player* player, uint64 itemGUID, uint8 slot, bool no_cost)
+std::string Transmogrify(Player* player, uint32 itemEntry, uint8 slot, bool no_cost)
 {
 	bool RequireToken = sWorld->getBoolConfig(CONFIG_TRANSMOG_TOKEN); // change false to true if you want transmog to cost a token
 	uint32 TokenAmount = sWorld->getIntConfig(CONFIG_TRANSMOG_TOKEN_AMOUNT);  // token amount
@@ -240,9 +271,9 @@ std::string Transmogrify(Player* player, uint64 itemGUID, uint8 slot, bool no_co
 
 	Item* itemTransmogrifier = NULL;
 	// guid of the transmogrifier item, if it's not 0
-	if (itemGUID)
+	if (itemEntry)
 	{
-		itemTransmogrifier = player->GetItemByGuid(itemGUID);
+		itemTransmogrifier = Item::CreateItem(itemEntry, 1, 0);
 		if (!itemTransmogrifier)
 			return "Missing source item";
 	}
@@ -333,58 +364,67 @@ public:
 		player->PlayerTalkClass->ClearMenus();
 		WorldSession* session = player->GetSession();
 
+		// Next page
+		if (sender > EQUIPMENT_SLOT_END + 10)
+		{
+			ShowTransmogItems(player, m_creature, action, sender);
+			return true;
+		}
+
 		switch (sender)
 		{
-		case EQUIPMENT_SLOT_END: // Show items you can use
-		{
-			ShowTransmogItems(player, m_creature, action);
-			break;
-		}
-		case EQUIPMENT_SLOT_END + 1:
-		{
-			OnGossipHello(player, m_creature);
-			break;
-		}
-		case EQUIPMENT_SLOT_END + 2:
-		{
-			if (Item* newItem = player->GetItemByPos(INVENTORY_SLOT_BAG_0, action))
+			case EQUIPMENT_SLOT_END: // Show items you can use
 			{
-				uint32 fakeEntry = 0;
-				if (!player->transmogMap.empty())
+				ShowTransmogItems(player, m_creature, action, sender);
+				break;
+			}
+			case EQUIPMENT_SLOT_END + 1:
+			{
+				OnGossipHello(player, m_creature);
+				break;
+			}
+			case EQUIPMENT_SLOT_END + 2:
+			{
+				if (Item* newItem = player->GetItemByPos(INVENTORY_SLOT_BAG_0, action))
 				{
-					TransmogMapType::const_iterator it = player->transmogMap.find(newItem->GetGUID());
-					if (it != player->transmogMap.end())
-						fakeEntry = it->second;
+					uint32 fakeEntry = 0;
+					if (!player->transmogMap.empty())
+					{
+						TransmogMapType::const_iterator it = player->transmogMap.find(newItem->GetGUID());
+						if (it != player->transmogMap.end())
+							fakeEntry = it->second;
+					}
+					if (fakeEntry)
+					{
+						DeleteFakeEntry(player, newItem);
+						session->SendAreaTriggerMessage("Success!");
+					}
+					else
+						session->SendNotification("Transmog not found!");
 				}
-				if (fakeEntry)
+
+				OnGossipHello(player, m_creature);
+				break;
+			}
+			default: // Transmogrify
+			{
+				if (!sender && !action)
 				{
-					DeleteFakeEntry(player, newItem);
+					OnGossipHello(player, m_creature);
+					return true;
+				}
+
+				std::string res = Transmogrify(player, action, sender, RequireToken ? false : true);
+				if (res == "Success!") 
+				{
 					session->SendAreaTriggerMessage("Success!");
 				}
 				else
-					session->SendNotification("Transmog not found!");
-			}
+					session->SendNotification(res.c_str());
 
-			OnGossipHello(player, m_creature);
-			break;
-		}
-		default: // Transmogrify
-		{
-			if (!sender && !action)
-			{
 				OnGossipHello(player, m_creature);
-				return true;
+				break;
 			}
-			// sender = slot, action = display
-			std::string res = Transmogrify(player, MAKE_NEW_GUID(action, 0, HIGHGUID_ITEM), sender, RequireToken ? false : true);
-			if (res == "Success!")
-				session->SendAreaTriggerMessage("Success!");
-			else
-				session->SendNotification(res.c_str());
-
-			OnGossipHello(player, m_creature);
-			break;
-		}
 		}
 		return true;
 	}
@@ -392,6 +432,51 @@ public:
 
 class PS_Transmogrification : public PlayerScript
 {
+	bool AddCollectedAppearance(uint32 accountId, uint32 itemId)
+	{
+		if (collectionCache.find(accountId) == collectionCache.end())
+		{
+			collectionCache.insert({ accountId, {itemId} });
+			return true;
+		}
+		if (std::find(collectionCache[accountId].begin(), collectionCache[accountId].end(), itemId) == collectionCache[accountId].end())
+		{
+			collectionCache[accountId].push_back(itemId);
+			std::sort(collectionCache[accountId].begin(), collectionCache[accountId].end());
+			return true;
+		}
+		return false;
+	}
+
+	void AddToDatabase(Player* player, Item* item)
+	{
+		if (item->HasFlag(ITEM_FIELD_FLAGS, ITEM_FLAG_BOP_TRADEABLE))
+			return;
+		if (item->HasFlag(ITEM_FIELD_FLAGS, ITEM_FLAG_REFUNDABLE))
+			return;
+		ItemTemplate const* itemTemplate = item->GetTemplate();
+		AddToDatabase(player, itemTemplate);
+	}
+
+	void AddToDatabase(Player* player, ItemTemplate const* itemTemplate)
+	{
+		if (itemTemplate->Class != ITEM_CLASS_ARMOR && itemTemplate->Class != ITEM_CLASS_WEAPON) {
+			ChatHandler(player->GetSession()).PSendSysMessage("do not added_appearance");
+			return;
+		}
+		uint32 itemId = itemTemplate->ItemId;
+		uint32 accountId = player->GetSession()->GetAccountId();
+		std::string itemName = itemTemplate->Name1;
+		std::stringstream tempStream;
+		tempStream << std::hex << ItemQualityColors[itemTemplate->Quality];
+		std::string itemQuality = tempStream.str();
+
+		if (AddCollectedAppearance(accountId, itemId) && player->IsInWorld())
+		{
+			ChatHandler(player->GetSession()).PSendSysMessage(R"(|c%s|Hitem:%u:0:0:0:0:0:0:0:0|h[%s]|h|r %s)", itemQuality.c_str(), itemId, itemName.c_str(), "has been added to your appearance collection.");
+			CharacterDatabase.PQuery("INSERT INTO custom_unlocked_appearances (account_id, item_template_id) VALUES ('%ld', '%ld')", accountId, itemId);
+		}
+	}
 public:
 	PS_Transmogrification() : PlayerScript("PS_Transmogrification") { }
 
@@ -451,12 +536,53 @@ public:
 			}
 		}
 	}
+	
+	void OnEquip(Player* player, Item* it, uint8 /*bag*/, uint8 /*slot*/, bool /*update*/) override
+	{
+		AddToDatabase(player, it);
+	}
 };
 
 class WS_Transmogrification : public WorldScript
 {
 public:
 	WS_Transmogrification() : WorldScript("WS_Transmogrification") { }
+
+	bool AddCollectedAppearance(uint32 accountId, uint32 itemId)
+	{
+		if (collectionCache.find(accountId) == collectionCache.end())
+		{
+			collectionCache.insert({ accountId, {itemId} });
+			return true;
+		}
+		if (std::find(collectionCache[accountId].begin(), collectionCache[accountId].end(), itemId) == collectionCache[accountId].end())
+		{
+			collectionCache[accountId].push_back(itemId);
+			std::sort(collectionCache[accountId].begin(), collectionCache[accountId].end());
+			return true;
+		}
+		return false;
+	}
+
+	void OnConfigLoad(bool reload) override
+	{
+		TC_LOG_INFO("server.loading", "Loading transmog appearance collection cache....");
+		uint32 collectedAppearanceCount = 0;
+		QueryResult result = CharacterDatabase.Query("SELECT account_id, item_template_id FROM custom_unlocked_appearances");
+		if (result)
+		{
+			do
+			{
+				uint32 accountId = (*result)[0].GetUInt32();
+				uint32 itemId = (*result)[1].GetUInt32();
+				if (AddCollectedAppearance(accountId, itemId))
+				{
+					collectedAppearanceCount++;
+				}
+			} while (result->NextRow());
+		}
+		TC_LOG_INFO("server.loading", "Loaded '%u' collected appearances into cache", collectedAppearanceCount);
+	}
 
 	void OnStartup() override
 	{

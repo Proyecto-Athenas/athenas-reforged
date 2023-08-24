@@ -1297,6 +1297,11 @@ void ScriptMgr::OnQuestReward(Player* player, Quest const* quest)
     FOREACH_SCRIPT(PlayerScript)->OnQuestReward(player, quest);
 }
 
+void ScriptMgr::OnEquip(Player* player, Item* it, uint8 bag, uint8 slot, bool update)
+{
+	FOREACH_SCRIPT(PlayerScript)->OnEquip(player, it, bag, slot, update);
+}
+
 void ScriptMgr::OnQuestComplete(Player* player, Quest const* quest)
 {
     FOREACH_SCRIPT(PlayerScript)->OnQuestComplete(player, quest);
