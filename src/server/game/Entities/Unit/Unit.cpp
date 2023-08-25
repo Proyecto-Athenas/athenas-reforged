@@ -1893,6 +1893,8 @@ void Unit::CalcAbsorbResist(Unit* victim, SpellSchoolMask schoolMask, DamageEffe
 
         if (Unit* caster = (*itr)->GetCaster())
         {
+            if (!caster || (caster == victim) || !caster->IsInWorld() || !caster->isAlive())
+                continue;
             // check if victim is immune to damage
             if (caster->IsImmunedToDamage(schoolMask))
             {
@@ -12485,6 +12487,8 @@ int32 Unit::SpellBaseHealingBonusTaken(SpellSchoolMask schoolMask)
 
 bool Unit::IsImmunedToDamage(SpellSchoolMask schoolMask)
 {
+    if (schoolMask == SPELL_SCHOOL_MASK_NONE)
+        return false;
     // If m_immuneToSchool type contain this school type, IMMUNE damage.
     uint32 schoolImmunityMask = GetSchoolImmunityMask();
     if ((schoolImmunityMask & schoolMask) == schoolMask) // We need to be immune to all types
