@@ -935,6 +935,10 @@ void Unit::CastSpell(SpellCastTargets const& targets, SpellInfo const* spellInfo
         return;
     }
 
+    // TODO: this is a workaround - not needed anymore, but required for some scripts :(
+    if (!originalCaster && triggeredByAura)
+        originalCaster = triggeredByAura->GetCasterGUID();
+
     Spell* spell = new Spell(this, spellInfo, triggerFlags, originalCaster);
 
     if (value)
@@ -1887,13 +1891,14 @@ void Unit::CalcAbsorbResist(Unit* victim, SpellSchoolMask schoolMask, DamageEffe
 
         dmgInfo.AbsorbDamage(currentAbsorb);
 
-        Unit* caster = (*itr)->GetCaster();
-
-        // check if victim is immune to damage
-        if (caster->IsImmunedToDamage(schoolMask))
+        if (Unit* caster = (*itr)->GetCaster())
         {
-            victim->SendSpellMiss(caster, spellInfo->Id, SPELL_MISS_IMMUNE);
-            continue;
+            // check if victim is immune to damage
+            if (caster->IsImmunedToDamage(schoolMask))
+            {
+                victim->SendSpellMiss(caster, spellInfo->Id, SPELL_MISS_IMMUNE);
+                continue;
+            }
         }
 
         tempAbsorb = currentAbsorb;
