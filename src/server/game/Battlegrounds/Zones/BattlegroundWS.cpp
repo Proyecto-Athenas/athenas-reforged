@@ -769,6 +769,9 @@ void BattlegroundWS::UpdatePlayerScore(Player* Source, uint32 type, uint32 value
         case SCORE_FLAG_CAPTURES:                           // flags captured
             ((BattlegroundWGScore*)itr->second)->FlagCaptures += value;
             Source->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_BG_OBJECTIVE_CAPTURE, WS_OBJECTIVE_CAPTURE_FLAG);
+            // credit quest PVP
+            if ((Source->GetQuestStatus(300069) == QUEST_STATUS_INCOMPLETE))
+                Source->KilledMonsterCredit(3800005);
             break;
         case SCORE_FLAG_RETURNS:                            // flags returned
             ((BattlegroundWGScore*)itr->second)->FlagReturns += value;
