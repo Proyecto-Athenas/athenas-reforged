@@ -692,6 +692,9 @@ void BattlegroundBFG::UpdatePlayerScore(Player* Source, uint32 type, uint32 valu
             ((BattlegroundBFGScore*)itr->second)->BasesAssaulted += value;
             Source->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_BG_OBJECTIVE_CAPTURE, BG_OBJECTIVE_ASSAULT_BASE);
             Source->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_BG_OBJECTIVE_CAPTURE, BFG_OBJECTIVE_ASSAULT_BASE);
+            // credit quest PVP
+            if ((Source->GetQuestStatus(300071) == QUEST_STATUS_INCOMPLETE))
+                Source->KilledMonsterCredit(3800007);
             break;
         case SCORE_BASES_DEFENDED:
             ((BattlegroundBFGScore*)itr->second)->BasesDefended += value;
